@@ -5,23 +5,30 @@ CFLAGS = -Wall -Wextra -Werror -g
 AR = ar rcs
 RM = rm -rf
 
-SOURCES = ./main.c ./path.c ./split_arg.c ./structur.c
+SRC_DIR = src
+INC_DIR = inc
 OBJ_DIR = obj
-OBJS = $(SOURCES:%.c=$(OBJ_DIR)/%.o)
+
+SRC = main.c\
+	path.c\
+	split_arg.c\
+	structur.c
+
+OBJS = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
 LIBFT_PATH = ./libft
 LIBFT = $(LIBFT_PATH)/libft.a
 
 all: ${NAME}
 
-$(OBJ_DIR)/%.o: src/%.c
-	$(CC) $(CFLAGS) -I/usr/include -I$(LIBFT_PATH) -I ./inc -c $< -o $@
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+	$(CC) $(CFLAGS) -I$(LIBFT_PATH) -I$(INC_DIR) -c $< -o $@
 
 ${NAME}: $(LIBFT) $(OBJ_DIR) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
 
 $(LIBFT):
-	make -C $(LIBFT_PATH)
+	make -C $(LIBFT_PATH) bonus
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)
@@ -35,6 +42,7 @@ clean:
 
 fclean: clean
 	make -C $(LIBFT_PATH) fclean
+	$(RM) $(OBJ_DIR)
 	$(RM) $(NAME)
 
 re: fclean all

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structur.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 13:16:31 by rmetge            #+#    #+#             */
-/*   Updated: 2025/04/28 16:34:50 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/04/30 14:55:28 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,25 @@
 // 	return (cmd);
 // }
 
-int	ft_struc(char **path, char *cmd)
-{
-	// t_cmd	cmd;
+// int	ft_struc(char **pth, char *cmd)
+// {
+// 	t_cmd	*com;
 
-	//cmd = struc_cmd(path);
-	(void)path;
-	int i = 0;
-	char **arg;
-	arg = ft_splitttt(cmd);
-	while (arg[i])
-	{
-		printf("%s\n", arg[i]);
-		i++;
-	}
-	return (0);
-}
+// 	com->path = pth;
+// 	com->argv = ft_splitttt(cmd);
+// 	int i = 0;
+// 	while (com->argv[i])
+// 	{
+// 		printf("%s\n", com->argv[i]);
+// 		i++;
+// 	}
+// 	return (0);
+// }
+// typedef struct s_cmd
+// {
+// 	char	**path;
+// 	char	**argv;
+// 	t_list	*redirection;
+// 	t_cmd	*pipe;
+
+// }	t_cmd;
