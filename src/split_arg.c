@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:41:25 by rmetge            #+#    #+#             */
-/*   Updated: 2025/04/28 16:50:51 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/04/30 09:02:31 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ static int	ft_contword(char const *s)
 	cote[1] = 1;
 	while (*s)
 	{
-		if (*s == '8' && cote[0] == 0)
+		if (*s == 39 && cote[0] == 0)
 			cote[0] = 1;
-		else if (*s == '8' && cote[0] == 1)
+		else if (*s == 39 && cote[0] == 1)
 			cote[0] = 0;
 		if ((*s != ' ' || *s != '\t' || *s != '\n') && !in_word && cote[0] == 0)
 		{
@@ -58,8 +58,15 @@ void	*ft_free_split(char **split)
 
 static void	ft_process(char const *s, int *j, int *k)
 {
-	while ((s[*j] == ' ' || s[*j] == '\t' || s[*j] == '\n') && s[*j])
+	int	cote[2];
+
+	cote[0] = 0;
+	cote[1] = 1;
+	while ((s[*j] == ' ' || s[*j] == '\t' || s[*j] == '\n' || s[*j] == 39) && s[*j])
+	{
+		if ()
 		(*j)++;
+	}
 	*k = *j;
 	while ((s[*j] != ' ' && s[*j] != '\t' && s[*j] != '\n') && s[*j])
 		(*j)++;
@@ -75,9 +82,9 @@ char	**ft_splitttt(char const *s)
 	int		k;
 
 	nbr = ft_contword(s);
-	// if(nbr == 0)
-	// 	{printf("%i\n", nbr);
-	// 	return (NULL);}
+	if(nbr == 0)
+		// {printf("%i\n", nbr);
+		// return (NULL);}
 	dest = (char **)malloc((nbr + 1) * sizeof(char *));
 	if (!dest)
 		return (NULL);
