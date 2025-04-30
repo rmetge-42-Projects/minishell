@@ -18,10 +18,10 @@ $(OBJ_DIR)/%.o: src/%.c
 	$(CC) $(CFLAGS) -I/usr/include -I$(LIBFT_PATH) -I ./inc -c $< -o $@
 
 ${NAME}: $(LIBFT) $(OBJ_DIR) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
 
 $(LIBFT):
-	make -C $(LIBFT_PATH)
+	make -C $(LIBFT_PATH) bonus
 
 $(OBJ_DIR):
 	mkdir -p $(OBJ_DIR)

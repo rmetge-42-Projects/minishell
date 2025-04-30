@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 13:16:31 by rmetge            #+#    #+#             */
-/*   Updated: 2025/04/28 16:34:50 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/04/30 19:00:40 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,15 @@ int	ft_struc(char **path, char *cmd)
 
 	//cmd = struc_cmd(path);
 	(void)path;
-	int i = 0;
-	char **arg;
+	//int i = 0;
+	t_list	*arg;
 	arg = ft_splitttt(cmd);
-	while (arg[i])
+	if (arg == NULL)
+		return(printf("Erreur\n"), 1);
+	while (arg)
 	{
-		printf("%s\n", arg[i]);
-		i++;
+		printf("%s\n", (char *)arg->content);
+		arg = arg->next;
 	}
 	return (0);
 }

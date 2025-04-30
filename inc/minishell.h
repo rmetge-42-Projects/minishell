@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/04/28 16:25:21 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/04/30 18:54:39 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include "libft.h"
 # include <stdio.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 typedef struct s_cmd	t_cmd;
 
@@ -65,6 +67,6 @@ typedef struct s_shell
 char	**ft_path(char **env);
 int	ft_struc(char **path, char *cmd);
 //char	**split_cmd(char *cmd);
-char	**ft_splitttt(char const *s);
+t_list	*ft_splitttt(char const *s);
 
 #endif
