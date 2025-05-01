@@ -6,36 +6,43 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:41:25 by rmetge            #+#    #+#             */
-/*   Updated: 2025/04/30 18:52:25 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/01 10:16:51 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	chr_sep(char c)
+static int	chr_sep(char c)
 {
-	if (c == ' ' || c == '\t' || c == '\n' || c == 39 || c == 34)
+	if (c == ' ' || c == '\t' || c == '\n' || c == 39 || c == 34 || c == '|'
+		|| c == '<' || c == '>')
 		return (1);
 	return (0);
 }
 
-//static void	ft_process_2
-
-static void	ft_process(char const *s, int *j, int *k)
+static void	process_quote2(char const *s, int *j)
 {
-	int	quote[2];
+	int	i;
 
-	quote[0] = 0;
-	quote[1] = 0;
-	while (chr_sep(s[*j]) == 1 && quote[0] == 0 && quote[1] == 0 && s[*j])
-	{
-		if (s[*j + 1] == 39)
-			quote[0] = 1;
-		else if (s[*j + 1] == 34)
-			quote[1] = 1;
+	i = 0;
+	if (s[*j] == '|')
 		(*j)++;
+	else if (s[*j] == '<')
+	{
+		(*j)++;
+		if (s[*j] == '<')
+			(*j)++;
 	}
-	*k = *j;
+	else if (s[*j] == '>')
+	{
+		(*j)++;
+		if (s[*j] == '>')
+			(*j)++;
+	}
+}
+
+static void	ft_process_2(char const *s, int *j, int *quote)
+{
 	if (quote[0] == 1)
 	{
 		(*j)++;
@@ -50,6 +57,8 @@ static void	ft_process(char const *s, int *j, int *k)
 			(*j)++;
 		(*j)++;
 	}
+	else if (quote[2] == 1)
+		process_quote2(s, j);
 	else
 	{
 		while (chr_sep(s[*j]) == 0 && s[*j])
@@ -57,7 +66,30 @@ static void	ft_process(char const *s, int *j, int *k)
 	}
 }
 
-int	chek_quote(char *s)
+static void	ft_process(char const *s, int *j, int *k)
+{
+	int	quote[3];
+
+	quote[0] = 0;
+	quote[1] = 0;
+	quote[2] = 0;
+	while (chr_sep(s[*j]) == 1 && quote[0] == 0 && quote[1] == 0
+		&& quote[2] == 0 && s[*j])
+	{
+		if (s[*j] == 39)
+			quote[0] = 1;
+		else if (s[*j] == 34)
+			quote[1] = 1;
+		else if (s[*j] == '|' || s[*j] == '<' || s[*j] == '>')
+			quote[2] = 1;
+		else
+			(*j)++;
+	}
+	*k = *j;
+	ft_process_2(s, j, quote);
+}
+
+static int	chek_quote(char *s)
 {
 	int	quote[2];
 	int	i;
