@@ -5,7 +5,7 @@ CFLAGS = -Wall -Wextra -Werror -g
 AR = ar rcs
 RM = rm -rf
 
-SOURCES = ./main.c ./path.c ./split_arg.c ./structur.c
+SOURCES = ./main.c ./path.c ./split_arg.c ./split_token.c ./structur.c 
 OBJ_DIR = obj
 OBJS = $(SOURCES:%.c=$(OBJ_DIR)/%.o)
 

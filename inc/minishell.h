@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/04/30 18:54:39 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/02 10:48:22 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ typedef struct s_cmd	t_cmd;
 enum e_token
 {
 	ARG,
+	QUOTE1,
+	QUOTE2,
 	PIPE,
 	REDIRECT
 };
@@ -64,9 +66,11 @@ typedef struct s_shell
 	t_list	*env;
 }	t_shell;
 
-char	**ft_path(char **env);
-int	ft_struc(char **path, char *cmd);
-//char	**split_cmd(char *cmd);
-t_list	*ft_splitttt(char const *s);
+char			**ft_path(char **env);
+int				ft_struc(char **path, char *cmd);
+t_list			*ft_splitttt(char const *s);
+t_token			*ft_tokennew(char *value, enum e_token type);
+enum e_token	type(const char *s, int k);
+int				chr_sep(char c);
 
 #endif
