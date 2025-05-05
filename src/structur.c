@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 13:16:31 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/05 14:36:22 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/05 17:09:31 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,27 +25,31 @@ t_cmd	*struc_cmd(t_shell *shell)
 	t_cmd	*cmd;
 	int		path;
 	t_list	*element;
-	char	*f_path;
+	t_token	*t;
 
 	cmd = (t_cmd *)malloc(sizeof(t_cmd));
-	element = (t_list *)malloc(sizeof(t_list));
-	cmd->redirection = (t_list *)malloc(sizeof(t_list));
-	cmd->redirection = NULL; //regarde si en malloc cmd ca malloc redicec?
-	cmd = NULL;
-	path = 0;
 	element = NULL;
+	cmd->redirection = NULL;
+	path = 0;
 	while (shell->tokens)
 	{
 		if (((t_token *)shell->tokens->content)->type == REDIRECT)
 			ft_redirect(&shell->tokens, &cmd);
 		else if (((t_token *)shell->tokens->content)->type == PIPE)
 		{
-
+			cmd = cmd->pipe;
+			path = 0;
+			cmd->argv = ft_element(element);
+			ft_lstclear(&element, NULL);
+			/*trouver une solution pour le pipe, pour pa perdre le debut de cmd,
+			faire une autre fonction qui cree des cmd et qui les ajoutre a la suite*/
 		}
-		else if (path == 0)
+		else if (path == 0 && ((t_token *)shell->tokens->content)->type == ARG)
 		{
-			f_path = ft_find_path(shell->path, shell->tokens->content);
-			cmd->path = ft_strdup(f_path);
+			t = shell->tokens->content;
+			cmd->path = ft_find_path(shell->path, t->value);
+			if (cmd->path == NULL)
+				return(printf("Eurrer"), NULL);
 			path = 1;
 			ft_new_element(&element, &shell->tokens);
 		}
@@ -53,8 +57,6 @@ t_cmd	*struc_cmd(t_shell *shell)
 			ft_new_element(&element, &shell->tokens);
 
 		shell->tokens = shell->tokens->next;
-		/*le rest c'est une commande te je remplis de path et le shell->tokenss avec
-		l'element, le seul truc qui separ une redirection c'est un pipe*/
 	}
 	cmd->argv = ft_element(element);
 	ft_lstclear(&element, free);
@@ -63,17 +65,22 @@ t_cmd	*struc_cmd(t_shell *shell)
 
 int	ft_struc(t_shell *shell, char *arg)
 {
-	t_cmd	*cmd;
-
 	shell->tokens = ft_splitttt(arg);
 	if (shell->tokens == NULL)
 		return (printf("Erreur\n"), 1);
-	cmd = struc_cmd(shell);
-	// while (shell->tokens)
-	// {
-	// 	printf("%s\n", ((t_token *)shell->tokens->content)->value);
-	// 	printf("%i\n", ((t_token *)shell->tokens->content)->type);
-	// 	shell->tokens = shell->tokens->next;
-	// }
+	shell->cmd = struc_cmd(shell);
+	if (shell->cmd == NULL)
+		return (1);
+	int i = 0;
+	printf("path = %s\n", (shell->cmd->path));
+	while (shell->cmd->argv[i])
+		printf("argv = %s\n", (shell->cmd->argv[i++]));
+
+	while (shell->cmd->redirection)
+	{
+		printf("redirection file = %s\n", ((t_redir *)shell->cmd->redirection->content)->file);
+		printf("redirection type = %u\n", ((t_redir *)shell->cmd->redirection->content)->type);
+		shell->cmd->redirection = shell->cmd->redirection->next;
+	}
 	return (0);
 }
