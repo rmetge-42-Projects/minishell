@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:41:25 by rmetge            #+#    #+#             */
-/*   Updated: 2025/04/30 14:55:12 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/05 11:17:00 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@
 // 	return (nbr);
 // }
 
-void	*ft_free_split(char **split)
+void	*ft_f_s(char **split)
 {
 	int	i;
 

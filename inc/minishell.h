@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/04/30 14:59:36 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/05 12:27:24 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,11 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <stddef.h>
 # include <sys/wait.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+
 
 typedef struct s_cmd	t_cmd;
 
@@ -46,8 +50,8 @@ typedef struct s_token
 
 typedef struct s_cmd
 {
-	char	**path;
-	char	**argv;
+	char	*path;
+	char	*com;
 	t_list	*redirection;
 	t_cmd	*pipe;
 
@@ -62,16 +66,21 @@ typedef struct s_redir
 typedef struct s_shell
 {
 	char	*name;
+	char	**argv;
+	char	*pipe;
+	char	*infile;
+	char	*outfile;
 	t_cmd	*cmd;
 	t_list	*tokens;
-	t_list	*env;
+	char	**nv;
 }	t_shell;
 
-char	**ft_path(char **env);
+// char	**ft_path(char **env);
+char	*find_path(char **envp, char *cmd);
 int	ft_struc(char **path, char *cmd);
 //char	**split_cmd(char *cmd);
 // char	**ft_splitttt(char const *s);
-void	*ft_free_split(char **split);
-int		ft_pipex(t_cmd *com);
+void	*ft_f_s(char **split);
+// int		ft_pipex(t_shell *mini);
 
 #endif
