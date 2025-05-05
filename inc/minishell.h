@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/02 10:48:22 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/05 14:59:03 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,34 +43,36 @@ typedef struct s_token
 	enum e_token	type;
 }	t_token;
 
-typedef struct s_cmd
-{
-	char	**path;
-	char	**argv;
-	t_list	*redirection;
-	t_cmd	*pipe;
-
-}	t_cmd;
-
 typedef struct s_redir
 {
 	char			*file;
 	enum e_redirect	type;
 }	t_redir;
 
+typedef struct s_cmd
+{
+	char	*path;
+	char	**argv;
+	t_list	*redirection;
+	t_cmd	*pipe;
+}	t_cmd;
+
 typedef struct s_shell
 {
-	char	*name;
 	t_cmd	*cmd;
 	t_list	*tokens;
 	t_list	*env;
+	char	**path;
+	int		nb_pipe;
 }	t_shell;
 
 char			**ft_path(char **env);
-int				ft_struc(char **path, char *cmd);
+int				ft_struc(t_shell *shell, char *cmd);
 t_list			*ft_splitttt(char const *s);
 t_token			*ft_tokennew(char *value, enum e_token type);
 enum e_token	type(const char *s, int k);
 int				chr_sep(char c);
-
+char			*ft_find_path(char **path, char *argv);
+int				ft_redirect(t_list **arg, t_cmd **cmd);
+char			**ft_element(t_list *element);
 #endif

@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:25:05 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/02 10:40:56 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/05 11:20:11 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,4 +38,27 @@ char	**ft_path(char **env)
 		i++;
 	}
 	return (path);
+}
+char	*ft_find_path(char **path, char *argv)
+{
+	int		i;
+	char	*path1;
+	char	**str;
+
+	i = 0;
+	if (ft_strchr(argv, '/') != 0)
+	{
+		if (access(argv, X_OK) == 0)
+			return (ft_strdup(argv));
+	}
+	str = ft_split(argv, ' ');
+	while (path[i])
+	{
+		path1 = ft_strjoin(path[i], str[0]);
+		if (access(path1, X_OK) == 0)
+			return (ft_free_split(str), path1);
+		i++;
+		free(path1);
+	}
+	return (ft_free_split(str), NULL);
 }

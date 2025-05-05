@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/02 10:42:22 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/05 11:27:06 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 int	main(int argc, char **argv, char **env)
 {
-	char	**path;
+	//char	**path;
 	char	*mini;
+	t_shell	*shell;
 
 	(void)argc;
 	(void)argv;
-	path = ft_path(env);
+	shell = malloc(sizeof(t_shell));
+	shell->path = ft_path(env);
 	mini = readline("minishell >");
-	ft_struc(path, mini);
+	//shell->env = ft_strdup(env)
+	ft_struc(shell, mini);
 }
