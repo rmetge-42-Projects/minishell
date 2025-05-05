@@ -6,65 +6,61 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/05 12:04:47 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/05 15:35:23 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-// void	error(char *message)
+void	error(char *message)
+{
+	perror(message);
+	exit (1);
+}
+// void	free_struct(t_cmd *comd)
 // {
-// 	perror(message);
-// 	exit (1);
+// 	t_cmd	*temp;
+
+// 	while (comd)
+// 	{
+// 		temp = comd->pipe;
+// 		free(comd->redirection);
+// 		ft_f_s(&comd->com);
+// 		ft_f_s(comd->path);
+// 		comd = temp;
+// 	}
 // }
-// // void	free_struct(t_cmd *comd)
-// // {
-// // 	t_cmd	*temp;
 
-// // 	while (comd)
-// // 	{
-// // 		temp = comd->pipe;
-// // 		free(comd->redirection);
-// // 		ft_f_s(&comd->com);
-// // 		ft_f_s(comd->path);
-// // 		comd = temp;
-// // 	}
-// // }
-
-// // void	execute(t_shell *mini, char *cmd)
-// // {
-// // 	int	i;
-
-// // 	i = -1;
-// // 	mini->cmd->path = find_path(mini, cmd);
-// // 	// if (!mini->cmd->path)
-// // 	// {
-// // 	// 	free_split(com->argv);
-// // 	// 	error("Path error");
-// // 	// }
-// // 	if (execve(mini->cmd->path, &cmd, mini->nv) == -1)
-// // 	{
-// // 		// free_struct(mini->cmd);
-// // 		error("Execve Error");
-// // 	}
-// // }
-
-// void	execute(char **envp, char *cmd)
+// void	execute(t_shell *mini, char *cmd)
 // {
-// 	char	**opt;
-// 	char	*path;
+// 	int	i;
+
+// 	i = -1;
+// 	mini->cmd->path = find_path(mini, cmd);
+// 	// if (!mini->cmd->path)
+// 	// {
+// 	// 	free_split(com->argv);
+// 	// 	error("Path error");
+// 	// }
+// 	if (execve(mini->cmd->path, &cmd, mini->nv) == -1)
+// 	{
+// 		// free_struct(mini->cmd);
+// 		error("Execve Error");
+// 	}
+// }
+
+// void	execute(t_shell *mini)
+// {
 // 	int		i;
 
 // 	i = -1;
-// 	opt = ft_split(cmd, ' ');
-// 	path = find_path(envp, opt[0]);
-// 	if (!path)
+// 	if (!mini->cmd->path)
 // 	{
-// 		free_split(opt);
+// 		// free_split(op);
 // 		error("Path error");
 // 	}
-// 	if (execve(path, opt, envp) == -1)
+// 	if (execve(, opt, envp) == -1)
 // 	{
 // 		free(path);
 // 		free_split(opt);
@@ -102,26 +98,35 @@
 // 	execute(mini, mini->argv[2]);
 // }
 
-// int	ft_pipex(t_shell *mini)
-// {
-// 	int		fd[2];
-// 	pid_t	pid1;
-// 	pid_t	pid2;
+void	ft_pipex(t_shell *mini)
+{
+	int		fd[2];
+	int		in_fd = 0;
+	pid_t	pid;
+	t_cmd	*command = mini->cmd;
 
-// 	if (pipe(fd) == -1)
-// 		error("Pipe Error");
-// 	pid1 = fork();
-// 	if (pid1 == -1)
-// 		error("Fork Error");
-// 	else if (pid1 == 0)
-// 		child_process(fd, mini);
-// 	waitpid(pid1, NULL, 0);
-// 	close(fd[0]);
-// 	pid2 = fork();
-// 	if (pid2 == -1)
-// 		error("Fork Error");
-// 	else if (pid2 == 0)
-// 		parent_process(fd, mini);
-// 	close(fd[1]);
-// 	return (0);
-// }
+	while (command)
+	{
+		if (pipe(fd) == -1)
+			error("Pipe Error");
+
+		pid = fork();
+		if(pid == 0) // qu il est dans un process
+		{
+			if (in_fd != 0)
+				dup2(in_fd, STDIN_FILENO);// si pas la 1er commande le stdin est le meme
+			if (command->pipe)
+				dup2(fd[1], STDOUT_FILENO);
+			close(fd[0]);
+			close(fd[1]);
+			execve(find_path(mini->env, command->com), command->com, mini->env);
+	
+		}
+		close(fd[1]);
+		if (in_fd != 0)
+			close(in_fd);
+		in_fd = fd[0];
+		command = command->pipe;
+	}
+	// return (0);
+}

@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/05 12:27:24 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/05 15:36:17 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ typedef struct s_token
 typedef struct s_cmd
 {
 	char	*path;
-	char	*com;
+	char	**com;
 	t_list	*redirection;
 	t_cmd	*pipe;
 
@@ -65,14 +65,11 @@ typedef struct s_redir
 
 typedef struct s_shell
 {
-	char	*name;
-	char	**argv;
-	char	*pipe;
-	char	*infile;
-	char	*outfile;
+	char	**line;
 	t_cmd	*cmd;
 	t_list	*tokens;
-	char	**nv;
+	char	**env;
+	int		nb_pipe;
 }	t_shell;
 
 // char	**ft_path(char **env);
@@ -81,6 +78,6 @@ int	ft_struc(char **path, char *cmd);
 //char	**split_cmd(char *cmd);
 // char	**ft_splitttt(char const *s);
 void	*ft_f_s(char **split);
-// int		ft_pipex(t_shell *mini);
+void	ft_pipex(t_shell *mini);
 
 #endif
