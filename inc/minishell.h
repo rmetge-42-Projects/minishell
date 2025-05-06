@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/05 15:36:17 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/06 14:29:35 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <fcntl.h>
 # include <stddef.h>
 # include <sys/wait.h>
+# include <sys/ioctl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -69,12 +70,11 @@ typedef struct s_shell
 	t_cmd	*cmd;
 	t_list	*tokens;
 	char	**env;
-	int		nb_pipe;
 }	t_shell;
 
 // char	**ft_path(char **env);
 char	*find_path(char **envp, char *cmd);
-int	ft_struc(char **path, char *cmd);
+// int	ft_struc(char **path, char *cmd);
 //char	**split_cmd(char *cmd);
 // char	**ft_splitttt(char const *s);
 void	*ft_f_s(char **split);

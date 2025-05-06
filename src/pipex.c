@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/05 15:35:23 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/06 15:48:11 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,85 +18,75 @@ void	error(char *message)
 	perror(message);
 	exit (1);
 }
-// void	free_struct(t_cmd *comd)
-// {
-// 	t_cmd	*temp;
 
-// 	while (comd)
-// 	{
-// 		temp = comd->pipe;
-// 		free(comd->redirection);
-// 		ft_f_s(&comd->com);
-// 		ft_f_s(comd->path);
-// 		comd = temp;
-// 	}
-// }
+int	handle_heredoc(char *delimiter)
+{
+	int		fd[2];
+	char	*line;
 
-// void	execute(t_shell *mini, char *cmd)
-// {
-// 	int	i;
+	if (pipe(fd) == -1)
+		error("pipe heredoc");
 
-// 	i = -1;
-// 	mini->cmd->path = find_path(mini, cmd);
-// 	// if (!mini->cmd->path)
-// 	// {
-// 	// 	free_split(com->argv);
-// 	// 	error("Path error");
-// 	// }
-// 	if (execve(mini->cmd->path, &cmd, mini->nv) == -1)
-// 	{
-// 		// free_struct(mini->cmd);
-// 		error("Execve Error");
-// 	}
-// }
+	while (1)
+	{
+		line = readline("> ");
+		if (!line || strcmp(line, delimiter) == 0)
+			break;
+		write(fd[1], line, strlen(line));
+		write(fd[1], "\n", 1);
+		free(line);
+	}
+	free(line);
+	close(fd[1]); // on ferme l'entrée, pour signaler EOF
+	return (fd[0]); // on retourne la sortie du pipe à rediriger vers STDIN
+}
 
-// void	execute(t_shell *mini)
-// {
-// 	int		i;
 
-// 	i = -1;
-// 	if (!mini->cmd->path)
-// 	{
-// 		// free_split(op);
-// 		error("Path error");
-// 	}
-// 	if (execve(, opt, envp) == -1)
-// 	{
-// 		free(path);
-// 		free_split(opt);
-// 		error("Execve Error");
-// 	}
-// }
+void	apply_redirections(t_list *redir_list)
+{
+	t_redir	*r;
+	int		fd;
+	int		heredoc_fd;
 
-// void	child_process(int *fd, t_shell *mini)
-// {
-// 	int	filein;
+	while (redir_list)
+	{
+		r = (t_redir *)redir_list->content;
+		if (r->type == INPUT)
+		{
+			fd = open(r->file, O_RDONLY);
+			if (fd == -1)
+				error("infile");
+			dup2(fd, STDIN_FILENO);
+			close(fd);
+		}
+		else if (r->type == OUTPUT)
+		{
+			fd = open(r->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (fd == -1)
+				error("outfile");
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+		}
+		else if (r->type == APPEND)
+		{
+			fd = open(r->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
+			if (fd == -1)
+				error("outfile append");
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+		}
+		else if (r->type == HEREDOC)
+		{
+			heredoc_fd = handle_heredoc(r->file);
+			dup2(heredoc_fd, STDIN_FILENO);
+			close(heredoc_fd);
+		}
 
-// 	filein = open(mini->argv[0], O_RDONLY, 0777);
-// 	if (filein == -1)
-// 		error("Error fd");
-// 	dup2(filein, STDIN_FILENO);
-// 	dup2(fd[1], STDOUT_FILENO);
-// 	close(fd[0]);
-// 	close(filein);
-// 	close(fd[1]);
-// 	execute(mini, mini->argv[1]);
-// }
+		// HEREDOC sera traité à part (buffer temporaire ou pipe)
+		redir_list = redir_list->next;
+	}
+}
 
-// void	parent_process(int *fd, t_shell *mini)
-// {
-// 	int	fileout;
-
-// 	fileout = open(mini->argv[3], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-// 	if (fileout == -1)
-// 		error("Error fd");
-// 	dup2(fd[0], STDIN_FILENO);
-// 	dup2(fileout, STDOUT_FILENO);
-// 	close(fd[1]);
-// 	close(fileout);
-// 	close(fd[0]);
-// 	execute(mini, mini->argv[2]);
-// }
 
 void	ft_pipex(t_shell *mini)
 {
@@ -111,15 +101,19 @@ void	ft_pipex(t_shell *mini)
 			error("Pipe Error");
 
 		pid = fork();
+		if (pid == -1)
+			error("Fork Error");
+
 		if(pid == 0) // qu il est dans un process
 		{
 			if (in_fd != 0)
-				dup2(in_fd, STDIN_FILENO);// si pas la 1er commande le stdin est le meme
+				dup2(in_fd, STDIN_FILENO);//Rediriger STDIN s’il y a une commande précédente,Si ce n’est pas la première commande, on lit à partir du pipe précédent.
 			if (command->pipe)
-				dup2(fd[1], STDOUT_FILENO);
-			close(fd[0]);
-			close(fd[1]);
-			execve(find_path(mini->env, command->com), command->com, mini->env);
+				dup2(fd[1], STDOUT_FILENO);//Rediriger STDOUT si une commande suivante existe, Si ce n’est pas la dernière commande, on écrit dans le pipe courant pour passer la sortie à la suivante
+			close(fd[0]);//Fermeture des descripteurs inutiles
+			close(fd[1]);//
+			apply_redirections(command->redirection);// gere < > <<
+			execve(find_path(mini->env, *command->com), command->com, mini->env);
 	
 		}
 		close(fd[1]);

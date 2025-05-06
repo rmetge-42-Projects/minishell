@@ -12,40 +12,57 @@ OBJ_DIR = obj
 SRC = main.c\
 	path.c\
 	split_arg.c\
-	structur.c
+	structur.c\
+	pipex.c
 
 OBJS = $(SRC:%.c=$(OBJ_DIR)/%.o)
 
 LIBFT_PATH = ./libft
 LIBFT = $(LIBFT_PATH)/libft.a
 
-all: ${NAME}
+MAKEFLAGS += --no-print-directory
+
+all: message_comp $(NAME) message_done
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) $(CFLAGS) -I$(LIBFT_PATH) -I$(INC_DIR) -c $< -o $@
+	@$(CC) $(CFLAGS) -I$(LIBFT_PATH) -I$(INC_DIR) -c $< -o $@
+	@echo -n "."
 
-${NAME}: $(LIBFT) $(OBJ_DIR) $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
+${NAME}: $(LIBFT)  $(OBJ_DIR) $(OBJS)
+	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
 
 $(LIBFT):
-	make -C $(LIBFT_PATH) bonus
+	@make -C $(LIBFT_PATH) bonus
+	@echo -n "."
 
 $(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
+	@mkdir -p $(OBJ_DIR)
+
+message_comp:
+	@echo -n "Compiling"
+
+message_done:
+	@printf "\n\033[0;32mSuccess\033[0m\n"
 
 norminette:
 	@-norminette | grep -E --color=always "Error" || echo "Norminette: Everything is fine!"
 
 clean:
-	make -C $(LIBFT_PATH) clean
-	$(RM) $(OBJ_DIR)
+	@make -C $(LIBFT_PATH) clean
+	@echo "Clean: \033[0;32mDone\033[0m"
+	@$(RM) $(OBJ_DIR)
 
-fclean: clean
-	make -C $(LIBFT_PATH) fclean
-	$(RM) $(OBJ_DIR)
-	$(RM) $(NAME)
+fclean:
+	@make -C $(LIBFT_PATH) fclean
+	@echo "Fclean: \033[0;32mDone\033[0m"
+	@$(RM) $(OBJ_DIR)
+	@$(RM) $(NAME)
 
 re: fclean all
+
+run:
+	@clear
+	@./minishell
 
 sources:
 	./update_src
