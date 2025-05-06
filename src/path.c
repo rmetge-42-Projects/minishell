@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:25:05 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/05 16:17:40 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/06 15:39:40 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char	**ft_path(char **env)
 	}
 	return (path);
 }
+
 char	*ft_find_path(char **path, char *argv)
 {
 	int		i;

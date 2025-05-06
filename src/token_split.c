@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   split_arg.c                                        :+:      :+:    :+:   */
+/*   token_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:41:25 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/02 10:53:58 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/06 15:10:33 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ static int	chek_quote(char *s)
 		return (0);
 }
 
-t_list	*ft_splitttt(char const *s)
+t_list	*stuctur_token(char const *s)
 {
 	int		j;
 	int		k;
