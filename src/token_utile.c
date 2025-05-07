@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 10:17:07 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/07 14:40:51 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/07 16:03:39 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,43 +73,46 @@ int	check_token(t_list *token)
 	return (0);
 }
 
-t_token	*check_quote(t_shell *shell, int k, int j, char *s)
+t_token	*check_quote(t_shell *shell, int k, int j, const char *s)
 {
+	//check le fichier de redicection apres au cas ou $
 	int				i;
 	int				d;
-	t_token			*t;
 	enum e_token	arg_type;
 	char			*arg;
 	char			*dollard;
+	int len;
 
 	i = j - k;
 	d = 0;
+	dollard = "\0";
 	arg_type = token_type(s, k);
 	if (arg_type == ARG && s[k] == '$')
 	{
-		arg = ft_substr(s, k + 1, i - 2);
+		arg = ft_substr(s, k + 1, i);
+		len = ft_strlen(arg);
 		while (shell->env[d])
 		{
-			if (ft_strncmp(shell->env[d], arg, ft_strlen(arg)) == 0)
-			{
-				dollard = ft_substr(shell->env[d], ft_strlen(arg), ft_strlen(shell->env[d] - ft_strlen(arg)));
-				return (ft_tokennew(dollard, arg_type));;
-			}
-			j++;
+			if (ft_strncmp(shell->env[d], arg, len) == 0)
+				dollard = ft_substr(shell->env[d], (len + 1), (ft_strlen(shell->env[d]) - len));
+			d++;
 		}
+		return (ft_tokennew(dollard, arg_type));
 	}
-	else if (arg_type == QUOTE1 && s[k + 1] == '$')
+	else if (arg_type == QUOTE2 && s[k + 1] == '$')
 	{
-		arg = ft_substr(s, k + 1, i - 2);
+		arg = ft_substr(s, k + 2, i - 3);
+		len = ft_strlen(arg);
 		while (shell->env[d])
 		{
-			if (ft_strncmp(shell->env[d], arg, ft_strlen(arg)) == 0)
+			if (ft_strncmp(shell->env[d], arg, len) == 0)
 			{
-				dollard = ft_substr(shell->env[d], ft_strlen(arg), ft_strlen(shell->env[d] - ft_strlen(arg)));
-				return (ft_tokennew(dollard, arg_type));
+				dollard = ft_substr(shell->env[d], (len + 1), (ft_strlen(shell->env[d]) - len));
+				printf("%s\n", dollard);
 			}
-			j++;
+			d++;
 		}
+		return (ft_tokennew(dollard, arg_type));
 	}
 	if (s[k] == 34 || s[k] == 39)
 		return (ft_tokennew(ft_substr(s, k + 1, i - 2), arg_type));

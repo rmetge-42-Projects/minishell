@@ -6,11 +6,11 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:41:25 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/07 14:53:11 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/07 15:02:20 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+# include "minishell.h"
 
 static void	process_quote2(char const *s, int *j)
 {
