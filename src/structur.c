@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 13:16:31 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/07 11:01:52 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/07 14:08:05 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,23 +63,23 @@ int	ft_structur(t_shell *shell, char *arg)
 	shell->cmd = structur_cmd(shell);
 	if (shell->cmd == NULL)
 		return (printf("Erreur\n"), 1);
-	while (shell->cmd)
-	{
-		int i = 0;
-		printf("path = %s\n", (shell->cmd->path));
-		printf("argv = ");
-		while (shell->cmd->argv[i])
-			printf("%s ", (shell->cmd->argv[i++]));
-		printf("\n");
-		while (shell->cmd->redirection)
-		{
-			printf("redirection file = %s\n", ((t_redir *)shell->cmd->redirection->content)->file);
-			printf("redirection type = %u\n", ((t_redir *)shell->cmd->redirection->content)->type);
-			shell->cmd->redirection = shell->cmd->redirection->next;
-		}
-		shell->cmd = shell->cmd->pipe;
-		printf("\n");
-	}
+	// while (shell->cmd)
+	// {
+	// 	int i = 0;
+	// 	printf("path = %s\n", (shell->cmd->path));
+	// 	printf("argv = ");
+	// 	while (shell->cmd->argv[i])
+	// 		printf("%s ", (shell->cmd->argv[i++]));
+	// 	printf("\n");
+	// 	while (shell->cmd->redirection)
+	// 	{
+	// 		printf("redirection file = %s\n", ((t_redir *)shell->cmd->redirection->content)->file);
+	// 		printf("redirection type = %u\n", ((t_redir *)shell->cmd->redirection->content)->type);
+	// 		shell->cmd->redirection = shell->cmd->redirection->next;
+	// 	}
+	// 	shell->cmd = shell->cmd->pipe;
+	// 	printf("\n");
+	// }
 	return (0);
 }
 

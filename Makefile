@@ -9,13 +9,9 @@ SRC_DIR = src
 INC_DIR = inc
 OBJ_DIR = obj
 
-SRC = main.c\
-	path.c\
-	split_arg.c\
-	structur.c\
-	pipex.c
+SOURCES = ./built_in.c ./main.c ./path.c ./pipex.c ./split_arg.c ./structur.c ./structur_cmd.c ./token_split.c ./token_utile.c 
 
-OBJS = $(SRC:%.c=$(OBJ_DIR)/%.o)
+OBJS = $(SOURCES:%.c=$(OBJ_DIR)/%.o)
 
 LIBFT_PATH = ./libft
 LIBFT = $(LIBFT_PATH)/libft.a
