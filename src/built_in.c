@@ -6,11 +6,23 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:17:53 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/07 14:28:19 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/07 16:23:29 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_ctrl_c(int sig)
+{
+	(void)sig;
+	volatile sig_atomic_t g_sigint;
+	g_sigint = 1;
+
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+}
 
 int	ft_exit(t_shell *shell)
 {

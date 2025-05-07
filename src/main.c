@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/07 14:35:48 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/07 16:20:04 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,37 @@ int	main(int argc, char **argv, char **envp)
 {
 	char *mini;
 	t_shell	*shell;
-
+	volatile sig_atomic_t g_sigint = 0;
 	(void)argc;
 	(void)argv;
+
 	print_header();
 	shell = ft_calloc(1, sizeof(t_shell));
 	shell->path = ft_path(envp);
 	shell->env = envp;
+	signal(SIGINT, ft_ctrl_c);
+	
 	while (1)
 	{
 		mini = readline("\001\033[38;5;205m\002minishell> \001\033[0m\002");
-		shell->line = mini;
 		if (!mini)
 			break;
+		shell->line = mini;
+		shell->args = ft_split(shell->line, ' ');
+		if (g_sigint)
+		{
+			g_sigint = 0; // on remet à 0 pour la prochaine fois
+			free(mini);
+			continue; // on relance le prompt proprement
+		}
 		if (*mini)
 			add_history(mini);
+		if (!shell->args || !shell->args[0])
+		{
+			free(mini);
+			ft_f_s(shell->args);
+			continue;
+		}
 		if (ft_exit(shell) == 1)
 			break ;
 		ft_structur(shell, mini);

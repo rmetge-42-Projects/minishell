@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/07 14:28:29 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/07 16:19:58 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <sys/ioctl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 
 typedef struct s_cmd	t_cmd;
 
@@ -72,11 +73,13 @@ typedef struct s_shell
 	t_cmd	*cmd;
 	t_list	*tokens;
 	char	*line;
+	char	**args;
 	char	**env;
 	char	**path;
 
 }	t_shell;
 
+void			ft_ctrl_c(int sig);
 int				ft_exit(t_shell *shell);
 void			ft_pipex(t_shell *shell);
 void			*ft_f_s(char **split);

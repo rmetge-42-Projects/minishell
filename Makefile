@@ -56,7 +56,7 @@ fclean:
 
 re: fclean all
 
-run:
+run: all
 	@clear
 	@./minishell
 
