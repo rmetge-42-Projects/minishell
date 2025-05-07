@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:41:25 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/06 15:10:33 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/07 14:53:11 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,11 @@ static int	chek_quote(char *s)
 		return (0);
 }
 
-t_list	*stuctur_token(char const *s)
+t_list	*stuctur_token(char const *s, t_shell *shell)
 {
 	int		j;
 	int		k;
-	int		i;
+	// int		i;
 	t_list	*dest;
 	t_token	*t;
 
@@ -125,8 +125,12 @@ t_list	*stuctur_token(char const *s)
 		ft_process(s, &j, &k);
 		if (k < j)
 		{
-			i = j - k;
-			t = ft_tokennew(ft_substr(s, (size_t)k, (size_t)(i)), type(s, k));
+			// i = j - k;
+			// if (s[k] == 34 || s[k] == 39)
+			// 	t = ft_tokennew(ft_substr(s, k + 1, i - 2), type(s, k));
+			// else
+			// 	t = ft_tokennew(ft_substr(s, k, i), type(s, k));
+			t = check_quote(shell, k, j, s);
 			ft_lstadd_back(&dest, ft_lstnew((t)));
 		}
 	}

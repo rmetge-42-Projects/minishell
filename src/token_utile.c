@@ -6,13 +6,13 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 10:17:07 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/06 15:59:40 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/07 14:40:51 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-enum e_token	type(const char *s, int k)
+enum e_token	token_type(const char *s, int k)
 {
 	if (s[k] == '|')
 		return (PIPE);
@@ -46,34 +46,73 @@ int	chr_sep(char c)
 	return (0);
 }
 
-int	check_token(t_shell *shell)
+int	check_token(t_list *token)
 {
 	int		cmd;
-	t_list	*tmp;
 
-	tmp = shell->tokens;
 	cmd = 0;
-	while (shell->tokens)
+	while (token)
 	{
-		if (((t_token *)shell->tokens->content)->type == PIPE)
+		if (((t_token *)token->content)->type == PIPE)
 		{
-			if (!shell->tokens->next
-				|| ((t_token *)shell->tokens->next->content)->type == PIPE
+			if (!token->next || ((t_token *)token->next->content)->type == PIPE
 				|| cmd == 0)
 				return (1);
 			cmd = 0;
 		}
-		else if (((t_token *)shell->tokens->content)->type == REDIRECT)
+		else if (((t_token *)token->content)->type == REDIRECT)
 		{
-			if (!shell->tokens->next
-				|| ((t_token *)shell->tokens->next->content)->type == PIPE
-				|| ((t_token *)shell->tokens->next->content)->type == REDIRECT)
+			if (!token->next || ((t_token *)token->next->content)->type == PIPE
+				|| ((t_token *)token->next->content)->type == REDIRECT)
 				return (1);
 		}
 		else
 			cmd = 1;
-		shell->tokens = shell->tokens->next;
+		token = token->next;
 	}
-	shell->tokens = tmp;
 	return (0);
+}
+
+t_token	*check_quote(t_shell *shell, int k, int j, char *s)
+{
+	int				i;
+	int				d;
+	t_token			*t;
+	enum e_token	arg_type;
+	char			*arg;
+	char			*dollard;
+
+	i = j - k;
+	d = 0;
+	arg_type = token_type(s, k);
+	if (arg_type == ARG && s[k] == '$')
+	{
+		arg = ft_substr(s, k + 1, i - 2);
+		while (shell->env[d])
+		{
+			if (ft_strncmp(shell->env[d], arg, ft_strlen(arg)) == 0)
+			{
+				dollard = ft_substr(shell->env[d], ft_strlen(arg), ft_strlen(shell->env[d] - ft_strlen(arg)));
+				return (ft_tokennew(dollard, arg_type));;
+			}
+			j++;
+		}
+	}
+	else if (arg_type == QUOTE1 && s[k + 1] == '$')
+	{
+		arg = ft_substr(s, k + 1, i - 2);
+		while (shell->env[d])
+		{
+			if (ft_strncmp(shell->env[d], arg, ft_strlen(arg)) == 0)
+			{
+				dollard = ft_substr(shell->env[d], ft_strlen(arg), ft_strlen(shell->env[d] - ft_strlen(arg)));
+				return (ft_tokennew(dollard, arg_type));
+			}
+			j++;
+		}
+	}
+	if (s[k] == 34 || s[k] == 39)
+		return (ft_tokennew(ft_substr(s, k + 1, i - 2), arg_type));
+	else
+		return (ft_tokennew(ft_substr(s, k, i), arg_type));
 }

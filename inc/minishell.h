@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/06 16:00:05 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/07 14:51:36 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,20 +61,21 @@ typedef struct s_shell
 {
 	t_cmd	*cmd;
 	t_list	*tokens;
-	t_list	*env;
+	char	**env;
 	char	**path;
 }	t_shell;
 
 char			**ft_path(char **env);
 int				ft_structur(t_shell *shell, char *cmd);
-t_list			*stuctur_token(char const *s);
+t_list			*stuctur_token(char const *s, t_shell *shell);
 t_token			*ft_tokennew(char *value, enum e_token type);
-enum e_token	type(const char *s, int k);
+enum e_token	token_type(const char *s, int k);
 int				chr_sep(char c);
 char			*ft_find_path(char **path, char *argv);
 int				stuctur_redicection(t_list **arg, t_cmd **cmd);
 char			**str_arg(t_list *element);
 t_cmd			*cmd_new(t_shell *shell);
 void			arg_addback(t_list **argument, t_list **arg);
-int				check_token(t_shell *shell);
+int				check_token(t_list *token);
+t_token			*check_quote(t_shell *shell, int k, int j, char *s)
 #endif

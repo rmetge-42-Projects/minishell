@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 13:16:31 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/06 15:56:32 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/07 14:51:16 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,15 @@ t_cmd	*structur_cmd(t_shell *shell)
 	}
 	return (cmd);
 }
-
 int	ft_structur(t_shell *shell, char *arg)
 {
-	shell->tokens = stuctur_token(arg);
-	if ((shell->tokens == NULL) || (check_token(shell) == 1))
+	shell->tokens = stuctur_token(arg, shell);
+	if ((shell->tokens == NULL) || (check_token(shell->tokens) == 1))
 		return (printf("Erreur\n"), 1);
 	shell->cmd = structur_cmd(shell);
 	if (shell->cmd == NULL)
 		return (printf("Erreur\n"), 1);
+	//check_quote(shell);
 	while (shell->cmd)
 	{
 		int i = 0;
