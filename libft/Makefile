@@ -58,24 +58,26 @@ CFLAGS = -Wall -Wextra -Werror -I. -g
 
 NAME = libft.a
 
+MAKEFLAGS += --no-print-directory
+
 all: ${NAME}
 
 ${NAME}: ${OBJ}
-	ar rcs ${NAME} ${OBJ}
+	@ar rcs ${NAME} ${OBJ}
 
 %.o: %.c
-	${CC} ${CFLAGS} -c -o $@ $<
+	@${CC} ${CFLAGS} -c -o $@ $<
 
 bonus: ${OBJ_BONUS} ${OBJ}
-	ar rcs ${NAME} ${OBJ} ${OBJ_BONUS}
+	@ar rcs ${NAME} ${OBJ} ${OBJ_BONUS}
 
 norminette:
 	@-norminette | grep -E --color=always "Error" || echo "Norminette: Everything is fine!"
 
 clean:
-	rm -f ${OBJ} ${OBJ_BONUS}
+	@rm -f ${OBJ} ${OBJ_BONUS}
 
 fclean: clean
-	rm -f ${NAME}
+	@rm -f ${NAME}
 
 re: fclean all

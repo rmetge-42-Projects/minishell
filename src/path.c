@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:25:05 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/06 15:39:40 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/07 11:36:50 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,34 @@ char	**ft_path(char **env)
 	}
 	return (path);
 }
+char	*find_path(char **envp, char *cmd)
+{
+	int		i;
+	char	**path;
+	char	*p_p;
+	char	*full_cmd;
 
+	i = 0;
+	while (envp[i] && ft_strncmp(envp[i], "PATH=", 5))
+		i++;
+	path = ft_split(envp[i] + 5, ':');
+	i = 0;
+	while (path[i])
+	{
+		p_p = ft_strjoin(path[i], "/");
+		full_cmd = ft_strjoin(p_p, cmd);
+		free(p_p);
+		if (access(full_cmd, X_OK) == 0)
+		{
+			ft_f_s(path);
+			return (full_cmd);
+		}
+		free(full_cmd);
+		i++;
+	}
+	ft_f_s(path);
+	return (NULL);
+}
 char	*ft_find_path(char **path, char *argv)
 {
 	int		i;

@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/07 14:51:36 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/07 15:01:31 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,14 @@
 # define MINISHELL_H
 
 # include "libft.h"
+
 # include <stdio.h>
+# include <unistd.h>
+# include <stdlib.h>
+# include <fcntl.h>
+# include <stddef.h>
+# include <sys/wait.h>
+# include <sys/ioctl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
@@ -41,13 +48,8 @@ typedef struct s_token
 {
 	char			*value;
 	enum e_token	type;
-}	t_token;
 
-typedef struct s_redir
-{
-	char			*file;
-	enum e_redirect	type;
-}	t_redir;
+}	t_token;
 
 typedef struct s_cmd
 {
@@ -55,16 +57,30 @@ typedef struct s_cmd
 	char	**argv;
 	t_list	*redirection;
 	t_cmd	*pipe;
+
 }	t_cmd;
+
+typedef struct s_redir
+{
+	char			*file;
+	enum e_redirect	type;
+
+}	t_redir;
 
 typedef struct s_shell
 {
 	t_cmd	*cmd;
 	t_list	*tokens;
+	char	*line;
 	char	**env;
 	char	**path;
+
 }	t_shell;
 
+int				ft_exit(t_shell *shell);
+void			ft_pipex(t_shell *shell);
+void			*ft_f_s(char **split);
+char			*find_path(char **envp, char *cmd);
 char			**ft_path(char **env);
 int				ft_structur(t_shell *shell, char *cmd);
 t_list			*stuctur_token(char const *s, t_shell *shell);
@@ -77,5 +93,5 @@ char			**str_arg(t_list *element);
 t_cmd			*cmd_new(t_shell *shell);
 void			arg_addback(t_list **argument, t_list **arg);
 int				check_token(t_list *token);
-t_token			*check_quote(t_shell *shell, int k, int j, char *s)
+t_token			*check_quote(t_shell *shell, int k, int j, char *s);
 #endif

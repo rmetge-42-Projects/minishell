@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structur_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:10:11 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/06 15:57:39 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/07 14:05:57 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	stuctur_redicection(t_list **arg, t_cmd **cmd)
 		|| (*arg)->next == NULL)
 		return (printf("Erreu"), 0);
 	ft_lstadd_back(&(*cmd)->redirection, ft_lstnew(wich_redirect(*arg)));
+	//printf("%s %i", ((t_redir *)(*cmd)->redirection->content)->file , ((t_redir *)(*cmd)->redirection->content)->type );
 	(*arg) = (*arg)->next;
 	return (1);
 }
