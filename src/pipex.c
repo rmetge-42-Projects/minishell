@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/07 14:53:13 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/07 14:56:11 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	ft_pipex(t_shell *shell)
 		if (pid == -1)
 			error("Fork Error");
 		if(pid == 0)
-			execution(shell, in_fd, fd[2], command);
+			execution(shell, in_fd, &fd[2], command);
 		else if (pid > 0)
 			waitpid(pid, &status, 0);
 		close(fd[1]);
