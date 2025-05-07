@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/06 16:36:06 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/07 10:58:16 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,4 +196,16 @@ int	main(int argc, char **argv, char **envp)
 
 	printf("Bye 👋\n");
 	return 0;
+	char	*mini;
+	t_shell	*shell;
+
+	(void)argc;
+	(void)argv;
+	shell = ft_calloc(1, sizeof(t_shell));
+	shell->path = ft_path(envp);
+	while (1)
+	{
+		mini = readline("minishell >");
+		ft_structur(shell, mini);
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:25:05 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/05 12:04:02 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/07 10:59:19 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,4 +67,26 @@ char	*find_path(char **envp, char *cmd)
 	ft_f_s(path);
 	return (NULL);
 }
+char	*ft_find_path(char **path, char *argv)
+{
+	int		i;
+	char	*path1;
+	char	**str;
 
+	i = 0;
+	if (ft_strchr(argv, '/') != 0)
+	{
+		if (access(argv, X_OK) == 0)
+			return (ft_strdup(argv));
+	}
+	str = ft_split(argv, ' ');
+	while (path[i])
+	{
+		path1 = ft_strjoin(path[i], str[0]);
+		if (access(path1, X_OK) == 0)
+			return (ft_free_split(str), path1);
+		i++;
+		free(path1);
+	}
+	return (ft_free_split(str), NULL);
+}

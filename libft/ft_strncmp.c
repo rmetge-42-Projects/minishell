@@ -6,13 +6,13 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/06 09:09:44 by rmetge            #+#    #+#             */
-/*   Updated: 2024/11/14 13:43:29 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/02 13:41:14 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <string.h>
 
-int	ft_strncmp(const char	*fir, const char	*sec, size_t l)
+int	ft_strncmp(char	*fir, char	*sec, size_t l)
 {
 	size_t	i;
 

@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/06 14:29:35 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/07 10:57:13 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,13 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-
 typedef struct s_cmd	t_cmd;
 
 enum e_token
 {
 	ARG,
+	QUOTE1,
+	QUOTE2,
 	PIPE,
 	REDIRECT
 };
@@ -64,20 +65,32 @@ typedef struct s_redir
 	enum e_redirect	type;
 }	t_redir;
 
+typedef struct s_cmd
+{
+	char	*path;
+	char	**argv;
+	t_list	*redirection;
+	t_cmd	*pipe;
+}	t_cmd;
+
 typedef struct s_shell
 {
-	char	**line;
 	t_cmd	*cmd;
 	t_list	*tokens;
-	char	**env;
+	t_list	*env;
+	char	**path;
 }	t_shell;
 
-// char	**ft_path(char **env);
-char	*find_path(char **envp, char *cmd);
-// int	ft_struc(char **path, char *cmd);
-//char	**split_cmd(char *cmd);
-// char	**ft_splitttt(char const *s);
-void	*ft_f_s(char **split);
-void	ft_pipex(t_shell *mini);
-
+char			**ft_path(char **env);
+int				ft_structur(t_shell *shell, char *cmd);
+t_list			*stuctur_token(char const *s);
+t_token			*ft_tokennew(char *value, enum e_token type);
+enum e_token	type(const char *s, int k);
+int				chr_sep(char c);
+char			*ft_find_path(char **path, char *argv);
+int				stuctur_redicection(t_list **arg, t_cmd **cmd);
+char			**str_arg(t_list *element);
+t_cmd			*cmd_new(t_shell *shell);
+void			arg_addback(t_list **argument, t_list **arg);
+int				check_token(t_shell *shell);
 #endif

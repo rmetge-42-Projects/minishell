@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 14:58:23 by rmetge            #+#    #+#             */
-/*   Updated: 2025/01/30 11:03:35 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/02 14:28:58 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	*ft_memmove(void	*dest, const void	*src, size_t n);
 char	*ft_strchr(const char *str, int r);
 size_t	ft_strlcat(char	*dest, const char	*src, size_t s);
 size_t	ft_strlcpy(char	*dest, const char	*src, size_t s);
-int		ft_strncmp(const char	*fir, const char	*sec, size_t l);
+int		ft_strncmp(char	*fir, char	*sec, size_t l);
 char	*ft_strnstr(const char	*s1, const char *s2, size_t len);
 char	*ft_strrchr(const char *str, int r);
 int		ft_tolower(int c);
