@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/07 15:41:39 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/08 16:55:12 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,21 +51,38 @@ int	main(int argc, char **argv, char **envp)
 {
 	char *mini;
 	t_shell	*shell;
-
+	volatile sig_atomic_t g_sigint = 0;
 	(void)argc;
 	(void)argv;
+
 	print_header();
 	shell = ft_calloc(1, sizeof(t_shell));
 	shell->path = ft_path(envp);
 	shell->env = envp;
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, ft_ctrl_c);
+
 	while (1)
 	{
 		mini = readline("\001\033[38;5;205m\002minishell> \001\033[0m\002");
-		shell->line = mini;
 		if (!mini)
 			break;
+		shell->line = mini;
+		shell->args = ft_split(shell->line, ' ');
+		if (g_sigint)
+		{
+			g_sigint = 0;
+			free(mini);
+			continue;
+		}
 		if (*mini)
 			add_history(mini);
+		if (!shell->args || !shell->args[0])
+		{
+			free(mini);
+			ft_f_s(shell->args);
+			continue;
+		}
 		if (ft_exit(shell) == 1)
 			break ;
 		ft_structur(shell, mini);

@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/07 15:15:53 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/08 16:54:24 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <sys/ioctl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <signal.h>
 
 typedef struct s_cmd	t_cmd;
 
@@ -43,6 +44,14 @@ enum e_redirect
 	INPUT,
 	OUTPUT
 };
+
+typedef struct s_env
+{
+	char	*key;
+	char	*value;
+	struct s_env	*next;
+
+}	t_env;
 
 typedef struct s_token
 {
@@ -72,11 +81,15 @@ typedef struct s_shell
 	t_cmd	*cmd;
 	t_list	*tokens;
 	char	*line;
+	char	**args;
 	char	**env;
 	char	**path;
+	t_env	**enviro;
 
 }	t_shell;
 
+
+void			ft_ctrl_c(int sig);
 int				ft_exit(t_shell *shell);
 void			ft_pipex(t_shell *shell);
 void			*ft_f_s(char **split);

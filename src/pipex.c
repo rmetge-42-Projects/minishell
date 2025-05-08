@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/07 14:56:11 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/08 12:32:11 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,46 +40,46 @@ int	handle_heredoc(char *delimiter)
 	close(fd[1]);
 	return (fd[0]);
 }
-void	redirect_in_out(t_redir *r, int fd)
+
+static void	open_input(char *file)
 {
-	if (r->type == INPUT)
-	{
-		fd = open(r->file, O_RDONLY);
-		if (fd == -1)
-			error("infile");
-		dup2(fd, STDIN_FILENO);
-		close(fd);
-	}
-	else if (r->type == OUTPUT)
-	{
-		fd = open(r->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd == -1)
-			error("outfile");
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
-	}
-	else if (r->type == APPEND)
-	{
-		fd = open(r->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-		if (fd == -1)
-			error("outfile append");
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
-	}
+	int	fd;
+
+	fd = open(file, O_RDONLY);
+	if (fd == -1)
+		error("infile");
+	dup2(fd, STDIN_FILENO);
+	close(fd);
+}
+
+static void	open_output(char *file, int append)
+{
+	int	fd;
+	int	flags;
+
+	flags = O_WRONLY | O_CREAT | (append ? O_APPEND : O_TRUNC);
+	fd = open(file, flags, 0644);
+	if (fd == -1)
+		error(append ? "outfile append" : "outfile");
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
 }
 
 void	apply_redirections(t_list *redir_list)
 {
 	t_redir	*r;
-	int		fd;
 	int		heredoc_fd;
 
-	fd = 0;
 	while (redir_list)
 	{
 		r = (t_redir *)redir_list->content;
-		redirect_in_out(r, fd);
-		if (r->type == HEREDOC)
+		if (r->type == INPUT)
+			open_input(r->file);
+		else if (r->type == OUTPUT)
+			open_output(r->file, 0);
+		else if (r->type == APPEND)
+			open_output(r->file, 1);
+		else if (r->type == HEREDOC)
 		{
 			heredoc_fd = handle_heredoc(r->file);
 			dup2(heredoc_fd, STDIN_FILENO);
@@ -88,43 +88,56 @@ void	apply_redirections(t_list *redir_list)
 		redir_list = redir_list->next;
 	}
 }
-void	execution(t_shell *shell, int in_fd, int *fd, t_cmd *command)
+
+static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 {
+	apply_redirections(cmd->redirection);
 	if (in_fd != 0)
 		dup2(in_fd, STDIN_FILENO);
-	if (command->pipe)
+	if (cmd->pipe)
 		dup2(fd[1], STDOUT_FILENO);
 	close(fd[0]);
 	close(fd[1]);
-	apply_redirections(command->redirection);
-	execve(find_path(shell->env, *command->argv), command->argv, shell->env);
+	
+	execve(find_path(shell->env, *cmd->argv), cmd->argv, shell->env);
 }
 
 void	ft_pipex(t_shell *shell)
 {
 	int		fd[2];
 	int		in_fd;
-	int		status;
 	pid_t	pid;
-	t_cmd	*command;
+	t_cmd	*cmd;
+	pid_t	pids[6];
+	int		i = 0;
 
-	command = shell->cmd;
 	in_fd = 0;
-	while (command)
+	cmd = shell->cmd;
+	while (cmd)
 	{
 		if (pipe(fd) == -1)
 			error("Pipe Error");
 		pid = fork();
 		if (pid == -1)
 			error("Fork Error");
-		if(pid == 0)
-			execution(shell, in_fd, &fd[2], command);
-		else if (pid > 0)
-			waitpid(pid, &status, 0);
+		if (pid == 0)
+		{
+			signal(SIGINT, SIG_IGN);
+			child_process(shell, cmd, fd, in_fd);
+		}
+		pids[i++] = pid;
 		close(fd[1]);
 		if (in_fd != 0)
 			close(in_fd);
 		in_fd = fd[0];
-		command = command->pipe;
+		cmd = cmd->pipe;
 	}
+	int j = 0;
+	while (j < i)
+	{
+		waitpid(pids[j], NULL, 0);
+		j++;
+	}
+	if (in_fd != 0)
+		close(in_fd);
 }
