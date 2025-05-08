@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/08 16:54:24 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/08 18:47:20 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,4 +107,5 @@ t_cmd			*cmd_new(t_shell *shell);
 void			arg_addback(t_list **argument, t_list **arg);
 int				check_token(t_list *token);
 t_token			*check_quote(t_shell *shell, int k, int j, const char *s);
+void			free_shell(t_shell **shell);
 #endif

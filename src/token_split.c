@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:41:25 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/07 15:02:20 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/08 19:18:12 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ static void	ft_process(char const *s, int *j, int *k)
 	ft_process_2(s, j, quote);
 }
 
-static int	chek_quote(char *s)
+static int	check_all_quote(char *s)
 {
 	int	quote[2];
 	int	i;
@@ -116,7 +116,7 @@ t_list	*stuctur_token(char const *s, t_shell *shell)
 	t_token	*t;
 
 	dest = NULL;
-	if (chek_quote((char *)s) == 1)
+	if (check_all_quote((char *)s) == 1)
 		return (dest);
 	j = 0;
 	k = 0;
@@ -125,11 +125,6 @@ t_list	*stuctur_token(char const *s, t_shell *shell)
 		ft_process(s, &j, &k);
 		if (k < j)
 		{
-			// i = j - k;
-			// if (s[k] == 34 || s[k] == 39)
-			// 	t = ft_tokennew(ft_substr(s, k + 1, i - 2), type(s, k));
-			// else
-			// 	t = ft_tokennew(ft_substr(s, k, i), type(s, k));
 			t = check_quote(shell, k, j, s);
 			ft_lstadd_back(&dest, ft_lstnew((t)));
 		}

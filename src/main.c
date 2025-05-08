@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/08 16:55:12 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/08 18:30:44 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,35 @@ void	print_header(void)
 	}
 }
 
+int	check_readline(t_shell *shell, char *mini)
+{
+	volatile sig_atomic_t g_sigint = 0;
+
+	shell->line = mini;
+	shell->args = ft_split(mini, ' ');
+	if (g_sigint)
+	{
+		g_sigint = 0;
+		free(mini);
+		return (1);
+	}
+	if (*mini)
+		add_history(mini);
+	if (!shell->args || !shell->args[0])
+	{
+		free(mini);
+		ft_f_s(shell->args);
+		return (1);
+	}
+	if (ft_exit(shell) == 1)
+		return (2);
+	return (0);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char *mini;
 	t_shell	*shell;
-	volatile sig_atomic_t g_sigint = 0;
 	(void)argc;
 	(void)argv;
 
@@ -61,33 +85,18 @@ int	main(int argc, char **argv, char **envp)
 	shell->env = envp;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, ft_ctrl_c);
-
 	while (1)
 	{
 		mini = readline("\001\033[38;5;205m\002minishell> \001\033[0m\002");
 		if (!mini)
 			break;
-		shell->line = mini;
-		shell->args = ft_split(shell->line, ' ');
-		if (g_sigint)
-		{
-			g_sigint = 0;
-			free(mini);
+		if (check_readline(shell, mini) == 1)
 			continue;
-		}
-		if (*mini)
-			add_history(mini);
-		if (!shell->args || !shell->args[0])
-		{
-			free(mini);
-			ft_f_s(shell->args);
-			continue;
-		}
-		if (ft_exit(shell) == 1)
-			break ;
+		else if (check_readline(shell, mini) == 2)
+			break;
 		ft_structur(shell, mini);
 		ft_pipex(shell);
 	}
+	free_shell(&shell);
 	printf("Bye 👋\n");
-	return 0;
 }
