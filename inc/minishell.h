@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/07 16:19:58 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/08 12:30:02 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,14 @@ enum e_redirect
 	OUTPUT
 };
 
+typedef struct s_env
+{
+	char	*key;
+	char	*value;
+	struct s_env	*next;
+	
+}	t_env;
+
 typedef struct s_token
 {
 	char			*value;
@@ -76,8 +84,10 @@ typedef struct s_shell
 	char	**args;
 	char	**env;
 	char	**path;
+	t_env	**enviro;
 
 }	t_shell;
+
 
 void			ft_ctrl_c(int sig);
 int				ft_exit(t_shell *shell);
@@ -96,5 +106,7 @@ char			**str_arg(t_list *element);
 t_cmd			*cmd_new(t_shell *shell);
 void			arg_addback(t_list **argument, t_list **arg);
 int				check_token(t_shell *shell);
+
+
 
 #endif

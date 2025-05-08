@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/07 16:31:08 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/08 12:32:11 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,50 +40,6 @@ int	handle_heredoc(char *delimiter)
 	close(fd[1]);
 	return (fd[0]);
 }
-
-
-// void	apply_redirections(t_list *redir_list)
-// {
-// 	t_redir	*r;
-// 	int		fd;
-// 	int		heredoc_fd;
-
-// 	while (redir_list)
-// 	{
-// 		r = (t_redir *)redir_list->content;
-// 		if (r->type == INPUT)
-// 		{
-// 			fd = open(r->file, O_RDONLY);
-// 			if (fd == -1)
-// 				error("infile");
-// 			dup2(fd, STDIN_FILENO);
-// 			close(fd);
-// 		}
-// 		else if (r->type == OUTPUT)
-// 		{
-// 			fd = open(r->file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-// 			if (fd == -1)
-// 				error("outfile");
-// 			dup2(fd, STDOUT_FILENO);
-// 			close(fd);
-// 		}
-// 		else if (r->type == APPEND)
-// 		{
-// 			fd = open(r->file, O_WRONLY | O_CREAT | O_APPEND, 0644);
-// 			if (fd == -1)
-// 				error("outfile append");
-// 			dup2(fd, STDOUT_FILENO);
-// 			close(fd);
-// 		}
-// 		else if (r->type == HEREDOC)
-// 		{
-// 			heredoc_fd = handle_heredoc(r->file);
-// 			dup2(heredoc_fd, STDIN_FILENO);
-// 			close(heredoc_fd);
-// 		}
-// 		redir_list = redir_list->next;
-// 	}
-// }
 
 static void	open_input(char *file)
 {
@@ -135,13 +91,14 @@ void	apply_redirections(t_list *redir_list)
 
 static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 {
+	apply_redirections(cmd->redirection);
 	if (in_fd != 0)
 		dup2(in_fd, STDIN_FILENO);
 	if (cmd->pipe)
 		dup2(fd[1], STDOUT_FILENO);
 	close(fd[0]);
 	close(fd[1]);
-	apply_redirections(cmd->redirection);
+	
 	execve(find_path(shell->env, *cmd->argv), cmd->argv, shell->env);
 }
 
@@ -151,7 +108,8 @@ void	ft_pipex(t_shell *shell)
 	int		in_fd;
 	pid_t	pid;
 	t_cmd	*cmd;
-	int		status;
+	pid_t	pids[6];
+	int		i = 0;
 
 	in_fd = 0;
 	cmd = shell->cmd;
@@ -167,53 +125,19 @@ void	ft_pipex(t_shell *shell)
 			signal(SIGINT, SIG_IGN);
 			child_process(shell, cmd, fd, in_fd);
 		}
-		waitpid(pid, &status, 0);
+		pids[i++] = pid;
 		close(fd[1]);
 		if (in_fd != 0)
 			close(in_fd);
 		in_fd = fd[0];
 		cmd = cmd->pipe;
 	}
+	int j = 0;
+	while (j < i)
+	{
+		waitpid(pids[j], NULL, 0);
+		j++;
+	}
+	if (in_fd != 0)
+		close(in_fd);
 }
-
-
-// void	ft_pipex(t_shell *shell)
-// {
-// 	int		fd[2];
-// 	int		in_fd = 0;
-// 	pid_t	pid;
-// 	t_cmd	*command = shell->cmd;
-
-
-// 	while (command)
-// 	{
-// 		if (pipe(fd) == -1)
-// 			error("Pipe Error");
-
-// 		pid = fork();
-// 		if (pid == -1)
-// 			error("Fork Error");
-
-// 		if(pid == 0)
-// 		{
-// 			if (in_fd != 0)
-// 				dup2(in_fd, STDIN_FILENO);
-// 			if (command->pipe)
-// 				dup2(fd[1], STDOUT_FILENO);
-// 			close(fd[0]);
-// 			close(fd[1]);
-// 			apply_redirections(command->redirection);
-// 			execve(find_path(shell->env, *command->argv), command->argv, shell->env);
-// 		}
-// 		else if (pid > 0)
-// 		{
-// 			int status;
-// 			waitpid(pid, &status, 0);
-// 		}
-// 		close(fd[1]);
-// 		if (in_fd != 0)
-// 			close(in_fd);
-// 		in_fd = fd[0];
-// 		command = command->pipe;
-// 	}
-// }

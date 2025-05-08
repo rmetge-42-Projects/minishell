@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/07 16:20:04 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/08 12:59:48 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	main(int argc, char **argv, char **envp)
 	shell = ft_calloc(1, sizeof(t_shell));
 	shell->path = ft_path(envp);
 	shell->env = envp;
+	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, ft_ctrl_c);
 	
 	while (1)
@@ -70,9 +71,9 @@ int	main(int argc, char **argv, char **envp)
 		shell->args = ft_split(shell->line, ' ');
 		if (g_sigint)
 		{
-			g_sigint = 0; // on remet à 0 pour la prochaine fois
+			g_sigint = 0;
 			free(mini);
-			continue; // on relance le prompt proprement
+			continue;
 		}
 		if (*mini)
 			add_history(mini);

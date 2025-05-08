@@ -1,0 +1,107 @@
+
+**Votre shell doit :**
+
+- Afficher une invite lorsqu’il attend une nouvelle commande.<!--OK-->
+
+- Avoir un historique fonctionnel des commandes.<!--OK-->
+
+- Chercher et lancer le bon exécutable (en se basant sur la variable d’environnement `PATH`, ou en utilisant un chemin relatif ou absolu)<!--OK-->
+
+- Utiliser au maximum une seule variable globale pour indiquer la réception d’un signal. Cette variable ne doit stocker que le numéro du signal reçu, sans fournir d’autres informations ou accès à des données. L’utilisation de structures globales de type « norm » est interdite.
+
+- Ne pas interpréter les guillemets non fermés ou les caractères spéciaux non requis par le sujet, tels que le `\` (antislash) ou le `;` (point-virgule).
+
+- Gérer les guillemets simples `'` qui doivent empêcher l’interprétation des métacaractères dans la séquence citée.
+
+- Gérer les guillemets doubles `"` qui doivent empêcher l’interprétation des métacaractères, sauf pour le signe `$` (dollar).<!--OK-->
+
+- Implémenter les redirections suivantes :
+  - `` : redirige la sortie standard.
+  - `>` : redirige la sortie en mode ajout (append).
+
+- Implémenter les pipes (`|`). La sortie de chaque commande dans le pipeline doit être reliée à l’entrée de la commande suivante via un tube.<!--OK-->
+
+- Gérer les variables d’environnement (`$` suivi d’une séquence de caractères), qui doivent être remplacées par leur valeur.
+
+- Gérer `$?`, qui doit être remplacé par le code de sortie du dernier pipeline exécuté au premier plan.
+
+- Gérer `ctrl-C`, `ctrl-D` et `ctrl-\` comme dans bash :
+  - En mode interactif :
+    - `ctrl-C` affiche une nouvelle invite sur une nouvelle ligne.<!--OK-->
+    - `ctrl-D` quitte le shell.<!--OK-->
+    - `ctrl-\` ne fait rien.<!--OK-->
+
+**Fonctions autorisees ;**
+readline
+rl_clear_history
+rl_on_new_line
+rl_replace_line
+rl_redisplay
+add_history,
+printf
+malloc
+free
+write
+access
+open
+read,
+close
+fork
+wait
+waitpid
+wait3
+wait4
+signal,
+sigaction
+sigemptyset
+sigaddset
+kill = kill un processus, force l'arret immediat si il y a un signal (pourrait etre utile pour ctrl-D et ctrl-C pour quitter proprement ?)
+exit,
+getcwd = sert a obtenir le chemin absolut du repertoir (dossier dans lequle s'execute notre programme, permet de construire des chemins relatifs au dossier ou s'execute mon programme)
+chdir = permet de changer de repertoire, modifie le dossier dans le quel le programme s'execute(si j'utilise chdir dans un process enfant suel l'enfant change de dossier.)--> CD
+stat
+lstat
+fstat
+unlink = sert a supprimer un fichier
+execve,
+dup
+dup2
+pipe
+opendir
+readdir
+closedir
+strerror
+perror
+isatty
+ttyname
+ttyslot
+ioctl
+getenv = recup les variable d'env qu'on  lui donne en argument
+tcsetattr
+tcgetattr
+tgetent
+tgetflag
+tgetnum
+tgetstr
+tgoto
+tputs
+
+**Commandes internes à implémenter :**
+
+- `echo` avec l’option `-n` <!--OK-->
+- `cd` avec uniquement un chemin relatif ou absolu
+- `pwd` sans options
+- `export` sans options
+- `unset` sans options
+- `env` sans options ni arguments<!--OK-->
+- `exit` sans options<!--OK-->
+
+**Note :**
+- La fonction `readline()` peut causer des fuites de mémoire, mais vous n’êtes pas obligé de les corriger. Cependant, cela ne signifie pas que votre propre code peut avoir des fuites de mémoire.
+
+**QU'est ce qu'une variable d'environnement ?**
+En c une variable d'environnement est une paire? c'est a dire?
+-valeur stockee par le systeme d'exploitation et accessible a un programme pendant son execution (avec char **envp);
+-Ces variables servent a transmettre des informations de configuration, comme le chemin du repertoire avec PATH=...
+-On peut acceder a ces valeur avec getenv
+
