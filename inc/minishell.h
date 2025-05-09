@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/09 15:08:55 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/09 16:13:41 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,10 @@ typedef struct s_shell
 
 }	t_shell;
 
-
+int				handle_heredoc(char *delimiter);
+void			open_input(char *file);
+void			open_out_put(char *file, int append);
+void			error(char *message);
 void			free_tokens(void *token);
 void			free_redirec(void *redir);
 void			ft_ctrl_c(int sig);
@@ -109,4 +112,5 @@ void			arg_addback(t_list **argument, t_list **arg);
 int				check_token(t_list *token);
 t_token			*check_quote(t_shell *shell, int k, int j, const char *s);
 void			free_shell(t_shell **shell);
+
 #endif
