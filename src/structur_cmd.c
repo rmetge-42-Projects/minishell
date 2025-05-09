@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:10:11 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/09 13:15:39 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/09 13:55:20 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ t_cmd	*cmd_new(t_shell *shell)
 		{
 			path = path_cmd(shell, cmd, &argument);
 			if (path == 0)
-				return (NULL);
+				return (free(cmd), ft_lstclear(&argument, free), NULL);
 		}
 		else
 			arg_addback(&argument, &shell->tokens);

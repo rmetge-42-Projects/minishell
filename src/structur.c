@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 13:16:31 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/09 13:36:40 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/09 13:58:01 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	structur_cmd(t_shell *shell)
 		if (shell->tokens && ((t_token *)shell->tokens->content)->type == PIPE)
 			shell->tokens = shell->tokens->next;
 	}
+	free(new);
 	return (1);
 }
 int	ft_structur(t_shell *shell, char *arg)
@@ -61,23 +62,23 @@ int	ft_structur(t_shell *shell, char *arg)
 	structur_cmd(shell);
 	if (shell->cmd == 0)
 		return (printf("Erreur\n"), 1);
-	while (shell->cmd)
-	{
-		int i = 0;
-		printf("path = %s\n", (shell->cmd->path));
-		printf("argv = ");
-		while (shell->cmd->argv[i])
-			printf("%s ", (shell->cmd->argv[i++]));
-		printf("\n");
-		while (shell->cmd->redirection)
-		{
-			printf("redirection file = %s\n", ((t_redir *)shell->cmd->redirection->content)->file);
-			printf("redirection type = %u\n", ((t_redir *)shell->cmd->redirection->content)->type);
-			shell->cmd->redirection = shell->cmd->redirection->next;
-		}
-		shell->cmd = shell->cmd->pipe;
-		printf("\n");
-	}
+	// while (shell->cmd)
+	// {
+	// 	int i = 0;
+	// 	printf("path = %s\n", (shell->cmd->path));
+	// 	printf("argv = ");
+	// 	while (shell->cmd->argv[i])
+	// 		printf("%s ", (shell->cmd->argv[i++]));
+	// 	printf("\n");
+	// 	while (shell->cmd->redirection)
+	// 	{
+	// 		printf("redirection file = %s\n", ((t_redir *)shell->cmd->redirection->content)->file);
+	// 		printf("redirection type = %u\n", ((t_redir *)shell->cmd->redirection->content)->type);
+	// 		shell->cmd->redirection = shell->cmd->redirection->next;
+	// 	}
+	// 	shell->cmd = shell->cmd->pipe;
+	// 	printf("\n");
+	// }
 	return (0);
 }
 
