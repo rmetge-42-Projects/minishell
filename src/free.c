@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:30:46 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/09 13:35:32 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/09 15:51:09 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ void	free_shell(t_shell **shell)
 	int	i;
 
 	i = 0;
-	// ft_free_split ((*shell)->args);
+	// if ((*shell)->args)
+    //     ft_free_split ((*shell)->args);
 	// free ((*shell)->line);
 	while ((*shell)->path[i])
 		free ((*shell)->path[i++]);

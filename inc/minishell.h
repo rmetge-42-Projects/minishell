@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/09 13:35:08 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/09 15:08:55 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ typedef struct s_shell
 }	t_shell;
 
 
+void			free_tokens(void *token);
+void			free_redirec(void *redir);
 void			ft_ctrl_c(int sig);
 int				ft_exit(t_shell *shell);
 void			ft_pipex(t_shell *shell);

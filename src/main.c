@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/09 13:35:55 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/09 15:50:29 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,21 +56,22 @@ int	check_readline(t_shell *shell, char *mini)
 	if (g_sigint)
 	{
 		g_sigint = 0;
-		ft_free_split(shell->args);
-		free(mini);
+		// ft_free_split(shell->args);
+		// free(mini);
 		return (1);
 	}
 	if (*mini)
 		add_history(mini);
 	if (!shell->args || !shell->args[0])
 	{
-		free(mini);
-		ft_free_split(shell->args);
+		// free(mini);
+		// ft_free_split(shell->args);
 		return (1);
 	}
 	if (ft_exit(shell) == 1)
 	{
-		ft_free_split(shell->args);
+		// free(mini);
+		// ft_free_split(shell->args);
 		return (2);
 	}
 	return (0);
@@ -80,11 +81,14 @@ int	main(int argc, char **argv, char **envp)
 {
 	char *mini;
 	t_shell	*shell;
+	int ret;
 	(void)argc;
 	(void)argv;
 
 	print_header();
 	shell = ft_calloc(1, sizeof(t_shell));
+	if (!shell)
+		return (1);
 	shell->path = ft_path(envp);
 	shell->env = envp;
 	signal(SIGQUIT, SIG_IGN);
@@ -94,14 +98,30 @@ int	main(int argc, char **argv, char **envp)
 		mini = readline("\001\033[38;5;205m\002minishell> \001\033[0m\002");
 		if (!mini)
 			break;
-		if (check_readline(shell, mini) == 1)
+		ret = check_readline(shell, mini);
+		if (ret == 1)
+		{
+			ft_free_split(shell->args);
+			free(mini);
 			continue;
-		else if (check_readline(shell, mini) == 2)
+		}
+		else if (ret == 2)
+		{
+			ft_free_split(shell->args);
+			free(mini);
 			break;
-		ft_structur(shell, mini);
+		}
+		if (ft_structur(shell, mini) == 1)
+		{
+			ft_free_split(shell->args);
+			free(mini);
+			break ;
+		}
 		ft_pipex(shell);
-	// free(mini);
+		ft_free_split(shell->args);
+		free(mini);
 	}
+	// free(mini);
 	free_shell(&shell);
 	printf("Bye 👋\n");
 }

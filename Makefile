@@ -60,6 +60,9 @@ run: all
 	@clear
 	@./minishell
 
+valgrind:
+	valgrind --suppressions=valgrind.sup --show-leak-kinds=all --leak-check=full  ./minishell
+
 sources:
 	./update_src
 

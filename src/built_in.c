@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:17:53 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/09 13:35:18 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/09 14:24:58 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,8 @@ int	ft_exit(t_shell *shell)
 
 	args = ft_split(shell->line, ' ');
 	if (ft_strncmp(args[0], "exit", 5) == 0)
-	{
-		ft_free_split(args);
-		return (1);
-	}
-	return (0);
+		return (ft_free_split(args), 1);
+	return (ft_free_split(args), 0);
 }
 
 
