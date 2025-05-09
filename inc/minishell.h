@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/09 10:21:08 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/09 13:15:29 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_list			*stuctur_token(char const *s, t_shell *shell);
 t_token			*ft_tokennew(char *value, enum e_token type);
 enum e_token	token_type(const char *s, int k);
 int				chr_sep(char c);
-char			*ft_find_path(char **path, char *argv);
+char			*ft_find_path_cmd(char **path, char *argv);
 int				stuctur_redicection(t_list **arg, t_cmd **cmd);
 char			**str_arg(t_list *element);
 t_cmd			*cmd_new(t_shell *shell);

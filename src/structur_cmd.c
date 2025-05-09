@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:10:11 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/09 10:21:01 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/09 13:15:39 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	path_cmd(t_shell *shell, t_cmd *cmd, t_list **argument)
 	t_token	*t;
 
 	t = shell->tokens->content;
-	cmd->path = ft_find_path(shell->path, t->value);
+	cmd->path = ft_find_path_cmd(shell->path, t->value);
 	if (cmd->path == NULL)
 		return (0);
 	arg_addback(argument, &shell->tokens);
