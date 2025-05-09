@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/08 12:32:11 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/09 13:30:17 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 	close(fd[0]);
 	close(fd[1]);
 	
-	execve(find_path(shell->env, *cmd->argv), cmd->argv, shell->env);
+	execve(cmd->path, cmd->argv, shell->env);
 }
 
 void	ft_pipex(t_shell *shell)
