@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/08 12:30:02 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/09 12:50:07 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ typedef struct s_shell
 void			ft_ctrl_c(int sig);
 int				ft_exit(t_shell *shell);
 void			ft_pipex(t_shell *shell);
-void			*ft_f_s(char **split);
 char			*find_path(char **envp, char *cmd);
 char			**ft_path(char **env);
 int				ft_structur(t_shell *shell, char *cmd);

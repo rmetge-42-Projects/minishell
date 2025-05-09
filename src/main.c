@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/08 12:59:48 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/09 12:50:45 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!shell->args || !shell->args[0])
 		{
 			free(mini);
-			ft_f_s(shell->args);
+			ft_free_split(shell->args);
 			continue;
 		}
 		if (ft_exit(shell) == 1)
