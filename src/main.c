@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/08 18:30:44 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/09 11:16:05 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	check_readline(t_shell *shell, char *mini)
 	if (g_sigint)
 	{
 		g_sigint = 0;
+		ft_free_split(shell->args);
 		free(mini);
 		return (1);
 	}
@@ -64,11 +65,14 @@ int	check_readline(t_shell *shell, char *mini)
 	if (!shell->args || !shell->args[0])
 	{
 		free(mini);
-		ft_f_s(shell->args);
+		ft_free_split(shell->args);
 		return (1);
 	}
 	if (ft_exit(shell) == 1)
+	{
+		ft_free_split(shell->args);
 		return (2);
+	}
 	return (0);
 }
 
@@ -96,6 +100,7 @@ int	main(int argc, char **argv, char **envp)
 			break;
 		ft_structur(shell, mini);
 		ft_pipex(shell);
+	// free(mini);
 	}
 	free_shell(&shell);
 	printf("Bye 👋\n");

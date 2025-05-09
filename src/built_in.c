@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:17:53 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/08 19:57:19 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/09 11:14:31 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ int	ft_exit(t_shell *shell)
 	args = ft_split(shell->line, ' ');
 	if (ft_strncmp(args[0], "exit", 5) == 0)
 	{
-		free(shell->line);
-		ft_f_s(args);
+		ft_free_split(args);
 		return (1);
 	}
 	return (0);
