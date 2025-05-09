@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/09 13:15:29 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/09 13:35:08 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ typedef struct s_shell
 void			ft_ctrl_c(int sig);
 int				ft_exit(t_shell *shell);
 void			ft_pipex(t_shell *shell);
-void			*ft_f_s(char **split);
 char			*find_path(char **envp, char *cmd);
 char			**ft_path(char **env);
 int				ft_structur(t_shell *shell, char *cmd);

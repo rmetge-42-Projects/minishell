@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:41:25 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/08 19:18:12 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/09 13:36:45 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 static void	process_quote2(char const *s, int *j)
 {
-	int	i;
-
-	i = 0;
 	if (s[*j] == '|')
 		(*j)++;
 	else if (s[*j] == '<')
