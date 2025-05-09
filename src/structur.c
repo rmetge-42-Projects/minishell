@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 13:16:31 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/09 13:58:01 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/09 15:25:31 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,19 @@ int	structur_cmd(t_shell *shell)
 		if (shell->tokens && ((t_token *)shell->tokens->content)->type == PIPE)
 			shell->tokens = shell->tokens->next;
 	}
-	free(new);
 	return (1);
 }
 int	ft_structur(t_shell *shell, char *arg)
 {
+	t_list	*t;
+
 	shell->tokens = stuctur_token(arg, shell);
+	t = shell->tokens;
 	if ((shell->tokens == NULL) || (check_token(shell->tokens) == 1))
 		return (printf("Erreur\n"), 1);
 	structur_cmd(shell);
+	shell->tokens = t;
+	ft_lstclear(&shell->tokens, free_tokens);
 	if (shell->cmd == 0)
 		return (printf("Erreur\n"), 1);
 	// while (shell->cmd)

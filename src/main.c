@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/09 13:35:55 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/09 15:42:13 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,9 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGINT, ft_ctrl_c);
 	while (1)
 	{
+		// shell->tokens = stuctur_token("ls -la", shell);
+		// ft_lstclear(&shell->tokens, free_tokens);
+		// break; ;
 		mini = readline("\001\033[38;5;205m\002minishell> \001\033[0m\002");
 		if (!mini)
 			break;
