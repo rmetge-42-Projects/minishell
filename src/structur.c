@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 13:16:31 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/08 18:18:40 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/09 10:25:07 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,30 +37,29 @@ void	addback_cmd(t_cmd **cmd, t_cmd *new)
 		*cmd = new;
 }
 
-t_cmd	*structur_cmd(t_shell *shell)
+int	structur_cmd(t_shell *shell)
 {
-	t_cmd	*cmd;
 	t_cmd	*new;
 
-	cmd = NULL;
+	shell->cmd = NULL;
 	while (shell->tokens)
 	{
 		new = cmd_new(shell);
 		if (new == NULL)
-			return (NULL);
-		addback_cmd(&cmd, new);
+			return (0);
+		addback_cmd(&shell->cmd, new);
 		if (shell->tokens && ((t_token *)shell->tokens->content)->type == PIPE)
 			shell->tokens = shell->tokens->next;
 	}
-	return (cmd);
+	return (1);
 }
 int	ft_structur(t_shell *shell, char *arg)
 {
 	shell->tokens = stuctur_token(arg, shell);
 	if ((shell->tokens == NULL) || (check_token(shell->tokens) == 1))
 		return (printf("Erreur\n"), 1);
-	shell->cmd = structur_cmd(shell);
-	if (shell->cmd == NULL)
+	structur_cmd(shell);
+	if (shell->cmd == 0)
 		return (printf("Erreur\n"), 1);
 	// while (shell->cmd)
 	// {
