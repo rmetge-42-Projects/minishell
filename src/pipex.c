@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/09 13:30:17 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/09 14:20:05 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,14 @@ int	handle_heredoc(char *delimiter)
 	{
 		line = readline("> ");
 		if (!line || strcmp(line, delimiter) == 0)
+		{
+			free(line);
 			break;
+		}
 		write(fd[1], line, strlen(line));
 		write(fd[1], "\n", 1);
 		free(line);
 	}
-	free(line);
 	close(fd[1]);
 	return (fd[0]);
 }
@@ -52,15 +54,38 @@ static void	open_input(char *file)
 	close(fd);
 }
 
+// static void	open_output(char *file, int append)
+// {
+// 	int	fd;
+// 	int	flags;
+
+// 	flags = O_WRONLY | O_CREAT | (append ? O_APPEND : O_TRUNC);
+// 	fd = open(file, flags, 0644);
+// 	if (fd == -1)
+// 		error(append ? "outfile append" : "outfile");
+// 	dup2(fd, STDOUT_FILENO);
+// 	close(fd);
+// }
+
 static void	open_output(char *file, int append)
 {
 	int	fd;
 	int	flags;
 
-	flags = O_WRONLY | O_CREAT | (append ? O_APPEND : O_TRUNC);
+	flags = O_WRONLY | O_CREAT;
+	if (append == 1)
+		flags |= O_APPEND;
+	else
+		flags |= O_TRUNC;
+
 	fd = open(file, flags, 0644);
 	if (fd == -1)
-		error(append ? "outfile append" : "outfile");
+	{
+		if (append == 1)
+			error("outfile append");
+		else
+			error("outfile");
+	}
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
 }
@@ -108,7 +133,7 @@ void	ft_pipex(t_shell *shell)
 	int		in_fd;
 	pid_t	pid;
 	t_cmd	*cmd;
-	pid_t	pids[6];
+	pid_t	pids[256];
 	int		i = 0;
 
 	in_fd = 0;

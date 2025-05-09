@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/09 15:10:45 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/09 15:55:38 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,8 @@ typedef struct s_shell
 }	t_shell;
 
 
+void			free_tokens(void *token);
+void			free_redirec(void *redir);
 void			ft_ctrl_c(int sig);
 int				ft_exit(t_shell *shell);
 void			ft_pipex(t_shell *shell);
