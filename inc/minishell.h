@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/09 16:19:21 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/10 14:33:02 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,10 @@ typedef struct s_shell
 
 }	t_shell;
 
-
+int				handle_heredoc(char *delimiter);
+void			open_input(char *file);
+void			open_out_put(char *file, int append);
+void			error(char *message);
 void			free_tokens(void *token);
 void			free_redirec(void *redir);
 void			ft_ctrl_c(int sig);
