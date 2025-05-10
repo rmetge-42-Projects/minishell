@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/09 15:56:03 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/10 14:24:22 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,14 +117,18 @@ int	main(int argc, char **argv, char **envp)
 		if (ft_structur(shell, mini) == 1)
 		{
 			ft_free_split(shell->args);
+			ft_lstclear(&shell->tokens, free_tokens);
 			free(mini);
 			break ;
 		}
 		ft_pipex(shell);
 		ft_free_split(shell->args);
 		free(mini);
+		ft_lstclear(&shell->tokens, free_tokens);
+		// free_cmd_token(&shell);
+		free_cmd(&shell->cmd);
 	}
-	// free(mini);
 	free_shell(&shell);
+	// free(mini);
 	printf("Bye 👋\n");
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:41:25 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/09 15:28:17 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/09 16:02:26 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,8 @@ t_list	*stuctur_token(char const *s, t_shell *shell)
 {
 	int		j;
 	int		k;
-	// int		i;
 	t_list	*dest;
 	t_token	*t;
-	t_list *node;
 
 	dest = NULL;
 	if (check_all_quote((char *)s) == 1)
@@ -124,21 +122,8 @@ t_list	*stuctur_token(char const *s, t_shell *shell)
 		if (k < j)
 		{
 			t = check_quote(shell, k, j, s);
-			// if (!t)
-			// {
-			// 	ft_lstclear(&dest, free_tokens);
-			// 	return (NULL);
-			// }
-			node = ft_lstnew(t);
-			// if(!node)
-			// {
-			// 	free_tokens(t);
-			// 	ft_lstclear(&dest, free_tokens);
-			// 	return (NULL);
-			// }
 			ft_lstadd_back(&dest, ft_lstnew((t)));
 		}
-		free(node);
 	}
 	return (dest);
 }

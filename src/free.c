@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:30:46 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/09 15:55:54 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/10 14:29:27 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,16 @@
 
 void	free_tokens(void *token)
 {
-	if (((t_token *)token)->value)
-		free(((t_token *)token)->value);
-	if (token)
-		free(token);
+	// if (((t_token *)token)->value)
+	free(((t_token *)token)->value);
+	// if ((t_token *)token)
+	free((t_token *)token);
 }
 
 void	free_redirec(void *redir)
 {
-	free(((t_redir *)redir)->file);
+	// free(((t_redir *)redir)->file);
+	free((t_redir *)redir);
 }
 
 void	free_cmd(t_cmd **cmd)
@@ -51,6 +52,13 @@ void	free_shell(t_shell **shell)
 	free ((*shell)->path);
 	// ft_lstclear(&(*shell)->tokens, free_tokens);
 
-	free_cmd(&(*shell)->cmd);
+	// free_cmd(&(*shell)->cmd);
+	// ft_lstclear(&(*shell)->tokens, free_tokens);
 	free((*shell));
 }
+
+// void	free_cmd_token(t_shell **shell)
+// {
+// 	free_cmd(&(*shell)->cmd);
+// 	ft_lstclear(&(*shell)->tokens, free_tokens);
+// }
