@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:30:46 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/10 14:29:27 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/10 14:38:05 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	free_tokens(void *token)
 
 void	free_redirec(void *redir)
 {
-	// free(((t_redir *)redir)->file);
+	free(((t_redir *)redir)->file);
 	free((t_redir *)redir);
 }
 
