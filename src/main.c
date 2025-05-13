@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/13 13:44:01 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/13 17:36:41 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ int	main(int argc, char **argv, char **envp)
 		free_cmd(&shell->cmd);
 		// free_env(*shell->enviro);
 	}
-	free_env(*shell->enviro);
+	free_env(shell->enviro);
 	free_shell(&shell);
 	// free(mini);
 	printf("Bye 👋\n");

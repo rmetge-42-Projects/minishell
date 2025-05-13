@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/13 14:37:17 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/13 15:06:42 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,47 +47,6 @@ static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 	close(fd[1]);
 	execve(cmd->path, cmd->argv, shell->env);
 }
-
-// void	ft_pipex(t_shell *shell)
-// {
-// 	int		fd[2];
-// 	int		in_fd;
-// 	pid_t	pid;
-// 	t_cmd	*cmd;
-// 	pid_t	pids[256];
-// 	int		i = 0;
-// 	int		j;
-
-// 	in_fd = 0;
-// 	cmd = shell->cmd;
-// 	while (cmd)
-// 	{
-// 		if (pipe(fd) == -1)
-// 			error("Pipe Error");
-// 		pid = fork();
-// 		if (pid == -1)
-// 			error("Fork Error");
-// 		if (pid == 0)
-// 		{
-// 			signal(SIGINT, SIG_IGN);
-// 			child_process(shell, cmd, fd, in_fd);
-// 		}
-// 		pids[i++] = pid;
-// 		close(fd[1]);
-// 		if (in_fd != 0)
-// 			close(in_fd);
-// 		in_fd = fd[0];
-// 		cmd = cmd->pipe;
-// 	}
-// 	j = 0;
-// 	while (j < i)
-// 	{
-// 		waitpid(pids[j], NULL, 0);
-// 		j++;
-// 	}
-// 	if (in_fd != 0)
-// 		close(in_fd);
-// }
 
 pid_t	ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 {
