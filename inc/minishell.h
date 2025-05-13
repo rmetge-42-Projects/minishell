@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/13 12:47:53 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/13 17:53:43 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ char			**ft_path(char **env);
 int				ft_structur(t_shell *shell, char *cmd);
 t_list			*stuctur_token(char const *s, t_shell *shell);
 t_token			*ft_tokennew(char *value, enum e_token type);
-enum e_token	token_type(const char *s, int k);
+enum e_token	token_type(const char *s);
 int				chr_sep(char c);
 char			*ft_find_path_cmd(char **path, char *argv);
 int				stuctur_redicection(t_list **arg, t_cmd **cmd);
@@ -111,14 +111,14 @@ char			**str_arg(t_list *element);
 t_cmd			*cmd_new(t_shell *shell);
 void			arg_addback(t_list **argument, t_list **arg);
 int				check_token(t_list *token);
-t_token			*check_quote(t_shell *shell, int k, int j, const char *s);
+t_token			*check_quote(t_shell *shell, int j, const char *s);
 void			free_shell(t_shell **shell);
 void			free_tokens(void *token);
 void			free_cmd(t_cmd **cmd);
-void			free_cmd_token(t_shell **shell);
+// void			free_cmd_token(t_shell **shell);
 void 			init_env(t_env **env, char **envp);
 void			env_add_back(t_env **env, t_env *new_node);
 void 			ft_export(t_shell *shell);
-void			free_env(t_env *env);
+void			free_env(t_env **env);
 
 #endif

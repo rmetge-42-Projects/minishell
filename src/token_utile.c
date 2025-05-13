@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   token_utile.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 10:17:07 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/09 15:02:17 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/13 19:23:35 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-enum e_token	token_type(const char *s, int k)
+enum e_token	token_type(const char *s)
 {
-	if (s[k] == '|')
+	if (s[0] == '|')
 		return (PIPE);
-	else if (s[k] == '>' || s[k] == '<')
+	else if (s[0] == '>' || s[0] == '<')
 		return (REDIRECT);
-	else if (s[k] == 39)
+	else if (s[0] == 39)
 		return (QUOTE1);
-	else if (s[k] == 34)
+	else if (s[0] == 34)
 		return (QUOTE2);
 	else
 		return (ARG);
@@ -73,49 +73,65 @@ int	check_token(t_list *token)
 	return (0);
 }
 
-t_token	*check_quote(t_shell *shell, int k, int j, const char *s)
+t_token	*check_quote(t_shell *shell, int j, const char *s)
 {
-	//check le fichier de redicection apres au cas ou $
-	int				i;
 	int				d;
 	enum e_token	arg_type;
 	char			*arg;
 	char			*dollard;
-	int len;
+	int				len;
+	char			*first;
+	char			*if_d;
 
-	i = j - k;
 	d = 0;
-	dollard = "\0";
-	arg_type = token_type(s, k);
-	if (arg_type == ARG && s[k] == '$')
-	{
-		arg = ft_substr(s, k + 1, i);
-		len = ft_strlen(arg);
-		while (shell->env[d])
-		{
-			if (ft_strncmp(shell->env[d], arg, len) == 0)
-				dollard = ft_substr(shell->env[d], (len + 1), (ft_strlen(shell->env[d]) - len));
-			d++;
-		}
-		return (ft_tokennew(dollard, arg_type));
-	}
-	else if (arg_type == QUOTE2 && s[k + 1] == '$')
-	{
-		arg = ft_substr(s, k + 2, i - 3);
-		len = ft_strlen(arg);
-		while (shell->env[d])
-		{
-			if (ft_strncmp(shell->env[d], arg, len) == 0)
-			{
-				dollard = ft_substr(shell->env[d], (len + 1), (ft_strlen(shell->env[d]) - len));
-				printf("%s\n", dollard);
-			}
-			d++;
-		}
-		return (ft_tokennew(dollard, arg_type));
-	}
-	if (s[k] == 34 || s[k] == 39)
-		return (ft_tokennew(ft_substr(s, k + 1, i - 2), arg_type));
+	arg = NULL;
+	arg_type = token_type(s);
+	if (s[0] == 34 || s[0] == 39)
+		first = ft_substr(s, 1, j - 2);
 	else
-		return (ft_tokennew(ft_substr(s, k, i), arg_type));
+		first = ft_substr(s, 0, j);
+	if ((arg_type == ARG || arg_type == QUOTE2) && ft_strchr(first, '$') != NULL)
+	{
+		arg = ft_strdup(ft_strrchr(first, '$') + 1);
+		len = ft_strlen(arg);
+		while (first[d] != '$')
+			d++;
+		if (d > 0)
+		{
+			d++;
+			dollard = ft_calloc(d , 1);
+			ft_strlcpy(dollard, first, d);
+			free(first);
+			d = 0;
+			while (shell->env[d])
+			{
+				if (ft_strncmp(shell->env[d], arg, len) == 0)
+				{
+					if_d = ft_substr(shell->env[d], (len + 1), (ft_strlen(shell->env[d]) - len));
+					first = ft_strjoin(dollard, if_d);
+					free(if_d);
+					free(dollard);
+					free(arg);
+					return (ft_tokennew(first, arg_type));
+				}
+				d++;
+			}
+			free(arg);
+			return (ft_tokennew(dollard, arg_type));
+			free(dollard);
+		}
+		else
+		{
+			free(first);
+			d = 0;
+			while (shell->env[d])
+			{
+				if (ft_strncmp(shell->env[d], arg, len) == 0)
+					first = ft_substr(shell->env[d], (len + 1), (ft_strlen(shell->env[d]) - len));
+				d++;
+			}
+		}
+		free(arg);
+	}
+	return (ft_tokennew(first, arg_type));
 }
