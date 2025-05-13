@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/12 19:55:54 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/13 13:44:01 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,25 +53,7 @@ int	check_readline(t_shell *shell, char *mini)
 
 	shell->line = mini;
 	shell->args = ft_split(mini, ' ');
-	if (ft_strncmp(shell->args[0], "export", 7) == 0)
-	{
-		ft_export(shell);
-		return (1);
-	}
-	if (ft_strncmp(shell->args[0], "env", 4) == 0 || ft_strncmp(shell->args[0], "envp", 5) == 0)
-	{
-        t_env *current = *(shell->enviro);
-        while (current)
-        {
-            printf("%s=%s\n", current->key, current->value);
-            current = current->next;
-        }
-        return (1);
-	}
-	{
-		ft_export(shell);
-		return (1);
-	}
+	
 	if (g_sigint)
 	{
 		g_sigint = 0;
@@ -86,6 +68,22 @@ int	check_readline(t_shell *shell, char *mini)
 		// free(mini);
 		// ft_free_split(shell->args);
 		return (1);
+	}
+	if (ft_strncmp(shell->args[0], "export", 7) == 0)
+	{
+		ft_export(shell);
+		return (1);
+	}
+	if (ft_strncmp(shell->args[0], "env", 4) == 0 || ft_strncmp(shell->args[0], "envp", 5) == 0)
+	{
+        t_env *current = *(shell->enviro);
+        while (current)
+        {
+			if (current->value)
+            	printf("%s=%s\n", current->key, current->value);
+            current = current->next;
+        }
+        return (1);
 	}
 	if (ft_exit(shell) == 1)
 	{
@@ -136,24 +134,22 @@ int	main(int argc, char **argv, char **envp)
 			free(mini);
 			break;
 		}
-		// if (ft_strncmp(shell->args[0], "export", 7) != 0)
-		// {
-			if (ft_structur(shell, mini) == 1)
-			{
-				ft_free_split(shell->args);
-				ft_lstclear(&shell->tokens, free_tokens);
-				free(mini);
-				break ;
-			}
-			ft_pipex(shell);
-		// }
-		
+		if (ft_structur(shell, mini) == 1)
+		{
+			ft_free_split(shell->args);
+			ft_lstclear(&shell->tokens, free_tokens);
+			free(mini);
+			break ;
+		}
+		ft_pipex(shell);
 		ft_free_split(shell->args);
 		free(mini);
 		ft_lstclear(&shell->tokens, free_tokens);
 		// free_cmd_token(&shell);
 		free_cmd(&shell->cmd);
+		// free_env(*shell->enviro);
 	}
+	free_env(*shell->enviro);
 	free_shell(&shell);
 	// free(mini);
 	printf("Bye 👋\n");

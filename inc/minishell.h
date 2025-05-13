@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/12 18:17:27 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/13 12:47:53 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,5 +119,6 @@ void			free_cmd_token(t_shell **shell);
 void 			init_env(t_env **env, char **envp);
 void			env_add_back(t_env **env, t_env *new_node);
 void 			ft_export(t_shell *shell);
+void			free_env(t_env *env);
 
 #endif
