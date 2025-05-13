@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/10 14:24:22 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/13 13:44:01 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	check_readline(t_shell *shell, char *mini)
 
 	shell->line = mini;
 	shell->args = ft_split(mini, ' ');
+	
 	if (g_sigint)
 	{
 		g_sigint = 0;
@@ -68,6 +69,22 @@ int	check_readline(t_shell *shell, char *mini)
 		// ft_free_split(shell->args);
 		return (1);
 	}
+	if (ft_strncmp(shell->args[0], "export", 7) == 0)
+	{
+		ft_export(shell);
+		return (1);
+	}
+	if (ft_strncmp(shell->args[0], "env", 4) == 0 || ft_strncmp(shell->args[0], "envp", 5) == 0)
+	{
+        t_env *current = *(shell->enviro);
+        while (current)
+        {
+			if (current->value)
+            	printf("%s=%s\n", current->key, current->value);
+            current = current->next;
+        }
+        return (1);
+	}
 	if (ft_exit(shell) == 1)
 	{
 		// free(mini);
@@ -81,6 +98,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	char *mini;
 	t_shell	*shell;
+	// t_env	*current
 	int ret;
 	(void)argc;
 	(void)argv;
@@ -89,6 +107,8 @@ int	main(int argc, char **argv, char **envp)
 	shell = ft_calloc(1, sizeof(t_shell));
 	if (!shell)
 		return (1);
+	shell->enviro = ft_calloc(1, sizeof(t_env *));
+	init_env(shell->enviro, envp);
 	shell->path = ft_path(envp);
 	shell->env = envp;
 	signal(SIGQUIT, SIG_IGN);
@@ -127,7 +147,9 @@ int	main(int argc, char **argv, char **envp)
 		ft_lstclear(&shell->tokens, free_tokens);
 		// free_cmd_token(&shell);
 		free_cmd(&shell->cmd);
+		// free_env(*shell->enviro);
 	}
+	free_env(*shell->enviro);
 	free_shell(&shell);
 	// free(mini);
 	printf("Bye 👋\n");
