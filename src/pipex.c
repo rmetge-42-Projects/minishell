@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/10 14:33:25 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/13 14:37:17 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,23 @@ pid_t	ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 	return (pid);
 }
 
+void	check_redir_f_one(t_cmd *cmd)
+{
+	t_cmd	*temp;
+
+	if (cmd->pipe)
+	{
+		if (cmd->pipe->redirection == NULL)
+		{
+			temp = cmd->pipe;
+			cmd->pipe = NULL;
+			free_cmd(&temp);
+		}
+	}
+	return ;
+		
+}
+
 void	ft_pipex(t_shell *shell)
 {
 	int		fd[2];
@@ -118,6 +135,7 @@ void	ft_pipex(t_shell *shell)
 	cmd = shell->cmd;
 	in_fd = 0;
 	i = 0;
+	check_redir_f_one(cmd);
 	while (cmd != NULL)
 	{
 		pids[i++] = ft_fork_child(shell, cmd, fd, in_fd);
