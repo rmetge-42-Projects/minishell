@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:30:46 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/10 14:38:05 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/13 16:03:51 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,15 +50,40 @@ void	free_shell(t_shell **shell)
 	while ((*shell)->path[i])
 		free ((*shell)->path[i++]);
 	free ((*shell)->path);
-	// ft_lstclear(&(*shell)->tokens, free_tokens);
-
-	// free_cmd(&(*shell)->cmd);
-	// ft_lstclear(&(*shell)->tokens, free_tokens);
+	free_env((*shell)->enviro);
 	free((*shell));
 }
 
-// void	free_cmd_token(t_shell **shell)
+void	free_env(t_env **env)
+{
+	t_env	*tmp;
+
+	while(env && *env)
+	{
+		if ((*env)->key)
+			free((*env)->key);
+		if ((*env)->value)
+			free((*env)->value);
+		tmp = (*env)->next;
+		free((*env));
+		(*env) = tmp;
+	}
+}
+
+// void free_env(t_env *env)
 // {
-// 	free_cmd(&(*shell)->cmd);
-// 	ft_lstclear(&(*shell)->tokens, free_tokens);
+// 	t_env *tmp;
+
+// 	while (env)
+// 	{
+// 		tmp = env->next;
+// 		free(env->key);
+// 		free(env->value);
+// 		free(env);
+// 		env = tmp;
+// 	}
+// 	// free(tmp->key);
+// 	// free(tmp->value);
+// 	// free(tmp);
 // }
+
