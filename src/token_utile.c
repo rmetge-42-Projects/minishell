@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 10:17:07 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/13 19:23:35 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/14 12:00:36 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ t_token	*ft_tokennew(char *value, enum e_token type)
 {
 	t_token	*token;
 
+	// if (value == NULL)
+	// 	return (NULL);
 	token = (t_token *) ft_calloc(1, sizeof(t_token));
 	if (!token)
 		return (free(token), NULL);
@@ -71,67 +73,4 @@ int	check_token(t_list *token)
 		token = token->next;
 	}
 	return (0);
-}
-
-t_token	*check_quote(t_shell *shell, int j, const char *s)
-{
-	int				d;
-	enum e_token	arg_type;
-	char			*arg;
-	char			*dollard;
-	int				len;
-	char			*first;
-	char			*if_d;
-
-	d = 0;
-	arg = NULL;
-	arg_type = token_type(s);
-	if (s[0] == 34 || s[0] == 39)
-		first = ft_substr(s, 1, j - 2);
-	else
-		first = ft_substr(s, 0, j);
-	if ((arg_type == ARG || arg_type == QUOTE2) && ft_strchr(first, '$') != NULL)
-	{
-		arg = ft_strdup(ft_strrchr(first, '$') + 1);
-		len = ft_strlen(arg);
-		while (first[d] != '$')
-			d++;
-		if (d > 0)
-		{
-			d++;
-			dollard = ft_calloc(d , 1);
-			ft_strlcpy(dollard, first, d);
-			free(first);
-			d = 0;
-			while (shell->env[d])
-			{
-				if (ft_strncmp(shell->env[d], arg, len) == 0)
-				{
-					if_d = ft_substr(shell->env[d], (len + 1), (ft_strlen(shell->env[d]) - len));
-					first = ft_strjoin(dollard, if_d);
-					free(if_d);
-					free(dollard);
-					free(arg);
-					return (ft_tokennew(first, arg_type));
-				}
-				d++;
-			}
-			free(arg);
-			return (ft_tokennew(dollard, arg_type));
-			free(dollard);
-		}
-		else
-		{
-			free(first);
-			d = 0;
-			while (shell->env[d])
-			{
-				if (ft_strncmp(shell->env[d], arg, len) == 0)
-					first = ft_substr(shell->env[d], (len + 1), (ft_strlen(shell->env[d]) - len));
-				d++;
-			}
-		}
-		free(arg);
-	}
-	return (ft_tokennew(first, arg_type));
 }
