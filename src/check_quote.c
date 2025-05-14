@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:23:44 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/14 15:03:44 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/14 15:12:10 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,16 @@ char	*dollar_no_first(t_shell *shell, char *dollar, int len, char *arg)
 	{
 		if (ft_strncmp(shell->env[i], arg, len) == 0)
 		{
-			l = (ft_strlen(shell->env[i]) - len);
-			if_d = ft_substr(shell->env[i], (len + 1), l);
-			first = ft_strjoin(dollar, if_d);
-			free(if_d);
-			free(dollar);
-			free(arg);
-			return (first);
+			if (shell->env[i][len] == '=')
+			{
+				l = (ft_strlen(shell->env[i]) - len);
+				if_d = ft_substr(shell->env[i], (len + 1), l);
+				first = ft_strjoin(dollar, if_d);
+				free(if_d);
+				free(dollar);
+				free(arg);
+				return (first);
+			}
 		}
 		i++;
 	}
@@ -49,10 +52,13 @@ char	*dollar_first(t_shell *shell, char *arg, int len)
 	{
 		if (ft_strncmp(shell->env[i], arg, len) == 0)
 		{
-			l = (ft_strlen(shell->env[i]) - len);
-			dest = ft_substr(shell->env[i], (len + 1), l);
-			free(arg);
-			return (dest);
+			if (shell->env[i][len] == '=')
+			{
+				l = (ft_strlen(shell->env[i]) - len);
+				dest = ft_substr(shell->env[i], (len + 1), l);
+				free(arg);
+				return (dest);
+			}
 		}
 		i++;
 	}
@@ -79,6 +85,7 @@ char	*ft_dollar(t_shell *shell, char *first)
 		i++;
 		dollar = ft_calloc(i, 1);
 		ft_strlcpy(dollar, first, i);
+		free(first);
 		return (dollar_no_first(shell, dollar, len, arg));
 	}
 	else
