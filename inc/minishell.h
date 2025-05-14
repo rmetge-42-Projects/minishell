@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/13 17:53:43 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/14 18:14:29 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,5 +120,7 @@ void 			init_env(t_env **env, char **envp);
 void			env_add_back(t_env **env, t_env *new_node);
 void 			ft_export(t_shell *shell);
 void			free_env(t_env **env);
+void			print_header(void);
+void			free_all(t_shell *shell, char *mini);
 
 #endif

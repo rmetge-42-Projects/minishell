@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:41:25 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/13 17:53:25 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/14 11:43:25 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,8 @@ t_list	*stuctur_token(char const *s, t_shell *shell)
 		if (k < j)
 		{
 			t = check_quote(shell, j - k, s + k);
+			// if (t != NULL)
+			// 	break;
 			ft_lstadd_back(&dest, ft_lstnew((t)));
 		}
 	}

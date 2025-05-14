@@ -9,7 +9,7 @@ SRC_DIR = src
 INC_DIR = inc
 OBJ_DIR = obj
 
-SOURCES = ./built_in.c ./double_quote.c ./export.c ./free.c ./main.c ./path.c ./pipex.c ./pipex_utils.c ./structur.c ./structur_cmd.c ./token_split.c ./token_utile.c 
+SOURCES = ./built_in.c ./check_quote.c ./export.c ./free.c ./header.c ./main.c ./path.c ./pipex.c ./pipex_utils.c ./structur.c ./structur_cmd.c ./token_split.c ./token_utile.c 
 
 OBJS = $(SOURCES:%.c=$(OBJ_DIR)/%.o)
 
@@ -18,7 +18,7 @@ LIBFT = $(LIBFT_PATH)/libft.a
 
 MAKEFLAGS += --no-print-directory
 
-all: message_comp $(NAME) message_done
+all: message_comp $(NAME) message_done 
 
 $(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
 	@$(CC) $(CFLAGS) -I$(LIBFT_PATH) -I$(INC_DIR) -c $< -o $@

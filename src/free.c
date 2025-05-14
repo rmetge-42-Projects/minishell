@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:30:46 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/13 16:03:51 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/14 18:14:21 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	free_shell(t_shell **shell)
 		free ((*shell)->path[i++]);
 	free ((*shell)->path);
 	free_env((*shell)->enviro);
+	free((*shell)->enviro);
 	free((*shell));
 }
 
@@ -70,20 +71,14 @@ void	free_env(t_env **env)
 	}
 }
 
-// void free_env(t_env *env)
-// {
-// 	t_env *tmp;
-
-// 	while (env)
-// 	{
-// 		tmp = env->next;
-// 		free(env->key);
-// 		free(env->value);
-// 		free(env);
-// 		env = tmp;
-// 	}
-// 	// free(tmp->key);
-// 	// free(tmp->value);
-// 	// free(tmp);
-// }
-
+void	free_all(t_shell *shell, char *mini)
+{
+	if (shell->args)
+		ft_free_split(shell->args);
+	if (mini)
+		free(mini);
+	if (shell->cmd)
+		free_cmd(&shell->cmd);
+	if (shell->tokens)
+		ft_lstclear(&shell->tokens, free_tokens);
+}
