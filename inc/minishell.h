@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/13 17:35:49 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/14 16:35:09 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +115,13 @@ t_token			*check_quote(t_shell *shell, int k, int j, const char *s);
 void			free_shell(t_shell **shell);
 void			free_tokens(void *token);
 void			free_cmd(t_cmd **cmd);
-void			free_cmd_token(t_shell **shell);
 void 			init_env(t_env **env, char **envp);
 void			env_add_back(t_env **env, t_env *new_node);
 void 			ft_export(t_shell *shell);
 void			free_env(t_env **env);
+t_env			*env_new_node(char *key, char *value);
+int				is_valid_identifier(char *key);
+t_env			*copy_env_list(t_env *env);
+
 
 #endif

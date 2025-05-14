@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:30:46 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/10 14:38:05 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/14 16:09:36 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,21 @@ void	free_cmd(t_cmd **cmd)
 		tmp = (*cmd)->pipe;
 		free((*cmd));
 		(*cmd) = tmp;
+	}
+}
+void	free_env(t_env **env)
+{
+	t_env	*tmp;
+
+	while(env && *env)
+	{
+		if ((*env)->key)
+			free((*env)->key);
+		if ((*env)->value)
+			free((*env)->value);
+		tmp = (*env)->next;
+		free((*env));
+		(*env) = tmp;
 	}
 }
 
