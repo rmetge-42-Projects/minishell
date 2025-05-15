@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/15 10:22:20 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/15 13:22:56 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,10 @@ pid_t	ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 		error("Fork Error");
 	if (pid == 0)
 	{
+		rl_catch_signals = 0;
 		signal(SIGINT, SIG_IGN);
+		signal(SIGINT, ft_ctrl_c);
+		
 		child_process(shell, cmd, fd, in_fd);
 	}
 	return (pid);

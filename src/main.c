@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/14 15:04:55 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/15 13:32:01 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,13 +111,12 @@ int	main(int argc, char **argv, char **envp)
 	init_env(shell->enviro, envp);
 	shell->path = ft_path(envp);
 	shell->env = envp;
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, ft_ctrl_c);
 	while (1)
 	{
-		// shell->tokens = stuctur_token("ls -la", shell);
-		// ft_lstclear(&shell->tokens, free_tokens);
-		// break; ;
+		rl_catch_signals = 0;
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGINT, ft_ctrl_c);
+		
 		mini = readline("\001\033[38;5;205m\002minishell> \001\033[0m\002");
 		if (!mini)
 			break;
