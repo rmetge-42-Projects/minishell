@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:57:05 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/15 10:20:38 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/15 16:41:28 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ int	handle_heredoc(char *delimiter)
 	int		fd[2];
 	char	*line;
 
+	g_sig = 1;
+	rl_event_hook = check_ctrl_c_h;
 	if (pipe(fd) == -1)
 		error("pipe heredoc");
 	while (1)
@@ -39,16 +41,19 @@ int	handle_heredoc(char *delimiter)
 		line = readline("> ");
 		if (!line || ft_strcmp(line, delimiter) == 0)
 		{
+			rl_event_hook = NULL;
+			g_sig = 0;
 			free(line);
 			break ;
 		}
-		write(fd[1], line, strlen(line));
-		write(fd[1], "\n", 1);
+		ft_putstr_fd(line, fd[1]);
+		ft_putstr_fd("\n", fd[1]);
 		free(line);
 	}
 	close(fd[1]);
 	return (fd[0]);
 }
+
 
 void	open_input(char *file)
 {

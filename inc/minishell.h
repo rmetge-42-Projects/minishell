@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/15 10:20:48 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/15 14:59:02 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@
 # include <readline/history.h>
 # include <signal.h>
 
-typedef struct s_cmd	t_cmd;
-// typedef struct s_redir	t_env;
+extern int g_sig;
 
 enum e_token
 {
@@ -48,8 +47,8 @@ enum e_redirect
 
 typedef struct s_env
 {
-	char	*key;
-	char	*value;
+	char			*key;
+	char			*value;
 	struct s_env	*next;
 
 }	t_env;
@@ -63,10 +62,10 @@ typedef struct s_token
 
 typedef struct s_cmd
 {
-	char	*path;
-	char	**argv;
-	t_list	*redirection;
-	t_cmd	*pipe;
+	char			*path;
+	char			**argv;
+	t_list			*redirection;
+	struct s_cmd	*pipe;
 
 }	t_cmd;
 
@@ -123,6 +122,8 @@ t_env			*env_new_node(char *key, char *value);
 int				is_valid_identifier(char *key);
 t_env			*copy_env_list(t_env *env);
 void			ft_wait(int i, pid_t pids[256]);
+void			manege_signal(void);
+int				check_ctrl_c_h(void);
 
 
 #endif
