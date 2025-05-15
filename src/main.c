@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/15 14:34:41 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/15 17:33:18 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	bultin(t_shell *shell)
 	if (ft_strncmp(shell->args[0], "env", 4) == 0
 		|| ft_strncmp(shell->args[0], "envp", 5) == 0)
 	{
-		current = *(shell->enviro);
+		current = shell->enviro;
 		while (current)
 		{
 			if (current->value)
@@ -67,10 +67,8 @@ t_shell	*shell_crl(char **envp)
 	shell = ft_calloc(1, sizeof(t_shell));
 	if (!shell)
 		return (NULL);
-	shell->enviro = ft_calloc(1, sizeof(t_env *));
-	init_env(shell->enviro, envp);
-	shell->path = ft_path(envp);
-	shell->env = envp;
+	shell->enviro = NULL;
+	init_env(&shell->enviro, envp);
 	signal(SIGINT, ft_ctrl_c);
 	signal(SIGQUIT, SIG_IGN);
 	return (shell);

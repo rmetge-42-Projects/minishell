@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:57:52 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/15 14:19:26 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/15 15:52:53 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	export_env(char **args, int i, t_shell *shell, char *equal_sign)
 		return (1);
 	}
 	else
-		add_or_update_env(shell->enviro, key, value);
+		add_or_update_env(&shell->enviro, key, value);
 	return (0);
 }
 
@@ -79,7 +79,7 @@ void	ft_export(t_shell *shell)
 	args = ft_split(shell->line, ' ');
 	if (!args[1])
 	{
-		sort_env(copy_env_list(*shell->enviro));
+		sort_env(copy_env_list(shell->enviro));
 		ft_free_split(args);
 		return ;
 	}

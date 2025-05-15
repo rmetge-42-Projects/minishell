@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   structur.c                                         :+:      :+:    :+:   */
+/*   structur_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 13:16:31 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/15 12:01:45 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/15 17:21:33 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ int	ft_structur(t_shell *shell, char *arg)
 {
 	t_list	*t;
 
+	shell->env = env(shell->enviro);
+	shell->path = ft_path(shell->env);
 	shell->tokens = stuctur_token(arg, shell);
 	t = shell->tokens;
 	if ((shell->tokens == NULL) || (check_token(shell->tokens) == 1))

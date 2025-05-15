@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:23:44 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/14 15:12:10 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/15 17:14:15 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,16 @@ char	*dollar_first(t_shell *shell, char *arg, int len)
 	return (dest);
 }
 
+int	len_dollar(char *arg)
+{
+	int	i;
+
+	i = 0;
+	while (arg[i] && (ft_isalnum(arg[i]) || arg[i] == '_'))
+		i++;
+	return (i);
+}
+
 char	*ft_dollar(t_shell *shell, char *first)
 {
 	char			*arg;
@@ -77,7 +87,7 @@ char	*ft_dollar(t_shell *shell, char *first)
 
 	i = 0;
 	arg = ft_strdup(ft_strrchr(first, '$') + 1);
-	len = ft_strlen(arg);
+	len = len_dollar(arg);
 	while (first[i] != '$')
 		i++;
 	if (i > 0)

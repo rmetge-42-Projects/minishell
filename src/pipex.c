@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/15 14:34:45 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/15 17:34:05 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ pid_t	ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 		rl_catch_signals = 0;
 		signal(SIGINT, SIG_IGN);
 		signal(SIGINT, ft_ctrl_c);
-
 		child_process(shell, cmd, fd, in_fd);
 	}
 	return (pid);
