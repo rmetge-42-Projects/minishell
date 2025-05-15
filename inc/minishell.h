@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/15 13:08:41 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/15 14:17:14 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@
 # include <signal.h>
 
 typedef struct s_cmd	t_cmd;
-// typedef struct s_redir	t_env;
 
 enum e_token
 {
@@ -48,10 +47,9 @@ enum e_redirect
 
 typedef struct s_env
 {
-	char	*key;
-	char	*value;
+	char			*key;
+	char			*value;
 	struct s_env	*next;
-
 }	t_env;
 
 typedef struct s_token
@@ -67,14 +65,12 @@ typedef struct s_cmd
 	char	**argv;
 	t_list	*redirection;
 	t_cmd	*pipe;
-
 }	t_cmd;
 
 typedef struct s_redir
 {
 	char			*file;
 	enum e_redirect	type;
-
 }	t_redir;
 
 typedef struct s_shell
@@ -86,7 +82,6 @@ typedef struct s_shell
 	char	**env;
 	char	**path;
 	t_env	**enviro;
-
 }	t_shell;
 
 int				handle_heredoc(char *delimiter);
@@ -115,9 +110,9 @@ t_token			*check_quote(t_shell *shell, int j, const char *s);
 void			free_shell(t_shell **shell);
 void			free_tokens(void *token);
 void			free_cmd(t_cmd **cmd);
-void 			init_env(t_env **env, char **envp);
+void			init_env(t_env **env, char **envp);
 void			env_add_back(t_env **env, t_env *new_node);
-void 			ft_export(t_shell *shell);
+void			ft_export(t_shell *shell);
 void			free_env(t_env **env);
 void			print_header(void);
 void			free_all(t_shell *shell, char *mini);
@@ -125,6 +120,8 @@ t_env			*env_new_node(char *key, char *value);
 int				is_valid_identifier(char *key);
 t_env			*copy_env_list(t_env *env);
 void			ft_wait(int i, pid_t pids[256]);
-
+void			add_or_update_env(t_env **env, char *key, char *value);
+void			ft_swap_env(t_env *current, t_env *next);
+void			print_copy(t_env *cpy);
 
 #endif

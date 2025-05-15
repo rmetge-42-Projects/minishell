@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:30:46 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/15 13:10:51 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/15 13:39:07 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,5 +64,7 @@ void	free_shell(t_shell **shell)
 	while ((*shell)->path[i])
 		free ((*shell)->path[i++]);
 	free ((*shell)->path);
+	free_env((*shell)->enviro);
+	free((*shell)->enviro);
 	free((*shell));
 }
