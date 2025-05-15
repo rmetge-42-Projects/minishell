@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:57:05 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/09 16:13:57 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/15 10:20:38 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,15 @@ void	error(char *message)
 	exit (1);
 }
 
+void	ft_wait(int i, pid_t pids[256])
+{
+	int	j;
+
+	j = -1;
+	while (++j < i)
+		waitpid(pids[j], NULL, 0);
+}
+
 int	handle_heredoc(char *delimiter)
 {
 	int		fd[2];
@@ -25,14 +34,13 @@ int	handle_heredoc(char *delimiter)
 
 	if (pipe(fd) == -1)
 		error("pipe heredoc");
-
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || strcmp(line, delimiter) == 0)
+		if (!line || ft_strcmp(line, delimiter) == 0)
 		{
 			free(line);
-			break;
+			break ;
 		}
 		write(fd[1], line, strlen(line));
 		write(fd[1], "\n", 1);
@@ -61,7 +69,6 @@ void	open_out_put(char *file, int append)
 		fd = open(file, O_WRONLY | O_CREAT | O_APPEND, 0644);
 	else
 		fd = open(file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-
 	if (fd == -1)
 	{
 		if (append == 1)

@@ -38,6 +38,9 @@ SRC = ft_atoi.c \
 		ft_puthexaupp.c\
 		ft_puthex.c\
 		ft_putunsigned.c\
+		ft_strnlen.c\
+		ft_strndup.c\
+		ft_strcmp.c
 
 SRC_BONUS = ft_lstnew_bonus.c\
 				ft_lstadd_front_bonus.c\

@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/14 16:15:07 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/15 13:16:15 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,47 +48,6 @@ static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 	execve(cmd->path, cmd->argv, shell->env);
 }
 
-// void	ft_pipex(t_shell *shell)
-// {
-// 	int		fd[2];
-// 	int		in_fd;
-// 	pid_t	pid;
-// 	t_cmd	*cmd;
-// 	pid_t	pids[256];
-// 	int		i = 0;
-// 	int		j;
-
-// 	in_fd = 0;
-// 	cmd = shell->cmd;
-// 	while (cmd)
-// 	{
-// 		if (pipe(fd) == -1)
-// 			error("Pipe Error");
-// 		pid = fork();
-// 		if (pid == -1)
-// 			error("Fork Error");
-// 		if (pid == 0)
-// 		{
-// 			signal(SIGINT, SIG_IGN);
-// 			child_process(shell, cmd, fd, in_fd);
-// 		}
-// 		pids[i++] = pid;
-// 		close(fd[1]);
-// 		if (in_fd != 0)
-// 			close(in_fd);
-// 		in_fd = fd[0];
-// 		cmd = cmd->pipe;
-// 	}
-// 	j = 0;
-// 	while (j < i)
-// 	{
-// 		waitpid(pids[j], NULL, 0);
-// 		j++;
-// 	}
-// 	if (in_fd != 0)
-// 		close(in_fd);
-// }
-
 pid_t	ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 {
 	pid_t	pid;
@@ -106,23 +65,6 @@ pid_t	ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 	return (pid);
 }
 
-// void	check_redir_f_one(t_cmd *cmd)
-// {
-// 	t_cmd	*temp;
-
-// 	if (cmd->pipe)
-// 	{
-// 		if (cmd->pipe->redirection == NULL)
-// 		{
-// 			temp = cmd->pipe;
-// 			cmd->pipe = NULL;
-// 			free_cmd(&temp);
-// 		}
-// 	}
-// 	return ;
-
-// }
-
 void	ft_pipex(t_shell *shell)
 {
 	int		fd[2];
@@ -130,12 +72,10 @@ void	ft_pipex(t_shell *shell)
 	t_cmd	*cmd;
 	pid_t	pids[256];
 	int		i;
-	int		j;
 
 	cmd = shell->cmd;
 	in_fd = 0;
 	i = 0;
-	// check_redir_f_one(cmd);
 	while (cmd != NULL)
 	{
 		pids[i++] = ft_fork_child(shell, cmd, fd, in_fd);
@@ -145,9 +85,7 @@ void	ft_pipex(t_shell *shell)
 		in_fd = fd[0];
 		cmd = cmd->pipe;
 	}
-	j = -1;
-	while (++j < i)
-		waitpid(pids[j], NULL, 0);
+	ft_wait(i, &pids[256]);
 	if (in_fd != 0)
 		close(in_fd);
 }

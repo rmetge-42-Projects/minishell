@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 14:58:23 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/02 14:28:58 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/14 16:34:32 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,11 @@ void	*ft_memmove(void	*dest, const void	*src, size_t n);
 char	*ft_strchr(const char *str, int r);
 size_t	ft_strlcat(char	*dest, const char	*src, size_t s);
 size_t	ft_strlcpy(char	*dest, const char	*src, size_t s);
+size_t	ft_strnlen(const char *s, size_t n);
 int		ft_strncmp(char	*fir, char	*sec, size_t l);
 char	*ft_strnstr(const char	*s1, const char *s2, size_t len);
 char	*ft_strrchr(const char *str, int r);
+char	*ft_strndup(const char *s, size_t n);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
 void	*ft_calloc(size_t nmemb, size_t s);
@@ -79,5 +81,6 @@ void	ft_nbrlen(int *nbr, int n);
 void	ft_strlen_pf(int *nbr, char *str);
 int		ft_printf(const char *format, ...);
 void	*ft_free_split(char **split);
+int		ft_strcmp(const char *s1, const char *s2);
 
 #endif

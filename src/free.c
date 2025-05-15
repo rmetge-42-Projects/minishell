@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:30:46 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/15 12:00:40 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/15 13:10:51 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,6 @@ void	free_cmd(t_cmd **cmd)
 	}
 }
 
-void	free_shell(t_shell **shell)
-{
-	int	i;
-
-	i = 0;
-	while ((*shell)->path[i])
-		free ((*shell)->path[i++]);
-	free ((*shell)->path);
-	free_env((*shell)->enviro);
-	free((*shell)->enviro);
-	free((*shell));
-}
-
 void	free_env(t_env **env)
 {
 	t_env	*tmp;
@@ -67,4 +54,15 @@ void	free_env(t_env **env)
 		free((*env));
 		(*env) = tmp;
 	}
+}
+
+void	free_shell(t_shell **shell)
+{
+	int	i;
+
+	i = 0;
+	while ((*shell)->path[i])
+		free ((*shell)->path[i++]);
+	free ((*shell)->path);
+	free((*shell));
 }

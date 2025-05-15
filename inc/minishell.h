@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/14 18:14:29 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/15 13:08:41 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,12 +115,16 @@ t_token			*check_quote(t_shell *shell, int j, const char *s);
 void			free_shell(t_shell **shell);
 void			free_tokens(void *token);
 void			free_cmd(t_cmd **cmd);
-// void			free_cmd_token(t_shell **shell);
 void 			init_env(t_env **env, char **envp);
 void			env_add_back(t_env **env, t_env *new_node);
 void 			ft_export(t_shell *shell);
 void			free_env(t_env **env);
 void			print_header(void);
 void			free_all(t_shell *shell, char *mini);
+t_env			*env_new_node(char *key, char *value);
+int				is_valid_identifier(char *key);
+t_env			*copy_env_list(t_env *env);
+void			ft_wait(int i, pid_t pids[256]);
+
 
 #endif
