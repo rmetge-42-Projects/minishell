@@ -6,11 +6,11 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:41:25 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/14 11:43:25 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/15 12:03:23 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 static void	process_quote2(char const *s, int *j)
 {
@@ -122,8 +122,6 @@ t_list	*stuctur_token(char const *s, t_shell *shell)
 		if (k < j)
 		{
 			t = check_quote(shell, j - k, s + k);
-			// if (t != NULL)
-			// 	break;
 			ft_lstadd_back(&dest, ft_lstnew((t)));
 		}
 	}

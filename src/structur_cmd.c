@@ -1,100 +1,93 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   structur_cmd.c                                     :+:      :+:    :+:   */
+/*   structur.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/05 12:10:11 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/10 14:37:54 by rmetge           ###   ########.fr       */
+/*   Created: 2025/04/28 13:16:31 by rmetge            #+#    #+#             */
+/*   Updated: 2025/05/15 12:01:45 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_redir	*wich_redirect(t_list *arg)
+void	arg_addback(t_list **argument, t_list **arg)
 {
-	t_redir	*redir;
-	size_t	len;
+	char	*new;
 
-	redir = ft_calloc(1, sizeof(t_redir));
-	len = ft_strlen((const char *)((t_token *)arg->content)->value);
-	if (ft_strncmp(((t_token *)arg->content)->value, ">", len) == 0)
-		redir->type = OUTPUT;
-	else if (ft_strncmp(((t_token *)arg->content)->value, "<", len) == 0)
-		redir->type = INPUT;
-	else if (ft_strncmp(((t_token *)arg->content)->value, ">>", len) == 0)
-		redir->type = APPEND;
-	else if (ft_strncmp(((t_token *)arg->content)->value, "<<", len) == 0)
-		redir->type = HEREDOC;
-	redir->file = ft_strdup(((t_token *)arg->next->content)->value);
-	return (redir);
+	new = ft_strdup(((t_token *)(*arg)->content)->value);
+	ft_lstadd_back(argument, ft_lstnew(new));
 }
 
-int	stuctur_redicection(t_list **arg, t_cmd **cmd)
+t_cmd	*last_cmd(t_cmd *cmd)
 {
-	if (((t_token *)(*arg)->next->content)->type == REDIRECT
-		|| (*arg)->next == NULL)
-		return (printf("Erreur"), 0);
-	ft_lstadd_back(&(*cmd)->redirection, ft_lstnew(wich_redirect(*arg)));
-	//printf("%s %i", ((t_redir *)(*cmd)->redirection->content)->file , ((t_redir *)(*cmd)->redirection->content)->type );
-	(*arg) = (*arg)->next;
-	return (1);
-}
-
-char	**str_arg(t_list *element)
-{
-	char	**argv;
-	int		i;
-
-	i = 0;
-	argv = ft_calloc((ft_lstsize(element) + 1), sizeof(char *));
-	while (element)
+	while (cmd && cmd->pipe)
 	{
-		argv[i++] = ft_strdup(element->content);
-		element = element->next;
+		cmd = cmd->pipe;
 	}
-	argv[i] = NULL;
-	return (argv);
-}
-
-int	path_cmd(t_shell *shell, t_cmd *cmd, t_list **argument)
-{
-	t_token	*t;
-
-	t = shell->tokens->content;
-	cmd->path = ft_find_path_cmd(shell->path, t->value);
-	if (cmd->path == NULL)
-		return (0);
-	arg_addback(argument, &shell->tokens);
-	return (1);
-}
-
-t_cmd	*cmd_new(t_shell *shell)
-{
-	t_cmd	*cmd;
-	int		path;
-	t_list	*argument;
-
-	cmd = (t_cmd *)ft_calloc(1, sizeof(t_cmd));
-	argument = NULL;
-	cmd->redirection = NULL;
-	path = 0;
-	while (shell->tokens && ((t_token *)shell->tokens->content)->type != PIPE)
-	{
-		if (((t_token *)shell->tokens->content)->type == REDIRECT)
-			stuctur_redicection(&shell->tokens, &cmd);
-		else if (path == 0 && ((t_token *)shell->tokens->content)->type == ARG)
-		{
-			path = path_cmd(shell, cmd, &argument);
-			if (path == 0)
-				return (free(cmd), ft_lstclear(&argument, free), NULL);
-		}
-		else
-			arg_addback(&argument, &shell->tokens);
-		shell->tokens = shell->tokens->next;
-	}
-	cmd->argv = str_arg(argument);
-	ft_lstclear(&argument, free);
 	return (cmd);
 }
+
+void	addback_cmd(t_cmd **cmd, t_cmd *new)
+{
+	if (*cmd)
+		last_cmd(*cmd)->pipe = new;
+	else
+		*cmd = new;
+}
+
+int	structur_cmd(t_shell *shell)
+{
+	t_cmd	*new;
+
+	shell->cmd = NULL;
+	while (shell->tokens)
+	{
+		new = cmd_new(shell);
+		if (new == NULL)
+			return (0);
+		addback_cmd(&shell->cmd, new);
+		if (shell->tokens && ((t_token *)shell->tokens->content)->type == PIPE)
+			shell->tokens = shell->tokens->next;
+	}
+	return (1);
+}
+
+int	ft_structur(t_shell *shell, char *arg)
+{
+	t_list	*t;
+
+	shell->tokens = stuctur_token(arg, shell);
+	t = shell->tokens;
+	if ((shell->tokens == NULL) || (check_token(shell->tokens) == 1))
+	{
+		free_all(shell, arg);
+		return (ft_lstclear(&shell->tokens, free_tokens), 1);
+	}
+	structur_cmd(shell);
+	shell->tokens = t;
+	ft_lstclear(&shell->tokens, free_tokens);
+	if (shell->cmd == 0)
+		return (free_all(shell, arg), 1);
+	// while (shell->cmd)
+	// {
+	// 	int i = 0;
+	// 	printf("path = %s\n", (shell->cmd->path));
+	// 	printf("argv = ");
+	// 	while (shell->cmd->argv[i])
+	// 		printf("%s ", (shell->cmd->argv[i++]));
+	// 	printf("\n");
+	// 	while (shell->cmd->redirection)
+	// 	{
+	// 		printf("redirection file = %s\n", ((t_redir *)shell->cmd->redirection->content)->file);
+	// 		printf("redirection type = %u\n", ((t_redir *)shell->cmd->redirection->content)->type);
+	// 		shell->cmd->redirection = shell->cmd->redirection->next;
+	// 	}
+	// 	shell->cmd = shell->cmd->pipe;
+	// 	printf("\n");
+	// }
+	return (0);
+}
+
+//demain les ""

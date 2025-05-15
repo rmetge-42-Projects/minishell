@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:30:46 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/14 18:14:21 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/15 12:00:40 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,7 @@
 
 void	free_tokens(void *token)
 {
-	// if (((t_token *)token)->value)
 	free(((t_token *)token)->value);
-	// if ((t_token *)token)
 	free((t_token *)token);
 }
 
@@ -59,7 +57,7 @@ void	free_env(t_env **env)
 {
 	t_env	*tmp;
 
-	while(env && *env)
+	while (env && *env)
 	{
 		if ((*env)->key)
 			free((*env)->key);
@@ -69,16 +67,4 @@ void	free_env(t_env **env)
 		free((*env));
 		(*env) = tmp;
 	}
-}
-
-void	free_all(t_shell *shell, char *mini)
-{
-	if (shell->args)
-		ft_free_split(shell->args);
-	if (mini)
-		free(mini);
-	if (shell->cmd)
-		free_cmd(&shell->cmd);
-	if (shell->tokens)
-		ft_lstclear(&shell->tokens, free_tokens);
 }
