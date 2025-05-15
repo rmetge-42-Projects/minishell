@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:25:05 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/09 13:36:09 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/15 10:01:02 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char	**ft_path(char **env)
 	}
 	return (path);
 }
+
 char	*find_path(char **envp, char *cmd)
 {
 	int		i;
@@ -67,6 +68,7 @@ char	*find_path(char **envp, char *cmd)
 	ft_free_split(path);
 	return (NULL);
 }
+
 char	*ft_find_path_cmd(char **path, char *argv)
 {
 	int		i;

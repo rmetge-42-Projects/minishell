@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structur.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 13:16:31 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/10 14:27:29 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/15 10:10:02 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int	structur_cmd(t_shell *shell)
 	}
 	return (1);
 }
+
 int	ft_structur(t_shell *shell, char *arg)
 {
 	t_list	*t;
@@ -60,7 +61,8 @@ int	ft_structur(t_shell *shell, char *arg)
 	shell->tokens = stuctur_token(arg, shell);
 	t = shell->tokens;
 	if ((shell->tokens == NULL) || (check_token(shell->tokens) == 1))
-		return (printf("Erreur\n"),ft_lstclear(&shell->tokens, free_tokens), 1);
+		return (printf("Erreur\n"),
+			ft_lstclear(&shell->tokens, free_tokens), 1);
 	structur_cmd(shell);
 	shell->tokens = t;
 	ft_lstclear(&shell->tokens, free_tokens);
@@ -85,5 +87,3 @@ int	ft_structur(t_shell *shell, char *arg)
 	// }
 	return (0);
 }
-
-//demain les ""

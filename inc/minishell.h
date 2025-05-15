@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/14 16:35:09 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/15 10:20:48 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void			free_env(t_env **env);
 t_env			*env_new_node(char *key, char *value);
 int				is_valid_identifier(char *key);
 t_env			*copy_env_list(t_env *env);
+void			ft_wait(int i, pid_t pids[256]);
 
 
 #endif

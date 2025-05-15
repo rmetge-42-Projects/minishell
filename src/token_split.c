@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   token_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:41:25 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/09 16:02:26 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/15 10:11:26 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 static void	process_quote2(char const *s, int *j)
 {

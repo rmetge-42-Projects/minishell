@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 10:17:07 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/09 15:02:17 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/15 10:12:54 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,12 @@ int	check_token(t_list *token)
 
 t_token	*check_quote(t_shell *shell, int k, int j, const char *s)
 {
-	//check le fichier de redicection apres au cas ou $
 	int				i;
 	int				d;
 	enum e_token	arg_type;
 	char			*arg;
 	char			*dollard;
-	int len;
+	int				len;
 
 	i = j - k;
 	d = 0;

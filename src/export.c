@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:57:52 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/14 16:41:03 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/15 09:33:05 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	add_or_update_env(t_env **env, char *key, char *value)
 	}
 	env_add_back(env, env_new_node(key, value));
 }
+
 void	ft_swap_env(t_env *current, t_env *next)
 {
 	char	*tmp_key;
@@ -42,10 +43,22 @@ void	ft_swap_env(t_env *current, t_env *next)
 
 	tmp_key = current->key;
 	current->key = next->key;
-	next->key = tmp_key;	
+	next->key = tmp_key;
 	tmp_value = current->value;
 	current->value = next->value;
 	next->value = tmp_value;
+}
+
+void	print_copy(t_env *cpy)
+{
+	while (cpy)
+	{
+		if (cpy->value)
+			printf("declare -x %s=\"%s\"\n", cpy->key, cpy->value);
+		else
+			printf("declare -x %s\n", cpy->key);
+		cpy = cpy->next;
+	}
 }
 
 void	sort_env(t_shell *shell)
@@ -74,19 +87,12 @@ void	sort_env(t_shell *shell)
 			current = current->next;
 		}
 	}
-	while (cpy)
-	{
-		if (cpy->value)
-			printf("declare -x %s=\"%s\"\n", cpy->key, cpy->value);
-		else
-			printf("declare -x %s\n", cpy->key);
-		cpy = cpy->next;
-	}
+	print_copy(cpy);
 	free_env(&start);
 	return ;
 }
 
-void ft_export(t_shell *shell)
+void	ft_export(t_shell *shell)
 {
 	char	**args;
 	int		i;

@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/13 15:06:42 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/15 10:22:20 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,23 +65,6 @@ pid_t	ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 	return (pid);
 }
 
-void	check_redir_f_one(t_cmd *cmd)
-{
-	t_cmd	*temp;
-
-	if (cmd->pipe)
-	{
-		if (cmd->pipe->redirection == NULL)
-		{
-			temp = cmd->pipe;
-			cmd->pipe = NULL;
-			free_cmd(&temp);
-		}
-	}
-	return ;
-		
-}
-
 void	ft_pipex(t_shell *shell)
 {
 	int		fd[2];
@@ -89,12 +72,10 @@ void	ft_pipex(t_shell *shell)
 	t_cmd	*cmd;
 	pid_t	pids[256];
 	int		i;
-	int		j;
 
 	cmd = shell->cmd;
 	in_fd = 0;
 	i = 0;
-	check_redir_f_one(cmd);
 	while (cmd != NULL)
 	{
 		pids[i++] = ft_fork_child(shell, cmd, fd, in_fd);
@@ -104,9 +85,7 @@ void	ft_pipex(t_shell *shell)
 		in_fd = fd[0];
 		cmd = cmd->pipe;
 	}
-	j = -1;
-	while (++j < i)
-		waitpid(pids[j], NULL, 0);
+	ft_wait(i, &pids[256]);
 	if (in_fd != 0)
 		close(in_fd);
 }
