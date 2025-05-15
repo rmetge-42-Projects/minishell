@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/15 17:27:27 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/15 17:55:17 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,6 @@ void			free_cmd(t_cmd **cmd);
 void			init_env(t_env **env, char **envp);
 void			env_add_back(t_env **env, t_env *new_node);
 void			ft_export(t_shell *shell);
-// void			free_env(t_env **env);
 void			print_header(void);
 void			free_all(t_shell *shell, char *mini);
 t_env			*env_new_node(char *key, char *value);
@@ -125,5 +124,6 @@ void			ft_swap_env(t_env *current, t_env *next);
 void			print_copy(t_env *cpy);
 void			free_enviro(t_env **env);
 void			free_env(t_shell **shell);
+char			**env(t_env	*enviro);
 
 #endif

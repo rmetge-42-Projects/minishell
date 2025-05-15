@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:00:23 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/15 15:49:52 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/15 17:53:53 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ t_env	*copy_env_list(t_env *env)
 			new_value = ft_strdup(env->value);
 		new_node = env_new_node(new_key, new_value);
 		if (!new_node)
-			return (free(new_key), free(new_value), free_env(&copy), NULL);
+			return (free(new_key), free(new_value), free_enviro(&copy), NULL);
 		if (!copy)
 			copy = new_node;
 		else
