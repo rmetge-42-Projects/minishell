@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/15 17:33:18 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/16 16:47:11 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ int	main(int argc, char **argv, char **envp)
 	shell = shell_crl(envp);
 	while (1)
 	{
+		shell->path = NULL;
 		mini = readline("\001\033[38;5;205m\002minishell> \001\033[0m\002");
 		if (!mini)
 			break ;

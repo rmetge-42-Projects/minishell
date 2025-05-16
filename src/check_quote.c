@@ -6,13 +6,13 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:23:44 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/15 17:14:15 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/16 16:47:33 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*dollar_no_first(t_shell *shell, char *dollar, int len, char *arg)
+/*char	*dollar_no_first(t_shell *shell, char *dollar, int len, char *arg)
 {
 	char	*first;
 	char	*if_d;
@@ -122,4 +122,4 @@ t_token	*check_quote(t_shell *shell, int j, const char *s)
 		return (ft_tokennew(dest, arg_type));
 	}
 	return (ft_tokennew(first, arg_type));
-}
+}*/

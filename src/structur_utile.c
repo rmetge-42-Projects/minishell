@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:10:11 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/16 12:13:11 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/16 17:08:41 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,11 +81,11 @@ t_cmd	*cmd_new(t_shell *shell)
 	path = 0;
 	while (shell->tokens && ((t_token *)shell->tokens->content)->type != PIPE)
 	{
+		check_arg(shell);
 		if (((t_token *)shell->tokens->content)->type == REDIRECT)
 			stuctur_redicection(&shell->tokens, &cmd);
 		else if (path == 0)
 		{
-			check_arg(shell);
 			path = path_cmd(shell, cmd, &argument);
 			if (path == 0)
 				return (free(cmd), ft_lstclear(&argument, free), NULL);

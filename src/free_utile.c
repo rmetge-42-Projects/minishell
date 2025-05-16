@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 11:59:26 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/16 11:37:55 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/16 16:43:20 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,12 @@ void	free_env(t_shell **shell)
 	int	j;
 
 	j = 0;
+	if ((*shell)->env == NULL)
+		return ;
 	while ((*shell)->env[j])
 		free ((*shell)->env[j++]);
 	free ((*shell)->env);
+	(*shell)->env = NULL;
 }
 
 void	free_all(t_shell *shell, char *mini)
