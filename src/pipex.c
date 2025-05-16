@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/16 15:24:24 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/16 16:22:29 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,16 @@ void	apply_redirections(t_cmd *cmd)
 static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 {
 	apply_redirections(cmd);
+	if (in_fd != 0)
+		dup2(in_fd, STDIN_FILENO);
+	if (cmd->pipe)
+		dup2(fd[1], STDOUT_FILENO);
 	close(fd[0]);
 	close(fd[1]);
 	if (cmd->path)
-	{
-		if (in_fd != 0)
-			dup2(in_fd, STDIN_FILENO);
-		if (cmd->pipe)
-			dup2(fd[1], STDOUT_FILENO);
 		execve(cmd->path, cmd->argv, shell->env);
-		
-	}
+	free(shell->pids);
+	free_all(shell, NULL);
 	free_shell(&shell);
 	exit(1);
 }
@@ -68,7 +67,6 @@ pid_t	ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 		error("Fork Error");
 	if (pid == 0)
 	{
-		
 		manege_signal();
 		child_process(shell, cmd, fd, in_fd);
 	}
@@ -92,25 +90,25 @@ void	ft_pipex(t_shell *shell)
 	int		fd[2];
 	int		in_fd;
 	t_cmd	*cmd;
-	pid_t	*pids;
-	int		cmd_count = count_cmds(shell->cmd);
+	int		cmd_count;
 	int		i;
 
 	cmd = shell->cmd;
 	in_fd = 0;
 	i = 0;
-	pids = malloc(sizeof(pid_t) * cmd_count);
+	cmd_count = count_cmds(shell->cmd);
+	shell->pids = malloc(sizeof(pid_t) * cmd_count);
 	while (cmd != NULL)
 	{
-		pids[i++] = ft_fork_child(shell, cmd, fd, in_fd);
+		shell->pids[i++] = ft_fork_child(shell, cmd, fd, in_fd);
 		close(fd[1]);
 		if (in_fd != 0)
 			close(in_fd);
 		in_fd = fd[0];
 		cmd = cmd->pipe;
 	}
-	ft_wait(cmd_count, pids);
+	ft_wait(cmd_count, shell->pids);
 	if (in_fd != 0)
 		close(in_fd);
-	free(pids);
+	free(shell->pids);
 }

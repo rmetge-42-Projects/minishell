@@ -9,8 +9,7 @@ SRC_DIR = src
 INC_DIR = inc
 OBJ_DIR = obj
 
-SOURCES = ./built_in.c ./double_quote.c ./export.c ./export_utils.c ./free.c ./main.c ./path.c ./pipex.c ./pipex_utils.c ./signal.c ./structur.c ./structur_cmd.c ./token_split.c ./token_utile.c 
-SOURCES = ./built_in.c ./check_quote.c ./cmd_utils.c ./env.c ./export.c ./export_utils.c ./export_utils_two.c ./free.c ./free_utile.c ./header.c ./main.c ./path.c ./pipex.c ./pipex_utils.c ./structur_cmd.c ./structur_utile.c ./token_split.c ./token_utile.c 
+SOURCES = ./built_in.c ./check_quote.c ./cmd_utils.c ./env.c ./export.c ./export_utils.c ./export_utils_two.c ./free.c ./free_utile.c ./header.c ./main.c ./path.c ./pipex.c ./pipex_utils.c ./signal.c ./structur_cmd.c ./structur_utile.c ./token_split.c ./token_utile.c 
 
 OBJS = $(SOURCES:%.c=$(OBJ_DIR)/%.o)
 
@@ -62,7 +61,7 @@ run: all
 	@./minishell
 
 valgrind:
-	valgrind --suppressions=valgrind.sup --show-leak-kinds=all --leak-check=full  ./minishell
+	valgrind --suppressions=valgrind.sup --show-leak-kinds=all --leak-check=full --track-fds=yes ./minishell
 
 sources:
 	./update_src
