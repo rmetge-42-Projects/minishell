@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:57:05 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/15 16:41:28 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/16 14:18:28 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,20 +18,23 @@ void	error(char *message)
 	exit (1);
 }
 
-void	ft_wait(int i, pid_t pids[256])
+void	ft_wait(int count, pid_t *pids)
 {
 	int	j;
 
-	j = -1;
-	while (++j < i)
+	j = 0;
+	while (j < count)
+	{
 		waitpid(pids[j], NULL, 0);
+		j++;
+	}
 }
 
 int	handle_heredoc(char *delimiter)
 {
 	int		fd[2];
 	char	*line;
-
+	
 	g_sig = 1;
 	rl_event_hook = check_ctrl_c_h;
 	if (pipe(fd) == -1)
@@ -39,16 +42,24 @@ int	handle_heredoc(char *delimiter)
 	while (1)
 	{
 		line = readline("> ");
-		if (!line || ft_strcmp(line, delimiter) == 0)
+		if (g_sig == SIGINT || !line || ft_strcmp(line, delimiter) == 0)
 		{
 			rl_event_hook = NULL;
 			g_sig = 0;
 			free(line);
+			if (g_sig == SIGINT)
+			{
+				close(fd[0]);
+				close(fd[1]);
+				return (-1);
+			}
 			break ;
 		}
-		ft_putstr_fd(line, fd[1]);
-		ft_putstr_fd("\n", fd[1]);
-		free(line);
+		else
+		{
+			ft_putendl_fd(line, fd[1]);
+			free(line);
+		}
 	}
 	close(fd[1]);
 	return (fd[0]);

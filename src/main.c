@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/15 16:35:50 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/16 15:10:25 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,11 +111,11 @@ int	main(int argc, char **argv, char **envp)
 	init_env(shell->enviro, envp);
 	shell->path = ft_path(envp);
 	shell->env = envp;
+	g_sig = 0;
 	while (1)
 	{
 		manege_signal();
 		rl_catch_signals = 0;
-		g_sig = 0;
 		mini = readline("\001\033[38;5;205m\002minishell> \001\033[0m\002");
 		if (!mini)
 			break;
@@ -151,5 +151,5 @@ int	main(int argc, char **argv, char **envp)
 	free(shell->enviro);
 	free_shell(&shell);
 	// free(mini);
-	printf("Bye 👋\n");
+	// printf("Bye 👋\n");
 }

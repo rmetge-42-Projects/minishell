@@ -9,7 +9,7 @@ SRC_DIR = src
 INC_DIR = inc
 OBJ_DIR = obj
 
-SOURCES = ./built_in.c ./double_quote.c ./export.c ./export_utils.c ./free.c ./main.c ./path.c ./pipex.c ./pipex_utils.c ./structur.c ./structur_cmd.c ./token_split.c ./token_utile.c 
+SOURCES = ./built_in.c ./double_quote.c ./export.c ./export_utils.c ./free.c ./main.c ./path.c ./pipex.c ./pipex_utils.c ./signal.c ./structur.c ./structur_cmd.c ./token_split.c ./token_utile.c 
 
 OBJS = $(SOURCES:%.c=$(OBJ_DIR)/%.o)
 
