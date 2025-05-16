@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:30:46 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/16 14:43:19 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/16 15:17:45 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	free_cmd(t_cmd **cmd)
 	}
 }
 
-void	free_env(t_env **env)
+void	free_enviro(t_env **env)
 {
 	t_env	*tmp;
 
@@ -58,12 +58,8 @@ void	free_env(t_env **env)
 
 void	free_shell(t_shell **shell)
 {
-	int	i;
-
-	i = 0;
-	while ((*shell)->path[i])
-		free ((*shell)->path[i++]);
-	free ((*shell)->path);
+	free_enviro(&(*shell)->enviro);
+	free((*shell)->enviro);
 	free((*shell));
 }
 void	free_envr(t_shell **shell)

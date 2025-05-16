@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   token_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:41:25 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/15 10:11:26 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/16 12:14:39 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	process_quote2(char const *s, int *j)
+static void	process_redir(char const *s, int *j)
 {
 	if (s[*j] == '|')
 		(*j)++;
@@ -30,52 +30,38 @@ static void	process_quote2(char const *s, int *j)
 	}
 }
 
-static void	ft_process_2(char const *s, int *j, int *quote)
+static void	ft_process_2(char const *s, int *j, int redir)
 {
-	if (quote[0] == 1)
-	{
-		(*j)++;
-		while (s[*j] != 39)
-			(*j)++;
-		(*j)++;
-	}
-	else if (quote[1] == 1)
-	{
-		(*j)++;
-		while (s[*j] != 34)
-			(*j)++;
-		(*j)++;
-	}
-	else if (quote[2] == 1)
-		process_quote2(s, j);
+	if (s[*j] == 39 || s[*j] == 34)
+		ft_process_quote(s, j, s[*j]);
+	else if (redir == 1)
+		process_redir(s, j);
 	else
 	{
-		while (chr_sep(s[*j]) == 0 && s[*j])
-			(*j)++;
+		while (s[*j] && chr_sep(s[*j]) == 0)
+		{
+			if (s[*j] && (s[*j] == 39 || s[*j] == 34))
+				ft_process_2(s, j, redir);
+			else
+				(*j)++;
+		}
 	}
 }
 
 static void	ft_process(char const *s, int *j, int *k)
 {
-	int	quote[3];
+	int	redir;
 
-	quote[0] = 0;
-	quote[1] = 0;
-	quote[2] = 0;
-	while (chr_sep(s[*j]) == 1 && quote[0] == 0 && quote[1] == 0
-		&& quote[2] == 0 && s[*j])
+	redir = 0;
+	while (chr_sep(s[*j]) == 1 && redir == 0 && s[*j])
 	{
-		if (s[*j] == 39)
-			quote[0] = 1;
-		else if (s[*j] == 34)
-			quote[1] = 1;
-		else if (s[*j] == '|' || s[*j] == '<' || s[*j] == '>')
-			quote[2] = 1;
+		if (s[*j] == '|' || s[*j] == '<' || s[*j] == '>')
+			redir = 1;
 		else
 			(*j)++;
 	}
 	*k = *j;
-	ft_process_2(s, j, quote);
+	ft_process_2(s, j, redir);
 }
 
 static int	check_all_quote(char *s)
@@ -121,7 +107,7 @@ t_list	*stuctur_token(char const *s, t_shell *shell)
 		ft_process(s, &j, &k);
 		if (k < j)
 		{
-			t = check_quote(shell, k, j, s);
+			t = check_quote(shell, j - k, s + k);
 			ft_lstadd_back(&dest, ft_lstnew((t)));
 		}
 	}

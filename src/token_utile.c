@@ -3,24 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   token_utile.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 10:17:07 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/15 10:12:54 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/16 12:14:53 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-enum e_token	token_type(const char *s, int k)
+enum e_token	token_type(const char *s)
 {
-	if (s[k] == '|')
+	if (s[0] == '|')
 		return (PIPE);
-	else if (s[k] == '>' || s[k] == '<')
+	else if (s[0] == '>' || s[0] == '<')
 		return (REDIRECT);
-	else if (s[k] == 39)
+	else if (s[0] == 39)
 		return (QUOTE1);
-	else if (s[k] == 34)
+	else if (s[0] == 34)
 		return (QUOTE2);
 	else
 		return (ARG);
@@ -40,7 +40,7 @@ t_token	*ft_tokennew(char *value, enum e_token type)
 
 int	chr_sep(char c)
 {
-	if (c == ' ' || c == '\t' || c == '\n' || c == 39 || c == 34 || c == '|'
+	if (c == ' ' || c == '\t' || c == '\n' /*|| c == 39 || c == 34 */|| c == '|'
 		|| c == '<' || c == '>')
 		return (1);
 	return (0);
@@ -73,48 +73,10 @@ int	check_token(t_list *token)
 	return (0);
 }
 
-t_token	*check_quote(t_shell *shell, int k, int j, const char *s)
+void	ft_process_quote(char const *s, int *j, char sep)
 {
-	int				i;
-	int				d;
-	enum e_token	arg_type;
-	char			*arg;
-	char			*dollard;
-	int				len;
-
-	i = j - k;
-	d = 0;
-	dollard = "\0";
-	arg_type = token_type(s, k);
-	if (arg_type == ARG && s[k] == '$')
-	{
-		arg = ft_substr(s, k + 1, i);
-		len = ft_strlen(arg);
-		while (shell->env[d])
-		{
-			if (ft_strncmp(shell->env[d], arg, len) == 0)
-				dollard = ft_substr(shell->env[d], (len + 1), (ft_strlen(shell->env[d]) - len));
-			d++;
-		}
-		return (ft_tokennew(dollard, arg_type));
-	}
-	else if (arg_type == QUOTE2 && s[k + 1] == '$')
-	{
-		arg = ft_substr(s, k + 2, i - 3);
-		len = ft_strlen(arg);
-		while (shell->env[d])
-		{
-			if (ft_strncmp(shell->env[d], arg, len) == 0)
-			{
-				dollard = ft_substr(shell->env[d], (len + 1), (ft_strlen(shell->env[d]) - len));
-				printf("%s\n", dollard);
-			}
-			d++;
-		}
-		return (ft_tokennew(dollard, arg_type));
-	}
-	if (s[k] == 34 || s[k] == 39)
-		return (ft_tokennew(ft_substr(s, k + 1, i - 2), arg_type));
-	else
-		return (ft_tokennew(ft_substr(s, k, i), arg_type));
+	(*j)++;
+	while (s[*j] && s[*j] != sep)
+		(*j)++;
+	(*j)++;
 }
