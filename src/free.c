@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:30:46 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/15 17:24:40 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/16 11:37:59 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,6 @@ void	free_enviro(t_env **env)
 
 void	free_shell(t_shell **shell)
 {
-	int	i;
-
-	i = 0;
-	while ((*shell)->path[i])
-		free ((*shell)->path[i++]);
-	free ((*shell)->path);
 	free_enviro(&(*shell)->enviro);
 	free((*shell)->enviro);
 	free((*shell));

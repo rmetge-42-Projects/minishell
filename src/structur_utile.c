@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:10:11 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/15 12:04:22 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/16 12:13:11 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,8 +83,9 @@ t_cmd	*cmd_new(t_shell *shell)
 	{
 		if (((t_token *)shell->tokens->content)->type == REDIRECT)
 			stuctur_redicection(&shell->tokens, &cmd);
-		else if (path == 0 && ((t_token *)shell->tokens->content)->type == ARG)
+		else if (path == 0)
 		{
+			check_arg(shell);
 			path = path_cmd(shell, cmd, &argument);
 			if (path == 0)
 				return (free(cmd), ft_lstclear(&argument, free), NULL);
@@ -94,6 +95,5 @@ t_cmd	*cmd_new(t_shell *shell)
 		shell->tokens = shell->tokens->next;
 	}
 	cmd->argv = str_arg(argument);
-	ft_lstclear(&argument, free);
-	return (cmd);
+	return (ft_lstclear(&argument, free), cmd);
 }

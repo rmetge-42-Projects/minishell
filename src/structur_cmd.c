@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 13:16:31 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/15 17:21:33 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/16 12:05:41 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,13 @@ int	ft_structur(t_shell *shell, char *arg)
 		free_all(shell, arg);
 		return (ft_lstclear(&shell->tokens, free_tokens), 1);
 	}
+	// while (shell->tokens->content)
+	// {
+	// 	printf("%s\n", ((t_token *)shell->tokens->content)->value);
+	// 	printf("%u\n", ((t_token *)shell->tokens->content)->type);
+	// 	shell->tokens = shell->tokens->next;
+	// }
+	// return (1);
 	structur_cmd(shell);
 	shell->tokens = t;
 	ft_lstclear(&shell->tokens, free_tokens);

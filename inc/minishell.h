@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/15 17:55:17 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/16 12:15:07 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,5 +125,7 @@ void			print_copy(t_env *cpy);
 void			free_enviro(t_env **env);
 void			free_env(t_shell **shell);
 char			**env(t_env	*enviro);
+void			check_arg(t_shell *shell);
+void			ft_process_quote(char const *s, int *j, char sep);
 
 #endif
