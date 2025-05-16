@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:57:05 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/16 14:18:28 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/16 16:34:59 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	handle_heredoc(char *delimiter)
 {
 	int		fd[2];
 	char	*line;
-	
+
 	g_sig = 1;
 	rl_event_hook = check_ctrl_c_h;
 	if (pipe(fd) == -1)
@@ -64,7 +64,6 @@ int	handle_heredoc(char *delimiter)
 	close(fd[1]);
 	return (fd[0]);
 }
-
 
 void	open_input(char *file)
 {

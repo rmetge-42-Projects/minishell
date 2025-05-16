@@ -6,13 +6,13 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 13:54:04 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/16 13:59:57 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/16 16:35:38 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int g_sig;
+int	g_sig;
 
 int	check_ctrl_c_h(void)
 {

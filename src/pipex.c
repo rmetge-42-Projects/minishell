@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/16 16:22:29 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/16 16:37:04 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	apply_redirections(t_cmd *cmd)
 {
 	t_redir	*r;
 	int		heredoc_fd;
-	t_list *current;
+	t_list	*current;
 
 	current = cmd->redirection;
 	while (current)
@@ -75,8 +75,9 @@ pid_t	ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 
 int	count_cmds(t_cmd *cmd)
 {
-	int count = 0;
+	int	count;
 
+	count = 0;
 	while (cmd != NULL)
 	{
 		count++;

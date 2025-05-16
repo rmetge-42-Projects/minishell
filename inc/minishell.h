@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/16 16:14:51 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/16 16:34:19 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <readline/history.h>
 # include <signal.h>
 
-extern int g_sig;
+extern int	g_sig;
 
 enum e_token
 {
