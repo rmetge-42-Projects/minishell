@@ -1,3 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   bultin_rmn.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/19 11:14:45 by rmetge            #+#    #+#             */
+/*   Updated: 2025/05/19 11:24:29 by rmetge           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
 t_list *env_to_list(char **envp)
 {
 	t_list *list = NULL;
@@ -17,9 +31,9 @@ void export_var(char *entry, t_shell *shell) //(export nom=valeur)
     /*char *equal;
     int name_len;
     char *name ;
-    
+
     equal = ft_strchr(entry, '=');
-    if (!equal) 
+    if (!equal)
     {
         printf("Format invalide : %s\n", entry);
         return;
@@ -29,11 +43,11 @@ void export_var(char *entry, t_shell *shell) //(export nom=valeur)
     name = strndup(entry, name_len);
 
     // Chercher si la variable existe déjà
-    
-    while (shell->env->content) 
+
+    while (shell->env->content)
     {
-        if (ft_strncmp(shell->env->content, name, name_len) == 0 && 
-            (char *)shell->env->content[name_len] == '=') 
+        if (ft_strncmp(shell->env->content, name, name_len) == 0 &&
+            (char *)shell->env->content[name_len] == '=')
         {
             free(shell->env->content);
             shell->env->content = strdup(entry);
@@ -44,7 +58,7 @@ void export_var(char *entry, t_shell *shell) //(export nom=valeur)
 
     // Ajouter une nouvelle variable
     int count = 0;
-    while (shell->env->content) 
+    while (shell->env->content)
     {
         shell->env->next;
         count++;
@@ -60,7 +74,7 @@ void export_var(char *entry, t_shell *shell) //(export nom=valeur)
     shell->env = new_env;
 }
 
-void ft_echo(t_cmd *cmd) 
+void ft_echo(t_cmd *cmd)
 {
     int i;
     int newline; // par défaut, on met un retour à la ligne
@@ -68,7 +82,7 @@ void ft_echo(t_cmd *cmd)
     i = 1;
     newline = 1;
     // Gestion de l'option -n
-    if (cmd->argv[1] != NULL && ft_strcmp(cmd->argv[1], "-n") == 0) 
+    if (cmd->argv[1] != NULL && ft_strcmp(cmd->argv[1], "-n") == 0)
     {
         printf("-n\n");
         newline = 0;
@@ -76,21 +90,21 @@ void ft_echo(t_cmd *cmd)
     }
     //printf("%s\n", cmd->argv[i]);
     // Afficher les arguments un à un
-    while (cmd->argv[i]) 
+    while (cmd->argv[i])
     {
         //printf("test1");
         printf("%s", cmd->argv[i]);
-        if (cmd->argv[i + 1] != NULL) 
+        if (cmd->argv[i + 1] != NULL)
             printf(" "); // espace entre les mots
         i++;
     }
     //printf("\n");
-    if (newline) 
+    if (newline)
         printf("\n");
 }
 
 
-int ft_cd(t_cmd *cmd) 
+int ft_cd(t_cmd *cmd)
 {
     char cwd[1024];  // Tableau pour stocker le chemin du répertoire courant
     char *str;
@@ -99,7 +113,7 @@ int ft_cd(t_cmd *cmd)
     if (access(cmd->argv[1], F_OK) != 0)
     {
 
-        if (getcwd(cwd, sizeof(cwd)) == NULL) 
+        if (getcwd(cwd, sizeof(cwd)) == NULL)
         {
             perror("getcwd() échoué");
             return 1;
@@ -126,7 +140,7 @@ int ft_pwd(void)
 {
     char cwd[1024];  // Tableau pour stocker le chemin du répertoire courant
 
-    if (getcwd(cwd, sizeof(cwd)) != NULL) 
+    if (getcwd(cwd, sizeof(cwd)) != NULL)
         printf("%s\n", cwd);  // Affiche le répertoire
     else
         perror("getcwd() échoué");

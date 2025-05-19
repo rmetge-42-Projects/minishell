@@ -6,67 +6,11 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:23:44 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/16 16:47:33 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/19 19:01:16 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/*char	*dollar_no_first(t_shell *shell, char *dollar, int len, char *arg)
-{
-	char	*first;
-	char	*if_d;
-	int		l;
-	int		i;
-
-	i = 0;
-	while (shell->env[i])
-	{
-		if (ft_strncmp(shell->env[i], arg, len) == 0)
-		{
-			if (shell->env[i][len] == '=')
-			{
-				l = (ft_strlen(shell->env[i]) - len);
-				if_d = ft_substr(shell->env[i], (len + 1), l);
-				first = ft_strjoin(dollar, if_d);
-				free(if_d);
-				free(dollar);
-				free(arg);
-				return (first);
-			}
-		}
-		i++;
-	}
-	free(arg);
-	return (dollar);
-}
-
-char	*dollar_first(t_shell *shell, char *arg, int len)
-{
-	char	*dest;
-	int		i;
-	int		l;
-
-	i = 0;
-	while (shell->env[i])
-	{
-		if (ft_strncmp(shell->env[i], arg, len) == 0)
-		{
-			if (shell->env[i][len] == '=')
-			{
-				l = (ft_strlen(shell->env[i]) - len);
-				dest = ft_substr(shell->env[i], (len + 1), l);
-				free(arg);
-				return (dest);
-			}
-		}
-		i++;
-	}
-	free(arg);
-	dest = calloc(1, 1);
-	dest[0] = '\0';
-	return (dest);
-}
 
 int	len_dollar(char *arg)
 {
@@ -78,32 +22,74 @@ int	len_dollar(char *arg)
 	return (i);
 }
 
+char	*chr_path(char *arg, t_env *enviro)
+{
+	char	*dollar;
+
+	dollar = ft_calloc(len_dollar(arg) + 1, 1);
+	ft_strlcpy(dollar, arg, len_dollar(arg) + 1);
+	while (enviro)
+	{
+		if (ft_strcmp(dollar, enviro->key) == 0)
+		{
+			free(dollar);
+			return (ft_strdup(enviro->value));
+		}
+		enviro = enviro->next;
+	}
+	free(dollar);
+	return (NULL);
+}
+
 char	*ft_dollar(t_shell *shell, char *first)
 {
-	char			*arg;
-	int				i;
-	int				len;
-	char			*dollar;
+	char	*arg;
+	char	*dollar;
+	// char	*dollar1;
+	// int		i;
+	// // int		len;
+	// char	*all;
+	// char	*tmp;
+	// char	*dest;
 
-	i = 0;
-	arg = ft_strdup(ft_strrchr(first, '$') + 1);
-	len = len_dollar(arg);
-	while (first[i] != '$')
+	/*tmp = NULL;
+	dollar = NULL;
+	i = len_dollar(ft_strchr(first, '$') + 1);
+	// i = 0;
+	all = ft_strdup(ft_strchr(first, '$') + 1);
+	while (first[i] && first[i] != '$')
 		i++;
-	if (i > 0)
+	if (i < (int)ft_strlen(first))
+		arg = ft_strndup(ft_strchr(all, '$') + 1, i - 1);
+	printf("%s\n", 	all);
+	// printf("%s\n", 	arg);
+	// return(NULL);
+	while (ft_strchr(all, '$') != NULL)
 	{
+		printf("arg = %s\n", arg);
+		free(dollar);
+		dollar = dollar_path(arg, shell->enviro, first);
+		free(dollar1);
+		dollar1 = ft_strjoin(dest, dollar);
+		dest = dollar1;
+		printf("dol = %s\n", dollar);
+		// i = len_dollar(ft_strchr(arg, '$') + 1);
+		free(tmp);
+		tmp = ft_strdup(ft_strchr(all, '$') + 1);
+		free(all);
+		all = tmp;
 		i++;
-		dollar = ft_calloc(i, 1);
-		ft_strlcpy(dollar, first, i);
-		free(first);
-		return (dollar_no_first(shell, dollar, len, arg));
-	}
-	else
-	{
-		free(first);
-		return (dollar_first(shell, arg, len));
-	}
+		while (first[i] && first[i] != '$')
+			i++;
+		if (i < (int)ft_strlen(first))
+			arg = ft_strndup(ft_strchr(all, '$') + 1, i - 1);
+	}*/
+
+	arg = ft_strdup(ft_strchr(first, '$') + 1);
+	dollar = dollar_path(arg, shell->enviro, first);
+	return(dollar);
 }
+
 
 t_token	*check_quote(t_shell *shell, int j, const char *s)
 {
@@ -119,7 +105,8 @@ t_token	*check_quote(t_shell *shell, int j, const char *s)
 	if ((arg_type == ARG || arg_type == QUOTE2) && ft_strchr(first, '$'))
 	{
 		dest = ft_dollar(shell, first);
+		free(first);
 		return (ft_tokennew(dest, arg_type));
 	}
 	return (ft_tokennew(first, arg_type));
-}*/
+}

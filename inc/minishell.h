@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/16 12:15:07 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/19 15:14:25 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,5 +127,9 @@ void			free_env(t_shell **shell);
 char			**env(t_env	*enviro);
 void			check_arg(t_shell *shell);
 void			ft_process_quote(char const *s, int *j, char sep);
+// void			before_after(char *dollar, char *str, int i);
+int				len_dollar(char *arg);
+char			*chr_path(char *arg, t_env *enviro);
+char			*dollar_path(char *arg, t_env *enviro, char *first);
 
 #endif

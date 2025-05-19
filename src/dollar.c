@@ -6,66 +6,67 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/16 17:21:36 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/19 18:59:10 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	len_dollar(char *arg)
+void	before_after(char **dollar, char **str, int i)
 {
-	int	i;
+	char	*tmp;
 
-	i = 0;
-	while (arg[i] && (ft_isalnum(arg[i]) || arg[i] == '_'))
-		i++;
-	return (i);
+	tmp = NULL;
+	if (i == 1)
+		tmp = ft_strjoin((*str), (*dollar));
+	else if (i == 2)
+		tmp = ft_strjoin((*dollar), (*str));
+	free(*dollar);
+	*dollar = tmp;
+	free(*str);
+	*str = NULL;
+	// printf("%s\n", dollar);
 }
 
-char	*chr_path(char *arg, t_env *enviro)
+// char	*after(char *first, char *arg)
+// {
+// 	int		j;
+// 	int		len;
+
+// 	j = 0;
+// 	len = len_dollar(arg);
+// 	if (arg[len] == 34 || arg[len] == 39)
+// 	{
+// 		j = 1;
+// 		len++;
+// 	}
+// 	after = ft_strndup(arg + len, ft_strlen(arg) - len - j);
+// }
+
+char	*dollar_path(char *arg, t_env *enviro, char *first)
 {
 	char	*dollar;
-
-	dollar = ft_calloc(len_dollar(arg) + 1, 1);
-	ft_strlcpy(dollar, arg, len_dollar(arg) + 1);
-	while (enviro)
-	{
-		if (ft_strcmp(dollar, enviro->key) == 0)
-		{
-			free(dollar);
-			return (ft_strdup(enviro->value));
-		}
-		enviro = enviro->next;
-	}
-	free(dollar);
-	return (NULL);
-}
-
-
-char	*ft_dollar(t_shell *shell, char *first)
-{
-	char			*arg;
-	int				i;
-	char			*dollar;
-	char	*befor;
-	char	*after;
-	char	*tmp;
+	int		i;
 	int		len;
+	char	*before;
+	char	*after;
 	int		j;
-	char	*res;
 
+
+	// int		k;
+
+	// while
+	// k = len_dollar(ft_strchr(first, '$') + 1);
+	// arg = ft_strndup(ft_strchr(first, '$') + 1, k);
 	i = 0;
-	befor = NULL;
+	before = NULL;
 	after = NULL;
-	arg = ft_strdup(ft_strchr(first, '$') + 1);
-	// if (ft_strchr(arg, '$') != NULL)
-
-	dollar = chr_path(arg, shell->enviro);
+	dollar = chr_path(arg, enviro);
 	while (first[i] != '$')
 		i++;
-	if (i != 0)
-		befor = ft_strndup(first, i);
-	if ((i + len_dollar(arg)) < (int)ft_strlen(arg))
+	if (i > 0)
+		before = ft_strndup(first, i);
+	if ((i + len_dollar(arg) + 1) < (int)ft_strlen(arg))
 	{
 		j = 0;
 		len = len_dollar(arg);
@@ -76,41 +77,13 @@ char	*ft_dollar(t_shell *shell, char *first)
 		}
 		after = ft_strndup(arg + len, ft_strlen(arg) - len - j);
 	}
-	if (befor && dollar)
-	{
-		tmp = ft_strjoin(befor, dollar);
-		free(dollar);
-		dollar = tmp;
-		free(befor);
-		befor = NULL;
-	}
+	printf("%s\n", after);
+	if (before && dollar)
+		before_after(&dollar, &before, 1);
 	if (after && dollar)
-	{
-		tmp = ft_strjoin(dollar, after);
-		free(dollar);
-		dollar = tmp;
-		free(after);
-	}
-	if (befor)
-		return(befor);
-	return(dollar);
-}
-
-t_token	*check_quote(t_shell *shell, int j, const char *s)
-{
-	enum e_token	arg_type;
-	char			*first;
-	char			*dest;
-
-	arg_type = token_type(s);
-	if (s[0] == 34 || s[0] == 39)
-		first = ft_substr(s, 1, j - 2);
-	else
-		first = ft_substr(s, 0, j);
-	if ((arg_type == ARG || arg_type == QUOTE2) && ft_strchr(first, '$'))
-	{
-		dest = ft_dollar(shell, first);
-		return (ft_tokennew(dest, arg_type));
-	}
-	return (ft_tokennew(first, arg_type));
+		before_after(&dollar, &after, 2);
+	// printf("%s\n", dollar);
+	if (before)
+		return(before);
+	return (dollar);
 }
