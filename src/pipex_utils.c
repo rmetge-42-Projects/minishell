@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:57:05 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/16 16:34:59 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/20 16:38:01 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,26 +41,27 @@ int	handle_heredoc(char *delimiter)
 		error("pipe heredoc");
 	while (1)
 	{
+		printf("t\n");
 		line = readline("> ");
-		if (g_sig == SIGINT || !line || ft_strcmp(line, delimiter) == 0)
+		if (g_sig == SIGINT)
 		{
 			rl_event_hook = NULL;
+			close(fd[0]);
+			close(fd[1]);
+			if (line)
+				free(line);
 			g_sig = 0;
-			free(line);
-			if (g_sig == SIGINT)
-			{
-				close(fd[0]);
-				close(fd[1]);
-				return (-1);
-			}
-			break ;
+			return (-1);
 		}
+		else if ((!line || ft_strcmp(line, delimiter) == 0))
+			break ;
 		else
 		{
 			ft_putendl_fd(line, fd[1]);
 			free(line);
 		}
 	}
+	rl_event_hook = NULL;
 	close(fd[1]);
 	return (fd[0]);
 }

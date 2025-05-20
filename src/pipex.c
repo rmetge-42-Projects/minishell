@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/16 16:37:04 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/20 16:29:05 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	apply_redirections(t_cmd *cmd)
 	current = cmd->redirection;
 	while (current)
 	{
+		//dprintf(3, "current");
 		r = (t_redir *)cmd->redirection->content;
 		if (r->type == INPUT)
 			open_input(r->file);
@@ -31,9 +32,12 @@ void	apply_redirections(t_cmd *cmd)
 		else if (r->type == HEREDOC)
 		{
 			heredoc_fd = handle_heredoc(r->file);
-			if (cmd->path)
+			dprintf(3, "finisssshhshshshshsh");
+			if (heredoc_fd != -1 && cmd->path)
+			{
 				dup2(heredoc_fd, STDIN_FILENO);
-			close(heredoc_fd);
+				close(heredoc_fd);
+			}
 		}
 		current = current->next;
 	}
@@ -42,6 +46,7 @@ void	apply_redirections(t_cmd *cmd)
 static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 {
 	apply_redirections(cmd);
+	dprintf(3,"vraiment con");
 	if (in_fd != 0)
 		dup2(in_fd, STDIN_FILENO);
 	if (cmd->pipe)
@@ -67,6 +72,7 @@ pid_t	ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 		error("Fork Error");
 	if (pid == 0)
 	{
+		g_sig = 1;
 		manege_signal();
 		child_process(shell, cmd, fd, in_fd);
 	}
