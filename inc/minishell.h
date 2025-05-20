@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/19 15:14:25 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/20 18:36:55 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,5 +131,6 @@ void			ft_process_quote(char const *s, int *j, char sep);
 int				len_dollar(char *arg);
 char			*chr_path(char *arg, t_env *enviro);
 char			*dollar_path(char *arg, t_env *enviro, char *first);
+void			ft_process_2(char const *s, int *j, int redir);
 
 #endif

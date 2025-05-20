@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 10:17:07 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/16 13:49:08 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/20 18:37:56 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ t_token	*ft_tokennew(char *value, enum e_token type)
 		return (free(token), NULL);
 	token->value = value;
 	token->type = type;
+	// printf("val = %s\n", token->value);
 	return (token);
 }
 
@@ -79,4 +80,9 @@ void	ft_process_quote(char const *s, int *j, char sep)
 	while (s[*j] && s[*j] != sep)
 		(*j)++;
 	(*j)++;
+	if (s[*j] != ' ')
+		ft_process_2(s, j, 0);
+	// if (s[*j] == 34 || s[*j] == 39)
+	// 	ft_process_quote(s, j, s[*j]);
+	// if ()
 }

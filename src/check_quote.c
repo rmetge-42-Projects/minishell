@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:23:44 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/19 19:01:16 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/20 18:54:20 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,55 +41,75 @@ char	*chr_path(char *arg, t_env *enviro)
 	return (NULL);
 }
 
-char	*ft_dollar(t_shell *shell, char *first)
+char	*space_join(char *s1, char *s2)
 {
-	char	*arg;
-	char	*dollar;
-	// char	*dollar1;
-	// int		i;
-	// // int		len;
-	// char	*all;
-	// char	*tmp;
-	// char	*dest;
+	char	*dest;
 
-	/*tmp = NULL;
-	dollar = NULL;
-	i = len_dollar(ft_strchr(first, '$') + 1);
-	// i = 0;
-	all = ft_strdup(ft_strchr(first, '$') + 1);
-	while (first[i] && first[i] != '$')
-		i++;
-	if (i < (int)ft_strlen(first))
-		arg = ft_strndup(ft_strchr(all, '$') + 1, i - 1);
-	printf("%s\n", 	all);
-	// printf("%s\n", 	arg);
-	// return(NULL);
-	while (ft_strchr(all, '$') != NULL)
+	if (s1 && s2)
 	{
-		printf("arg = %s\n", arg);
-		free(dollar);
-		dollar = dollar_path(arg, shell->enviro, first);
-		free(dollar1);
-		dollar1 = ft_strjoin(dest, dollar);
-		dest = dollar1;
-		printf("dol = %s\n", dollar);
-		// i = len_dollar(ft_strchr(arg, '$') + 1);
-		free(tmp);
-		tmp = ft_strdup(ft_strchr(all, '$') + 1);
-		free(all);
-		all = tmp;
-		i++;
-		while (first[i] && first[i] != '$')
-			i++;
-		if (i < (int)ft_strlen(first))
-			arg = ft_strndup(ft_strchr(all, '$') + 1, i - 1);
-	}*/
-
-	arg = ft_strdup(ft_strchr(first, '$') + 1);
-	dollar = dollar_path(arg, shell->enviro, first);
-	return(dollar);
+		dest = ft_strjoin(s1, s2);
+		free(s1);
+		free(s2);
+	}
+	else if (s1)
+	{
+		dest = s1;
+		free(s2);
+	}
+	else if (s2)
+	{
+		dest = s2;
+		free(s1);
+	}
+	else
+	{
+		dest = NULL;
+		free(s1);
+		free(s2);
+	}
+	return(dest);
 }
 
+char	*ft_dollar(t_shell *shell, char *first, char *dest)
+{
+	int	i;
+	int	j;
+	char	*before;
+	char	*path;
+	char	*arg;
+	char	*res;
+	char	*tmp;
+
+	i = 0;
+	before = NULL;
+	res = NULL;
+	tmp = NULL;
+	while (first[i] && first[i] != '$')
+		i++;
+	before = ft_strndup(first, i);
+	if (first[i])
+		i++;
+	j = i;
+	i = 0;
+	while (first[j + i] && (ft_isalnum(first[j + i]) || first[i] == '_'))
+		i++;
+	if (i == 0 && first[j - 1] == '$')
+		path = ft_strdup("$");
+	else
+	{
+		arg = ft_strndup(first + j, i);
+		path = chr_path(arg, shell->enviro);
+		free(arg);
+	}
+	res = space_join(dest, before);
+	dest = space_join(res, path);
+	if (first[j])
+	{
+		tmp = ft_dollar(shell, first + j + i, dest);
+		dest = tmp;
+	}
+	return(dest);
+}
 
 t_token	*check_quote(t_shell *shell, int j, const char *s)
 {
@@ -98,13 +118,10 @@ t_token	*check_quote(t_shell *shell, int j, const char *s)
 	char			*dest;
 
 	arg_type = token_type(s);
-	if (s[0] == 34 || s[0] == 39)
-		first = ft_substr(s, 1, j - 2);
-	else
-		first = ft_substr(s, 0, j);
+	first = ft_substr(s, 0, j);
 	if ((arg_type == ARG || arg_type == QUOTE2) && ft_strchr(first, '$'))
 	{
-		dest = ft_dollar(shell, first);
+		dest = ft_dollar(shell, first, NULL);
 		free(first);
 		return (ft_tokennew(dest, arg_type));
 	}
