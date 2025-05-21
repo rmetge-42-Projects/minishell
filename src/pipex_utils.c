@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:57:05 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/20 16:38:01 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/21 17:32:49 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,33 +35,50 @@ int	handle_heredoc(char *delimiter)
 	int		fd[2];
 	char	*line;
 
+	
+	
+	//rl_event_hook = check_ctrl_h;
 	g_sig = 1;
-	rl_event_hook = check_ctrl_c_h;
+	sleep(3);
+	dprintf(3, "SIG = %d", g_sig);
 	if (pipe(fd) == -1)
 		error("pipe heredoc");
 	while (1)
 	{
-		printf("t\n");
+		
+		// printf("t\n");
+		dprintf(3, "begin");
 		line = readline("> ");
+		dprintf(3, "pass");
+		// if (g_sig == SIGQUIT)
+		// 		continue ;
 		if (g_sig == SIGINT)
 		{
-			rl_event_hook = NULL;
+			
+			//rl_event_hook = NULL;
 			close(fd[0]);
 			close(fd[1]);
 			if (line)
 				free(line);
-			g_sig = 0;
+			// g_sig = 0;
 			return (-1);
 		}
 		else if ((!line || ft_strcmp(line, delimiter) == 0))
+		{
+			
+			if (!line)
+				ft_putendl_fd("Warning", 2);
+			// ft_putnbr_fd(g_sig, 2);
 			break ;
+		}
 		else
 		{
 			ft_putendl_fd(line, fd[1]);
 			free(line);
 		}
 	}
-	rl_event_hook = NULL;
+	//rl_event_hook = NULL;
+	//g_sig = 0;
 	close(fd[1]);
 	return (fd[0]);
 }

@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/20 16:29:05 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/21 16:41:14 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 		dup2(fd[1], STDOUT_FILENO);
 	close(fd[0]);
 	close(fd[1]);
-	if (cmd->path)
+	if (cmd->path && g_sig != SIGINT)
 		execve(cmd->path, cmd->argv, shell->env);
 	free(shell->pids);
 	free_all(shell, NULL);
@@ -72,8 +72,9 @@ pid_t	ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 		error("Fork Error");
 	if (pid == 0)
 	{
-		g_sig = 1;
+		// g_sig = 0;
 		manege_signal();
+		rl_catch_signals = 0;
 		child_process(shell, cmd, fd, in_fd);
 	}
 	return (pid);

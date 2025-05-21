@@ -3,24 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   free_utile.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 11:59:26 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/16 11:37:55 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/21 16:43:15 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_env(t_shell **shell)
-{
-	int	j;
+// void	free_env(t_shell **shell)
+// {
+// 	int	j;
+// 	int i;
 
-	j = 0;
-	while ((*shell)->env[j])
-		free ((*shell)->env[j++]);
-	free ((*shell)->env);
-}
+// 	j = 0;
+// 	i = 0;
+// 	while ((*shell)->env[j])
+// 		free ((*shell)->env[j][i++]);
+// 	free ((*shell)->env);
+// }
 
 void	free_all(t_shell *shell, char *mini)
 {
@@ -36,7 +38,7 @@ void	free_all(t_shell *shell, char *mini)
 	if (shell->tokens)
 		ft_lstclear(&shell->tokens, free_tokens);
 	if (shell->env)
-		free_env(&shell);
+		ft_free_split(shell->env);
 	if (shell->path)
 	{
 		while (shell->path[i])

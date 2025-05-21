@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/16 16:34:19 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/21 14:45:14 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ int				is_valid_identifier(char *key);
 t_env			*copy_env_list(t_env *env);
 void			ft_wait(int i, pid_t *pids);
 void			manege_signal(void);
-int				check_ctrl_c_h(void);
+int				check_ctrl_h(void);
 void			add_or_update_env(t_env **env, char *key, char *value);
 void			ft_swap_env(t_env *current, t_env *next);
 void			print_copy(t_env *cpy);

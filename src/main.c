@@ -6,11 +6,13 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/20 15:16:22 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/21 17:36:08 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int g_sig;
 
 int	bultin(t_shell *shell)
 {
@@ -38,20 +40,20 @@ int	bultin(t_shell *shell)
 
 int	check_readline(t_shell *shell, char *mini)
 {
-	volatile sig_atomic_t	g_sigint;
+	// volatile sig_atomic_t	g_sigint;
 
-	g_sigint = 0;
+	// g_sigint = 0;
 	shell->line = mini;
 	shell->args = ft_split(mini, ' ');
-	if (g_sigint)
-	{
-		g_sigint = 0;
-		return (1);
-	}
+	// if (g_sigint)
+	// {
+	// 	g_sigint = 0;
+	// 	return (1);
+	// }
 	if (*mini)
 		add_history(mini);
 	if (!shell->args || !shell->args[0])
-		return (free_all(shell, mini), 1);
+		return (1);
 	if (bultin(shell) == 1)
 		return (free_all(shell, mini), 1);
 	if (ft_exit(shell) == 1)
@@ -83,11 +85,12 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	shell = shell_crl(envp);
+	manege_signal();
+	rl_catch_signals = 0;
 	while (1)
 	{
-		g_sig = 0;
-		manege_signal();
-		rl_catch_signals = 0;
+		//g_sig = 0;
+		
 		mini = readline("\001\033[38;5;205m\002minishell> \001\033[0m\002");
 		if (!mini)
 			break ;
