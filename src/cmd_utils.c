@@ -6,51 +6,29 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 11:15:48 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/20 17:50:15 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/20 19:26:26 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// char	*cpy_quote(char *src, int len)
-// {
-// 	int		i;
-// 	int		j;
-// 	char	*dest;
-
-// 	dest = ft_calloc(len + 1, sizeof(char));
-// 	i = 0;
-// 	j = 0;
-// 	while (src[i])
-// 	{
-// 		if (src[i] != 39 && src[i] != 34)
-// 			dest[j++] = src[i++];
-// 		else
-// 			i++;
-// 	}
-// 	dest[j] = '\0';
-// 	return (dest);
-// }
-
-// void	check_arg(t_shell *shell)
-// {
-// 	int		i;
-// 	int		len;
-// 	char	*dest;
-
-// 	i = 0;
-// 	len = 0;
-// 	while (((t_token *)shell->tokens->content)->value[i])
-// 	{
-// 		if (((t_token *)shell->tokens->content)->value[i] != 39
-// 			&& ((t_token *)shell->tokens->content)->value[i] != 34)
-// 			len++;
-// 		i++;
-// 	}
-// 	dest = cpy_quote(((t_token *)shell->tokens->content)->value, len);
-// 	free (((t_token *)shell->tokens->content)->value);
-// 	((t_token *)shell->tokens->content)->value = dest;
-// }
+static void	quote(int *q0, int *q1, int i, char *src)
+{
+	if (src[i] == 34 && (*q0) == 0)
+	{
+		if ((*q1) == 0)
+			(*q1) = 1;
+		else if ((*q1) == 1)
+			(*q1) = 0;
+	}
+	else if (src[i] == 39 && (*q1) == 0)
+	{
+		if ((*q0) == 0)
+			(*q0) = 1;
+		else if ((*q0) == 1)
+			(*q0) = 0;
+	}
+}
 
 char	*cpy_quote(char *src, int len)
 {
@@ -66,20 +44,8 @@ char	*cpy_quote(char *src, int len)
 	dest = ft_calloc(len + 1, sizeof(char));
 	while (src[i])
 	{
-		if (src[i] == 34 && q[0] == 0)
-		{
-			if (q[1] == 0)
-				q[1] = 1;
-			else if (q[1] == 1)
-				q[1] = 0;
-		}
-		else if (src[i] == 39 && q[1] == 0)
-		{
-			if (q[0] == 0)
-				q[0] = 1;
-			else if (q[0] == 1)
-				q[0] = 0;
-		}
+		if ((src[i] == 34 && q[0] == 0) || (src[i] == 39 && q[1] == 0))
+			quote(&q[0], &q[1], i, src);
 		else
 		{
 			dest[j] = src[i];
@@ -88,10 +54,10 @@ char	*cpy_quote(char *src, int len)
 		i++;
 	}
 	dest[j] = '\0';
-	return(dest);
+	return (dest);
 }
 
-void	check_arg(t_shell *shell)
+void	check_arg(t_shell *shell, char *value)
 {
 	int		i;
 	int		j;
@@ -104,31 +70,16 @@ void	check_arg(t_shell *shell)
 	len = 0;
 	q[0] = 0;
 	q[1] = 0;
-	while (((t_token *)shell->tokens->content)->value[i])
+	while (value[i])
 	{
-		if (((t_token *)shell->tokens->content)->value[i] == 34 && q[0] == 0)
-		{
-			if (q[1] == 0)
-				q[1] = 1;
-			else if (q[1] == 1)
-				q[1] = 0;
-			i++;
-		}
-		else if (((t_token *)shell->tokens->content)->value[i] == 39 && q[1] == 0)
-		{
-			if (q[0] == 0)
-				q[0] = 1;
-			else if (q[0] == 1)
-				q[0] = 0;
-			i++;
-		}
+		if ((value[i] == 34 && q[0] == 0)
+			|| (value[i] == 39 && q[1] == 0))
+			quote(&q[0], &q[1], i, (value));
 		else
-		{
-			i++;
 			len++;
-		}
+		i++;
 	}
-	dest = cpy_quote(((t_token *)shell->tokens->content)->value, len);
+	dest = cpy_quote(value, len);
 	free (((t_token *)shell->tokens->content)->value);
 	((t_token *)shell->tokens->content)->value = dest;
 }

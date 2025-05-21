@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:23:44 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/20 18:54:20 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/21 09:05:11 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,48 +67,7 @@ char	*space_join(char *s1, char *s2)
 		free(s1);
 		free(s2);
 	}
-	return(dest);
-}
-
-char	*ft_dollar(t_shell *shell, char *first, char *dest)
-{
-	int	i;
-	int	j;
-	char	*before;
-	char	*path;
-	char	*arg;
-	char	*res;
-	char	*tmp;
-
-	i = 0;
-	before = NULL;
-	res = NULL;
-	tmp = NULL;
-	while (first[i] && first[i] != '$')
-		i++;
-	before = ft_strndup(first, i);
-	if (first[i])
-		i++;
-	j = i;
-	i = 0;
-	while (first[j + i] && (ft_isalnum(first[j + i]) || first[i] == '_'))
-		i++;
-	if (i == 0 && first[j - 1] == '$')
-		path = ft_strdup("$");
-	else
-	{
-		arg = ft_strndup(first + j, i);
-		path = chr_path(arg, shell->enviro);
-		free(arg);
-	}
-	res = space_join(dest, before);
-	dest = space_join(res, path);
-	if (first[j])
-	{
-		tmp = ft_dollar(shell, first + j + i, dest);
-		dest = tmp;
-	}
-	return(dest);
+	return (dest);
 }
 
 t_token	*check_quote(t_shell *shell, int j, const char *s)

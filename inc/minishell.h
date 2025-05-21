@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/20 18:36:55 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/20 19:27:34 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,12 +125,14 @@ void			print_copy(t_env *cpy);
 void			free_enviro(t_env **env);
 void			free_env(t_shell **shell);
 char			**env(t_env	*enviro);
-void			check_arg(t_shell *shell);
+void			check_arg(t_shell *shell, char *value);
 void			ft_process_quote(char const *s, int *j, char sep);
 // void			before_after(char *dollar, char *str, int i);
 int				len_dollar(char *arg);
 char			*chr_path(char *arg, t_env *enviro);
-char			*dollar_path(char *arg, t_env *enviro, char *first);
+// char			*dollar_path(char *arg, t_env *enviro, char *first);
 void			ft_process_2(char const *s, int *j, int redir);
+char			*ft_dollar(t_shell *shell, char *first, char *dest);
+char			*space_join(char *s1, char *s2);
 
 #endif

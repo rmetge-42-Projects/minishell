@@ -6,84 +6,52 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/19 18:59:10 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/21 09:04:42 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	before_after(char **dollar, char **str, int i)
+char	*dollar_arg(char *first, int i, int j, t_shell *shell)
 {
-	char	*tmp;
+	char	*arg;
+	char	*path;
 
-	tmp = NULL;
-	if (i == 1)
-		tmp = ft_strjoin((*str), (*dollar));
-	else if (i == 2)
-		tmp = ft_strjoin((*dollar), (*str));
-	free(*dollar);
-	*dollar = tmp;
-	free(*str);
-	*str = NULL;
-	// printf("%s\n", dollar);
+	if (i == 0 && first[j - 1] == '$')
+		path = ft_strdup("$");
+	else
+	{
+		arg = ft_strndup(first + j, i);
+		path = chr_path(arg, shell->enviro);
+		free(arg);
+	}
+	return (path);
 }
 
-// char	*after(char *first, char *arg)
-// {
-// 	int		j;
-// 	int		len;
-
-// 	j = 0;
-// 	len = len_dollar(arg);
-// 	if (arg[len] == 34 || arg[len] == 39)
-// 	{
-// 		j = 1;
-// 		len++;
-// 	}
-// 	after = ft_strndup(arg + len, ft_strlen(arg) - len - j);
-// }
-
-char	*dollar_path(char *arg, t_env *enviro, char *first)
+char	*ft_dollar(t_shell *shell, char *first, char *dest)
 {
-	char	*dollar;
 	int		i;
-	int		len;
-	char	*before;
-	char	*after;
 	int		j;
+	char	*before;
+	char	*res;
+	char	*tmp;
 
-
-	// int		k;
-
-	// while
-	// k = len_dollar(ft_strchr(first, '$') + 1);
-	// arg = ft_strndup(ft_strchr(first, '$') + 1, k);
 	i = 0;
 	before = NULL;
-	after = NULL;
-	dollar = chr_path(arg, enviro);
-	while (first[i] != '$')
+	res = NULL;
+	tmp = NULL;
+	while (first[i] && first[i] != '$')
 		i++;
-	if (i > 0)
-		before = ft_strndup(first, i);
-	if ((i + len_dollar(arg) + 1) < (int)ft_strlen(arg))
-	{
-		j = 0;
-		len = len_dollar(arg);
-		if (arg[len] == 34 || arg[len] == 39)
-		{
-			j = 1;
-			len++;
-		}
-		after = ft_strndup(arg + len, ft_strlen(arg) - len - j);
-	}
-	printf("%s\n", after);
-	if (before && dollar)
-		before_after(&dollar, &before, 1);
-	if (after && dollar)
-		before_after(&dollar, &after, 2);
-	// printf("%s\n", dollar);
-	if (before)
-		return(before);
-	return (dollar);
+	before = ft_strndup(first, i);
+	if (first[i])
+		i++;
+	j = i;
+	i = 0;
+	while (first[j + i] && (ft_isalnum(first[j + i]) || first[i] == '_'))
+		i++;
+	res = space_join(dest, before);
+	dest = space_join(res, dollar_arg(first, i, j, shell));
+	if (first[j + i])
+		return (ft_dollar(shell, (first + j + i), dest));
+	return (dest);
 }
