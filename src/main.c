@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/21 17:36:08 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/22 17:19:00 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ int	main(int argc, char **argv, char **envp)
 	t_shell	*shell;
 	int		ret;
 
-	int fd = open("test.output", O_WRONLY);
-	printf("%d", fd);
+	// int fd = open("test.output", O_WRONLY);
+	// printf("%d", fd);
 	(void)argc;
 	(void)argv;
 	shell = shell_crl(envp);

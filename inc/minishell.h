@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/21 14:45:14 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/22 16:54:00 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <errno.h>
 
 extern int	g_sig;
 
@@ -65,6 +66,7 @@ typedef struct s_cmd
 	char			**argv;
 	t_list			*redirection;
 	struct s_cmd	*pipe;
+	int				last_heredoc_fd;
 
 }	t_cmd;
 
@@ -72,6 +74,7 @@ typedef struct s_redir
 {
 	char			*file;
 	enum e_redirect	type;
+	int				heredoc_fd;
 }	t_redir;
 
 typedef struct s_shell
@@ -131,5 +134,8 @@ void			free_env(t_shell **shell);
 char			**env(t_env	*enviro);
 void			check_arg(t_shell *shell);
 void			ft_process_quote(char const *s, int *j, char sep);
+void	manege_signal_child(void);
+void	test(void);
+void	ft_ctrl_backslash(int sig);
 
 #endif

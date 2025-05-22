@@ -6,13 +6,20 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 13:54:04 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/21 17:28:30 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/22 17:36:55 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // int	g_sig;
+
+void check_heredoc(int i)
+{
+	static int heredoc;
+
+	heredoc = i;
+}
 
 int	check_ctrl_h(void)
 {
@@ -48,37 +55,52 @@ void	ft_ctrl_c(int sig)
 }
 void	ft_ctrl_backslash(int sig)
 {
-	if (g_sig == 1)
+	(void)sig;
+	if (waitpid(-1, NULL, WNOHANG) == -1)
 		return ;
-		
-	else if (g_sig != 1 && sig == SIGQUIT)
-	{
-		dprintf(3, "test");
-		dprintf(3, "%d\n", g_sig);
-		
-			
-		if (waitpid(-1, NULL, WNOHANG) != -1)
-		{
-			// ft_putnbr_fd(g_sig, 2);
-			
-			ft_putstr_fd("Quit (core dumped)\n", 2);
-			// rl_replace_line("", 0);
-			// rl_on_new_line();
-			g_sig = SIGQUIT;
-			
-		}
-		else
-			return ;
-		
-	}
-	
+	else
+		ft_putstr_fd("Quit (core dumped)\n", 2);
 }
 
 void	manege_signal(void)
 {
-	if (SIGINT)
-		signal(SIGINT, ft_ctrl_c);
-	if (SIGQUIT)
-		signal(SIGQUIT, ft_ctrl_backslash);
-	dprintf(3, "testtttttttttt");
+	signal(SIGINT, ft_ctrl_c);
+	signal(SIGQUIT, ft_ctrl_backslash);
 }
+
+// void	test(void)
+// {
+// 	signal(SIGINT, SIG_IGN);
+// 	signal(SIGQUIT, ft_ctrl_backslash);
+// }
+
+// void	manege_signal_child(void)
+// {
+// 	signal(SIGINT, SIG_DFL);
+// 	signal(SIGQUIT, SIG_DFL);
+// 		// signal(SIGQUIT, SIG_DFL);
+// }
+
+// // dprintf(3, "QUIT");
+	// 	// perror("ridiculus");
+
+	// if (g_sig == 1)
+	// {
+	// 	dprintf(3, "HOOOOOOOOOO");
+	// 	return ;
+	// }
+	// else if (sig == SIGQUIT && g_sig != 1)
+	// {
+	// 	dprintf(3, "test");
+	// 	dprintf(3, "%d\n", g_sig);
+	// 	if (waitpid(-1, NULL, WNOHANG) != -1)
+	// 	{
+	// 		// ft_putnbr_fd(g_sig, 2);
+	// 		perror("QUIT");
+	// 		// rl_replace_line("", 0);
+	// 		// rl_on_new_line();
+	// 		g_sig = SIGQUIT;
+	// 	}
+	// 	else
+	// 		return ;
+	// }
