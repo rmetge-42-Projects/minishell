@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:57:05 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/22 17:41:23 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/22 21:11:55 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,24 +39,13 @@ int	handle_heredoc(char *delimiter)
 	int		fd[2];
 	char	*line;
 
-	
-	//signal(SIGQUIT, SIG_IGN);
 	rl_event_hook = null_event;
 	g_sig = 1;
-	//sleep(3);
-	// dprintf(3, "SIG = %d", g_sig);
 	if (pipe(fd) == -1)
 		error("pipe heredoc");
-	//rl_catch_signals = 0;
 	while (1)
 	{
-		
-		// printf("t\n");
-		//dprintf(3, "begin");
 		line = readline("> ");
-		//dprintf(3, "pass");
-		// if (g_sig == SIGQUIT)
-		// 		continue ;
 		if (g_sig == SIGINT)
 		{
 			
@@ -73,7 +62,6 @@ int	handle_heredoc(char *delimiter)
 			
 			if (!line)
 				ft_putendl_fd("Warning", 2);
-			// ft_putnbr_fd(g_sig, 2);
 			break ;
 		}
 		else
@@ -83,8 +71,7 @@ int	handle_heredoc(char *delimiter)
 		}
 	}
 	rl_event_hook = NULL;
-	// g_sig = 0;
-	// signal(SIGQUIT, ft_ctrl_backslash);
+	g_sig = 0;
 	close(fd[1]);
 	return (fd[0]);
 }
