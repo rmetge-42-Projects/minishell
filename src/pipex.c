@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/15 17:34:05 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/22 19:51:18 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 		dup2(fd[1], STDOUT_FILENO);
 	close(fd[0]);
 	close(fd[1]);
+	if (builtin(shell) == 1)
+		return;
 	execve(cmd->path, cmd->argv, shell->env);
 }
 
@@ -78,6 +80,8 @@ void	ft_pipex(t_shell *shell)
 	cmd = shell->cmd;
 	in_fd = 0;
 	i = 0;
+	if (!shell->cmd->pipe && builtin(shell) == 1)
+			return;
 	while (cmd != NULL)
 	{
 		pids[i++] = ft_fork_child(shell, cmd, fd, in_fd);

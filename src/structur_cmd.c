@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 13:16:31 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/20 18:47:34 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/21 18:12:10 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,10 @@ int	structur_cmd(t_shell *shell)
 {
 	t_cmd	*new;
 
-	// printf("i");
 	shell->cmd = NULL;
 	while (shell->tokens)
 	{
 		new = cmd_new(shell);
-		// printf("%s\n", new->argv[1]);
 		if (new == NULL)
 			return (0);
 		addback_cmd(&shell->cmd, new);
