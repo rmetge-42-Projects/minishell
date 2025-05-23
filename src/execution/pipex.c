@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/23 12:18:20 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/23 13:35:35 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,18 +16,25 @@ void	apply_redirections(t_cmd *cmd)
 {
 	t_redir	*r;
 	t_list	*current;
+	int		last_fd;
 
+	last_fd = -1;
 	current = cmd->redirection;
 	while (current)
 	{
-		r = (t_redir *)cmd->redirection->content;
+		r = (t_redir *)current->content;
 		if (r->type == INPUT)
 			open_input(r->file);
 		else if (r->type == OUTPUT)
-			open_out_put(r->file, 0);
+			last_fd = open_out_put(r->file, 0, last_fd);
 		else if (r->type == APPEND)
-			open_out_put(r->file, 1);
+			last_fd = open_out_put(r->file, 1, last_fd);
 		current = current->next;
+	}
+	if (last_fd != -1)
+	{
+		dup2(last_fd, STDOUT_FILENO);
+		close(last_fd);
 	}
 	if (cmd->last_heredoc_fd != -1)
 	{
@@ -35,6 +42,7 @@ void	apply_redirections(t_cmd *cmd)
 		close(cmd->last_heredoc_fd);
 	}
 }
+
 
 static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 {
@@ -45,15 +53,14 @@ static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 		dup2(fd[1], STDOUT_FILENO);
 	close(fd[0]);
 	close(fd[1]);
+	if (builtin(shell) == 1)
+		return ;
 	if (cmd->path && g_sig != SIGINT)
 		execve(cmd->path, cmd->argv, shell->env);
 	free(shell->pids);
 	free_all(shell, NULL);
 	free_shell(&shell);
 	exit(1);
-	if (builtin(shell) == 1)
-		return;
-	execve(cmd->path, cmd->argv, shell->env);
 }
 
 pid_t	ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
@@ -128,7 +135,7 @@ void	ft_pipex(t_shell *shell)
 	fd_here_temp = apply_heredoc(shell);
 	cmd = shell->cmd;
 	if (!shell->cmd->pipe && builtin(shell) == 1)
-			return;
+			return ;
 	while (cmd != NULL)
 	{
 		shell->pids[i++] = ft_fork_child(shell, cmd, fd, in_fd);

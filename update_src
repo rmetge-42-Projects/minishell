@@ -1,8 +1,6 @@
 #!/bin/bash
 
 MAKEFILE="Makefile"
-cd src
-NEW_SOURCES=$(find . -type f -name "*.c" | sort | tr '\n' ' ')
-cd ..
+NEW_SOURCES=$(find src -type f -name "*.c" | sort | tr '\n' ' ')
 sed -i "/^SOURCES\s*=/c\SOURCES = $NEW_SOURCES" "$MAKEFILE"
 echo "Done"

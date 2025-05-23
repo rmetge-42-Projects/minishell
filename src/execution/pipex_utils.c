@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:57:05 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/23 12:03:16 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/23 13:26:51 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	open_input(char *file)
 	close(fd);
 }
 
-void	open_out_put(char *file, int append)
+int	open_out_put(char *file, int append, int last_fd)
 {
 	int	fd;
 
@@ -110,6 +110,10 @@ void	open_out_put(char *file, int append)
 		else
 			error("outfile");
 	}
-	dup2(fd, STDOUT_FILENO);
-	close(fd);
+	if (last_fd != -1)
+	{
+		dup2(last_fd, STDOUT_FILENO);
+		close(last_fd);
+	}
+	return (fd);
 }
