@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/22 16:54:00 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/23 11:24:47 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,12 +130,9 @@ void			add_or_update_env(t_env **env, char *key, char *value);
 void			ft_swap_env(t_env *current, t_env *next);
 void			print_copy(t_env *cpy);
 void			free_enviro(t_env **env);
-void			free_env(t_shell **shell);
 char			**env(t_env	*enviro);
 void			check_arg(t_shell *shell);
 void			ft_process_quote(char const *s, int *j, char sep);
-void	manege_signal_child(void);
-void	test(void);
-void	ft_ctrl_backslash(int sig);
+void			ft_ctrl_backslash(int sig);
 
 #endif

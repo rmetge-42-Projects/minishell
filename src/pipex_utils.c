@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:57:05 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/23 11:14:12 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/23 12:03:16 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,11 @@ int	handle_heredoc(char *delimiter)
 {
 	int		fd[2];
 	char	*line;
+	int		count_line;
 
 	rl_event_hook = null_event;
 	g_sig = 1;
+	count_line = 0;
 	if (pipe(fd) == -1)
 		error("pipe heredoc");
 	while (1)
@@ -48,25 +50,30 @@ int	handle_heredoc(char *delimiter)
 		line = readline("> ");
 		if (g_sig == SIGINT)
 		{
-			
 			rl_event_hook = NULL;
 			close(fd[0]);
 			close(fd[1]);
 			if (line)
 				free(line);
-			g_sig = 0;
 			return (-1);
 		}
 		else if ((!line || ft_strcmp(line, delimiter) == 0))
 		{
 			
 			if (!line)
-				ft_putendl_fd("Warning", 2);
+			{
+				ft_putstr_fd("bash: warning: here-document at line ", 2);
+				ft_putnbr_fd(count_line, 2);
+				ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
+				ft_putstr_fd(delimiter, 2);
+				ft_putstr_fd("')\n", 2);
+			}
 			break ;
 		}
 		else
 		{
 			ft_putendl_fd(line, fd[1]);
+			count_line++;
 			free(line);
 		}
 	}

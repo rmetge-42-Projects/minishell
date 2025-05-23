@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/23 11:15:49 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/23 11:46:20 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,12 +46,7 @@ static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 	close(fd[0]);
 	close(fd[1]);
 	if (cmd->path && g_sig != SIGINT)
-	{
-		// manege_signal();
-		// rl_catch_signals = 0;
-		// g_sig = 0;
 		execve(cmd->path, cmd->argv, shell->env);
-	}
 	free(shell->pids);
 	free_all(shell, NULL);
 	free_shell(&shell);
@@ -68,9 +63,7 @@ pid_t	ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 	if (pid == -1)
 		error("Fork Error");
 	if (pid == 0)
-	{
 		child_process(shell, cmd, fd, in_fd);
-	}
 	return (pid);
 }
 
@@ -138,6 +131,7 @@ void	ft_pipex(t_shell *shell)
 		if (in_fd != 0)
 			close(in_fd);
 		in_fd = fd[0];
+		g_sig = 0;
 		cmd = cmd->pipe;
 	}
 	ft_wait(cmd_count, shell->pids);
@@ -145,7 +139,5 @@ void	ft_pipex(t_shell *shell)
 		close(in_fd);
 	if (shell->cmd->last_heredoc_fd != -1)
 		close(shell->cmd->last_heredoc_fd);
-	// if (fd_here_temp == -1)
-	// 	close(fd_here_temp);
 	free(shell->pids);
 }
