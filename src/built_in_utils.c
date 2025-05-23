@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:14:50 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/22 20:51:08 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/23 15:34:04 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ int	builtin(t_shell *shell)
 	}
 	else if (ft_strcmp(shell->cmd->path, "pwd") == 0)
 	{
+		apply_redirections(shell->cmd->redirection);
 		pwd = chr_path("PWD", shell->enviro);
 		printf("%s\n", pwd);
 		free(pwd);

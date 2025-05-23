@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/22 20:29:10 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/23 15:16:17 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static	void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 	close(fd[0]);
 	close(fd[1]);
 	if (builtin(shell) == 1)
-		return ;
+		exit (0);
 	execve(cmd->path, cmd->argv, shell->env);
 }
 
