@@ -6,13 +6,13 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:14:50 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/23 16:29:14 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/23 18:03:17 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_echo(t_shell *shell, int newline)
+void	ft_echo(t_shell *shell, int newline, int fd)
 {
 	int	i;
 	int	j;
@@ -32,13 +32,15 @@ void	ft_echo(t_shell *shell, int newline)
 	}
 	while (shell->cmd->argv[i])
 	{
-		printf("%s", shell->cmd->argv[i]);
+		ft_putstr_fd(shell->cmd->argv[i], fd);
+		// printf("%s", shell->cmd->argv[i]);
 		if (shell->cmd->argv[i + 1] != NULL)
-			printf(" ");
+			// printf(" ");
+			ft_putstr_fd(" ", fd);
 		i++;
 	}
 	if (newline)
-		printf("\n");
+		ft_putstr_fd("\n", fd);
 }
 
 void	ft_unset(t_shell *shell)
@@ -58,39 +60,66 @@ void	ft_unset(t_shell *shell)
 		if (env->next && ft_strcmp(env->next->key, shell->cmd->argv[i]) == 0)
 		{
 			tmp = env->next;
+			// free(env->next);
 			env->next = env->next->next;
+			free(tmp->key);
+			free(tmp->value);
 			free(tmp);
+			// env->next->value = ft_strdup("(null)");
 		}
 		i++;
 	}
 }
 
-int	builtin(t_shell *shell)
+void	ft_pwd(int fd)
 {
-	char	*pwd;
+	char	pwd[1024];
 
+	getcwd(pwd, sizeof(pwd));
+	ft_putstr_fd(pwd, fd);
+	ft_putstr_fd("\n", fd);
+}
+
+void	apply_builtin(t_shell *shell)
+{
+	int		fd;
+
+	fd = redirection_bulitin(shell->cmd);
 	if (ft_strcmp(shell->cmd->path, "cd") == 0)
 	{
 		ft_cd(shell, shell->cmd->argv);
-		return (1);
 	}
 	else if (ft_strcmp(shell->cmd->path, "pwd") == 0)
-	{
-		apply_redirections(shell->cmd->redirection);
-		pwd = chr_path("PWD", shell->enviro);
-		printf("%s\n", pwd);
-		free(pwd);
-		return (1);
-	}
+		ft_pwd(fd);
 	else if (ft_strcmp(shell->cmd->path, "echo") == 0)
 	{
-		ft_echo(shell, 1);
-		return (1);
+		ft_echo(shell, 1, fd);
 	}
 	else if (ft_strcmp(shell->cmd->path, "unset") == 0)
 	{
 		ft_unset(shell);
-		return (1);
 	}
+	else if (ft_strcmp(shell->cmd->path, "export") == 0)
+	{
+		ft_export(shell);
+	}
+	// close (fd);
+}
+
+int	builtin(t_shell *shell)
+{
+	// (void)shell;
+	if (!shell->cmd->path)
+		return (0);
+	if (ft_strcmp(shell->cmd->path, "cd") == 0)
+		return (1);
+	else if (ft_strcmp(shell->cmd->path, "pwd") == 0)
+		return (1);
+	else if (ft_strcmp(shell->cmd->path, "echo") == 0)
+		return (1);
+	else if (ft_strcmp(shell->cmd->path, "unset") == 0)
+		return (1);
+	else if (ft_strcmp(shell->cmd->path, "export") == 0)
+		return (1);
 	return (0);
 }

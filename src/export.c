@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:57:52 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/15 17:52:47 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/23 18:04:41 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	export_env(char **args, int i, t_shell *shell, char *equal_sign)
 	}
 	if (!key || !is_valid_identifier(key))
 	{
-		fprintf(stderr, "export: `%s': not a valid identifier\n", args[i]);
+		printf("export: `%s': not a valid identifier\n", args[i]);
 		free(key);
 		if (value)
 			free(value);

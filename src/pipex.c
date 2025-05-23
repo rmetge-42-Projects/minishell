@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/23 16:32:25 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/23 17:10:58 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void	ft_pipex(t_shell *shell)
 	fd_here_temp = apply_heredoc(shell);
 	cmd = shell->cmd;
 	if (!shell->cmd->pipe && builtin(shell) == 1)
-		return ;
+		return(apply_builtin(shell));
 	while (cmd != NULL)
 	{
 		shell->pids[i++] = ft_fork_child(shell, cmd, fd, in_fd);

@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/23 16:31:53 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/23 17:00:14 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,7 @@ char			*space_join(char *s1, char *s2);
 int				builtin(t_shell *shell);
 int				ft_cd(t_shell *shell, char **argv);
 // char			*ft_pwd(t_shell *shell, char *str);
-void			apply_redirections(t_list *redir_list);
+int				redirection_bulitin(t_cmd *cmd);
+void			apply_builtin(t_shell *shell);
 
 #endif
