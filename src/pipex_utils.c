@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:57:05 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/22 21:11:55 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/23 11:14:12 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	handle_heredoc(char *delimiter)
 			close(fd[1]);
 			if (line)
 				free(line);
-			// g_sig = 0;
+			g_sig = 0;
 			return (-1);
 		}
 		else if ((!line || ft_strcmp(line, delimiter) == 0))

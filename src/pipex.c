@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/22 21:16:50 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/23 11:15:49 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,11 @@ static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 		dup2(fd[1], STDOUT_FILENO);
 	close(fd[0]);
 	close(fd[1]);
-	if (cmd->path)
+	if (cmd->path && g_sig != SIGINT)
 	{
-		manege_signal();
-		rl_catch_signals = 0;
+		// manege_signal();
+		// rl_catch_signals = 0;
+		// g_sig = 0;
 		execve(cmd->path, cmd->argv, shell->env);
 	}
 	free(shell->pids);
@@ -142,7 +143,9 @@ void	ft_pipex(t_shell *shell)
 	ft_wait(cmd_count, shell->pids);
 	if (in_fd != 0)
 		close(in_fd);
-	if (fd_here_temp != -1)
-		close(fd_here_temp);
+	if (shell->cmd->last_heredoc_fd != -1)
+		close(shell->cmd->last_heredoc_fd);
+	// if (fd_here_temp == -1)
+	// 	close(fd_here_temp);
 	free(shell->pids);
 }
