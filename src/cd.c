@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:39:59 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/22 19:54:12 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/22 20:17:46 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	chang_cdw(t_shell *shell, char *str)
 	shell->enviro = env_tmp;
 }
 
-int ft_cd(t_shell *shell, char **argv)
+int	ft_cd(t_shell *shell, char **argv)
 {
 	char	cwd[1024];
 	char	*src;
@@ -58,6 +58,5 @@ int ft_cd(t_shell *shell, char **argv)
 	getcwd(cwd, sizeof(cwd));
 	chang_cdw(shell, cwd);
 	free(src);
-	return 0;
+	return (0);
 }
-

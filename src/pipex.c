@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/22 19:51:18 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/22 20:29:10 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	apply_redirections(t_list *redir_list)
 	}
 }
 
-static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
+static	void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 {
 	apply_redirections(cmd->redirection);
 	if (in_fd != 0)
@@ -46,7 +46,7 @@ static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 	close(fd[0]);
 	close(fd[1]);
 	if (builtin(shell) == 1)
-		return;
+		return ;
 	execve(cmd->path, cmd->argv, shell->env);
 }
 
@@ -81,7 +81,7 @@ void	ft_pipex(t_shell *shell)
 	in_fd = 0;
 	i = 0;
 	if (!shell->cmd->pipe && builtin(shell) == 1)
-			return;
+		return ;
 	while (cmd != NULL)
 	{
 		pids[i++] = ft_fork_child(shell, cmd, fd, in_fd);

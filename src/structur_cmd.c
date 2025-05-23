@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 13:16:31 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/21 18:12:10 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/23 14:59:00 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,11 @@ int	ft_structur(t_shell *shell, char *arg)
 {
 	t_list	*t;
 
+	// printf("i");
 	shell->env = env(shell->enviro);
 	shell->path = ft_path(shell->env);
+	// if (shell->path == NULL)
+		// return (printf("no path\n"), 1);
 	shell->tokens = stuctur_token(arg, shell);
 	t = shell->tokens;
 	if ((shell->tokens == NULL) || (check_token(shell->tokens) == 1))

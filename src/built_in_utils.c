@@ -6,13 +6,13 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:14:50 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/22 20:15:51 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/22 20:51:08 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void ft_echo(t_shell *shell, int newline)
+void	ft_echo(t_shell *shell, int newline)
 {
 	int	i;
 	int	j;
@@ -41,7 +41,31 @@ void ft_echo(t_shell *shell, int newline)
 		printf("\n");
 }
 
-int builtin(t_shell *shell)
+void	ft_unset(t_shell *shell)
+{
+	t_env	*env;
+	t_env	*tmp;
+	int		i;
+
+	env = shell->enviro;
+	i = 1;
+	if (!shell->cmd->argv[1])
+		return ;
+	while (shell->cmd->argv[i])
+	{
+		while (env->next && ft_strcmp(env->next->key, shell->cmd->argv[i]) != 0)
+			env = env->next;
+		if (env->next && ft_strcmp(env->next->key, shell->cmd->argv[i]) == 0)
+		{
+			tmp = env->next;
+			env->next = env->next->next;
+			free(tmp);
+		}
+		i++;
+	}
+}
+
+int	builtin(t_shell *shell)
 {
 	char	*pwd;
 
@@ -62,5 +86,10 @@ int builtin(t_shell *shell)
 		ft_echo(shell, 1);
 		return (1);
 	}
-	return(0);
+	else if (ft_strcmp(shell->cmd->path, "unset") == 0)
+	{
+		ft_unset(shell);
+		return (1);
+	}
+	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/16 16:47:11 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/23 14:31:35 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		else if (ret == 2)
 			break ;
+		// printf("good");
 		if (ft_structur(shell, mini) == 1)
 			continue ;
 		ft_pipex(shell);
