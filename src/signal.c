@@ -1,0 +1,58 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signal.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/16 13:54:04 by bemma             #+#    #+#             */
+/*   Updated: 2025/05/23 11:10:43 by bemma            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "minishell.h"
+
+int	check_ctrl_h(void)
+{
+	if (g_sig == 0)
+		return (1);
+	return (0);
+}
+
+void	ft_ctrl_c(int sig)
+{
+	if (g_sig == 1 && sig == SIGINT)
+	{
+		ft_putstr_fd("^C", 1);
+		g_sig = SIGINT;
+		rl_done = 1;
+		
+	}
+	else if (g_sig != 1 && sig == SIGINT)
+	{
+		if (waitpid(-1, NULL, WNOHANG) == -1)
+		{
+			ft_putstr_fd("^C\n", 1);
+			rl_replace_line("", 0);
+			rl_on_new_line();
+			rl_redisplay();
+		}
+		else
+			ft_putstr_fd("\n", 1);
+	}
+}
+
+void	ft_ctrl_backslash(int sig)
+{
+	(void)sig;
+	if (waitpid(-1, NULL, WNOHANG) == -1)
+		return ;
+	else
+		ft_putstr_fd("Quit (core dumped)\n", 2);
+}
+
+void	manege_signal(void)
+{
+	signal(SIGINT, ft_ctrl_c);
+	signal(SIGQUIT, ft_ctrl_backslash);
+}

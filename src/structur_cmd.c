@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 13:16:31 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/23 14:59:00 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/23 16:33:57 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,3 @@ int	ft_structur(t_shell *shell, char *arg)
 	// }
 	return (0);
 }
-
-//demain les ""

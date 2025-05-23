@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/23 15:17:51 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/23 16:31:53 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
+# include <errno.h>
 
-typedef struct s_cmd	t_cmd;
+extern int	g_sig;
 
 enum e_token
 {
@@ -61,16 +62,19 @@ typedef struct s_token
 
 typedef struct s_cmd
 {
-	char	*path;
-	char	**argv;
-	t_list	*redirection;
-	t_cmd	*pipe;
+	char			*path;
+	char			**argv;
+	t_list			*redirection;
+	struct s_cmd	*pipe;
+	int				last_heredoc_fd;
+
 }	t_cmd;
 
 typedef struct s_redir
 {
 	char			*file;
 	enum e_redirect	type;
+	int				heredoc_fd;
 }	t_redir;
 
 typedef struct s_shell
@@ -82,6 +86,7 @@ typedef struct s_shell
 	char	**env;
 	char	**path;
 	t_env	*enviro;
+	pid_t	*pids;
 }	t_shell;
 
 int				handle_heredoc(char *delimiter);
@@ -118,15 +123,17 @@ void			free_all(t_shell *shell, char *mini);
 t_env			*env_new_node(char *key, char *value);
 int				is_valid_identifier(char *key);
 t_env			*copy_env_list(t_env *env);
-void			ft_wait(int i, pid_t pids[256]);
+void			ft_wait(int i, pid_t *pids);
+void			manege_signal(void);
+int				check_ctrl_h(void);
 void			add_or_update_env(t_env **env, char *key, char *value);
 void			ft_swap_env(t_env *current, t_env *next);
 void			print_copy(t_env *cpy);
 void			free_enviro(t_env **env);
-void			free_env(t_shell **shell);
 char			**env(t_env	*enviro);
 void			check_arg(t_shell *shell, char *value);
 void			ft_process_quote(char const *s, int *j, char sep);
+void			ft_ctrl_backslash(int sig);
 // void			before_after(char *dollar, char *str, int i);
 int				len_dollar(char *arg);
 char			*chr_path(char *arg, t_env *enviro);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utile.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 11:59:26 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/16 16:43:20 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/23 12:17:08 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	free_env(t_shell **shell)
 {
 	int	j;
+	int i;
 
 	j = 0;
 	if ((*shell)->env == NULL)
@@ -39,7 +40,7 @@ void	free_all(t_shell *shell, char *mini)
 	if (shell->tokens)
 		ft_lstclear(&shell->tokens, free_tokens);
 	if (shell->env)
-		free_env(&shell);
+		ft_free_split(shell->env);
 	if (shell->path)
 	{
 		while (shell->path[i])

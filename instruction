@@ -105,3 +105,31 @@ En c une variable d'environnement est une paire? c'est a dire?
 -Ces variables servent a transmettre des informations de configuration, comme le chemin du repertoire avec PATH=...
 -On peut acceder a ces valeur avec getenv
 
+
+
+sauv struct_cmd
+// while (shell->tokens->content)
+	// {
+	// 	printf("%s\n", ((t_token *)shell->tokens->content)->value);
+	// 	printf("%u\n", ((t_token *)shell->tokens->content)->type);
+	// 	shell->tokens = shell->tokens->next;
+	// }
+	// return (1);
+
+  // while (shell->cmd)
+	// {
+	// 	int i = 0;
+	// 	printf("path = %s\n", (shell->cmd->path));
+	// 	printf("argv = ");
+	// 	while (shell->cmd->argv[i])
+	// 		printf("%s ", (shell->cmd->argv[i++]));
+	// 	printf("\n");
+	// 	while (shell->cmd->redirection)
+	// 	{
+	// 		printf("redirection file = %s\n", ((t_redir *)shell->cmd->redirection->content)->file);
+	// 		printf("redirection type = %u\n", ((t_redir *)shell->cmd->redirection->content)->type);
+	// 		shell->cmd->redirection = shell->cmd->redirection->next;
+	// 	}
+	// 	shell->cmd = shell->cmd->pipe;
+	// 	printf("\n");
+	// }
