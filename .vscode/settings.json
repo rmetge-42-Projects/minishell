@@ -2,6 +2,7 @@
 	"files.associations": {
 		"random": "c",
 		"string.h": "c",
-		"minishell.h": "c"
+		"minishell.h": "c",
+		"format": "c"
 	}
 }

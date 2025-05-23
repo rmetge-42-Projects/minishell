@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/23 11:46:20 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/23 12:18:20 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,9 @@ static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 	free_all(shell, NULL);
 	free_shell(&shell);
 	exit(1);
+	if (builtin(shell) == 1)
+		return;
+	execve(cmd->path, cmd->argv, shell->env);
 }
 
 pid_t	ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
@@ -124,6 +127,8 @@ void	ft_pipex(t_shell *shell)
 	shell->pids = malloc(sizeof(pid_t) * cmd_count);
 	fd_here_temp = apply_heredoc(shell);
 	cmd = shell->cmd;
+	if (!shell->cmd->pipe && builtin(shell) == 1)
+			return;
 	while (cmd != NULL)
 	{
 		shell->pids[i++] = ft_fork_child(shell, cmd, fd, in_fd);

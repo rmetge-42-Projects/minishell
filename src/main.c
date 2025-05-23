@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/22 17:19:00 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/23 12:17:39 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,7 @@ int	main(int argc, char **argv, char **envp)
 	rl_catch_signals = 0;
 	while (1)
 	{
-		//g_sig = 0;
-		
+		shell->path = NULL;
 		mini = readline("\001\033[38;5;205m\002minishell> \001\033[0m\002");
 		if (!mini)
 			break ;

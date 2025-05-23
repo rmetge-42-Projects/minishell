@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 13:16:31 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/16 16:41:34 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/23 12:18:42 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,14 @@ int	ft_structur(t_shell *shell, char *arg)
 		free_all(shell, arg);
 		return (ft_lstclear(&shell->tokens, free_tokens), 1);
 	}
+	// while (shell->tokens->content)
+	// {
+	// 	printf("%s\n", ((t_token *)shell->tokens->content)->value);
+	// 	printf("%u\n", ((t_token *)shell->tokens->content)->type);
+	// 	shell->tokens = shell->tokens->next;
+	// }
+	// return (1);
+	// printf("i");
 	structur_cmd(shell);
 	shell->tokens = t;
 	ft_lstclear(&shell->tokens, free_tokens);

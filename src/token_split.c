@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:41:25 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/16 12:14:39 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/20 18:36:42 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static void	process_redir(char const *s, int *j)
 	}
 }
 
-static void	ft_process_2(char const *s, int *j, int redir)
+void	ft_process_2(char const *s, int *j, int redir)
 {
 	if (s[*j] == 39 || s[*j] == 34)
 		ft_process_quote(s, j, s[*j]);
@@ -108,7 +108,8 @@ t_list	*stuctur_token(char const *s, t_shell *shell)
 		if (k < j)
 		{
 			t = check_quote(shell, j - k, s + k);
-			ft_lstadd_back(&dest, ft_lstnew((t)));
+			if (t->value != NULL)
+				ft_lstadd_back(&dest, ft_lstnew((t)));
 		}
 	}
 	return (dest);

@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 10:17:07 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/16 12:14:53 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/20 19:01:33 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_token	*ft_tokennew(char *value, enum e_token type)
 
 int	chr_sep(char c)
 {
-	if (c == ' ' || c == '\t' || c == '\n' /*|| c == 39 || c == 34 */|| c == '|'
+	if (c == ' ' || c == '\t' || c == '\n' || c == '|'
 		|| c == '<' || c == '>')
 		return (1);
 	return (0);
@@ -79,4 +79,6 @@ void	ft_process_quote(char const *s, int *j, char sep)
 	while (s[*j] && s[*j] != sep)
 		(*j)++;
 	(*j)++;
+	if (s[*j] != ' ')
+		ft_process_2(s, j, 0);
 }

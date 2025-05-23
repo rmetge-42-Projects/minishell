@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:25:05 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/15 13:15:54 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/21 09:10:50 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ char	*ft_find_path_cmd(char **path, char *argv)
 {
 	int		i;
 	char	*path1;
-	char	**str;
 
 	i = 0;
 	if (ft_strchr(argv, '/') != 0)
@@ -81,14 +80,13 @@ char	*ft_find_path_cmd(char **path, char *argv)
 		if (access(argv, X_OK) == 0)
 			return (ft_strdup(argv));
 	}
-	str = ft_split(argv, ' ');
 	while (path[i])
 	{
-		path1 = ft_strjoin(path[i], str[0]);
+		path1 = ft_strjoin(path[i], argv);
 		if (access(path1, X_OK) == 0)
-			return (ft_free_split(str), path1);
+			return (path1);
 		i++;
 		free(path1);
 	}
-	return (ft_free_split(str), NULL);
+	return (ft_strdup(argv));
 }

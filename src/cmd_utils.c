@@ -6,48 +6,80 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 11:15:48 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/16 16:39:24 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/23 12:16:34 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	quote(int *q0, int *q1, int i, char *src)
+{
+	if (src[i] == 34 && (*q0) == 0)
+	{
+		if ((*q1) == 0)
+			(*q1) = 1;
+		else if ((*q1) == 1)
+			(*q1) = 0;
+	}
+	else if (src[i] == 39 && (*q1) == 0)
+	{
+		if ((*q0) == 0)
+			(*q0) = 1;
+		else if ((*q0) == 1)
+			(*q0) = 0;
+	}
+}
+
 char	*cpy_quote(char *src, int len)
 {
+	char	*dest;
 	int		i;
 	int		j;
-	char	*dest;
+	int		q[2];
 
-	dest = ft_calloc(len + 1, sizeof(char));
+	q[0] = 0;
+	q[1] = 0;
 	i = 0;
 	j = 0;
+	dest = ft_calloc(len + 1, sizeof(char));
 	while (src[i])
 	{
-		if (src[i] != 39 && src[i] != 34)
-			dest[j++] = src[i++];
+		if ((src[i] == 34 && q[0] == 0) || (src[i] == 39 && q[1] == 0))
+			quote(&q[0], &q[1], i, src);
 		else
-			i++;
+		{
+			dest[j] = src[i];
+			j++;
+		}
+		i++;
 	}
 	dest[j] = '\0';
 	return (dest);
 }
 
-void	check_arg(t_shell *shell)
+void	check_arg(t_shell *shell, char *value)
 {
 	int		i;
+	int		j;
 	int		len;
 	char	*dest;
+	int		q[2];
 
 	i = 0;
+	j = 0;
 	len = 0;
-	while (((t_token *)shell->tokens->content)->value[i])
+	q[0] = 0;
+	q[1] = 0;
+	while (value[i])
 	{
-		if (((t_token *)shell->tokens->content)->value[i] != 39
-			&& ((t_token *)shell->tokens->content)->value[i] != 34)
+		if ((value[i] == 34 && q[0] == 0)
+			|| (value[i] == 39 && q[1] == 0))
+			quote(&q[0], &q[1], i, (value));
+		else
 			len++;
 		i++;
 	}
-	dest = cpy_quote(((t_token *)shell->tokens->content)->value, len);
-	free(((t_token *)shell->tokens->content)->value);
+	dest = cpy_quote(value, len);
+	free (((t_token *)shell->tokens->content)->value);
 	((t_token *)shell->tokens->content)->value = dest;
 }

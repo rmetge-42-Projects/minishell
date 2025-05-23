@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/23 11:24:47 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/23 12:15:39 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,8 +131,18 @@ void			ft_swap_env(t_env *current, t_env *next);
 void			print_copy(t_env *cpy);
 void			free_enviro(t_env **env);
 char			**env(t_env	*enviro);
-void			check_arg(t_shell *shell);
+void			check_arg(t_shell *shell, char *value);
 void			ft_process_quote(char const *s, int *j, char sep);
 void			ft_ctrl_backslash(int sig);
+// void			before_after(char *dollar, char *str, int i);
+int				len_dollar(char *arg);
+char			*chr_path(char *arg, t_env *enviro);
+// char			*dollar_path(char *arg, t_env *enviro, char *first);
+void			ft_process_2(char const *s, int *j, int redir);
+char			*ft_dollar(t_shell *shell, char *first, char *dest);
+char			*space_join(char *s1, char *s2);
+int				builtin(t_shell *shell);
+int				ft_cd(t_shell *shell, char **argv);
+// char			*ft_pwd(t_shell *shell, char *str);
 
 #endif

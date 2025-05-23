@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:10:11 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/16 12:13:11 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/21 18:11:50 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,13 @@ int	path_cmd(t_shell *shell, t_cmd *cmd, t_list **argument)
 	t_token	*t;
 
 	t = shell->tokens->content;
-	cmd->path = ft_find_path_cmd(shell->path, t->value);
+	if (ft_strcmp("pwd", t->value) == 0 || ft_strcmp("echo", t->value) == 0
+		|| ft_strcmp("cd", t->value) == 0 || ft_strcmp("export", t->value) == 0
+		|| ft_strcmp("unset", t->value) == 0 || ft_strcmp("env", t->value) == 0
+		|| ft_strcmp("exit", t->value) == 0)
+		cmd->path = ft_strdup(t->value);
+	else
+		cmd->path = ft_find_path_cmd(shell->path, t->value);
 	if (cmd->path == NULL)
 		return (0);
 	arg_addback(argument, &shell->tokens);
@@ -81,11 +87,12 @@ t_cmd	*cmd_new(t_shell *shell)
 	path = 0;
 	while (shell->tokens && ((t_token *)shell->tokens->content)->type != PIPE)
 	{
+		check_arg(shell, ((t_token *)shell->tokens->content)->value);
 		if (((t_token *)shell->tokens->content)->type == REDIRECT)
 			stuctur_redicection(&shell->tokens, &cmd);
 		else if (path == 0)
 		{
-			check_arg(shell);
+
 			path = path_cmd(shell, cmd, &argument);
 			if (path == 0)
 				return (free(cmd), ft_lstclear(&argument, free), NULL);
