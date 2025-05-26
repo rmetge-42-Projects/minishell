@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/26 15:24:28 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/26 20:45:46 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	apply_redirections(t_cmd *cmd)
 	current = cmd->redirection;
 	while (current)
 	{
-		r = (t_redir *)cmd->redirection->content;
+		r = (t_redir *)current->content;
 		if (r->type == INPUT)
 			open_input(r->file);
 		else if (r->type == OUTPUT)
@@ -45,22 +45,24 @@ static	void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 		dup2(fd[1], STDOUT_FILENO);
 	close(fd[0]);
 	close(fd[1]);
-	if (builtin(shell) == 1)
+	if (builtin(cmd) == 1)
 	{
-		if (ft_strcmp(shell->cmd->path, "cd") != 0)
-			apply_builtin(shell);
+		if (ft_strncmp(cmd->path, "cd", 2) != 0)
+			apply_builtin(shell, cmd, 1);
 		free(shell->pids);
 		free_all(shell, NULL);
 		free_shell(&shell);
-		exit (0);
+		exit(0);
 	}
-	else if (cmd->path && g_sig != SIGINT)
-		execve(cmd->path, cmd->argv, shell->env);
+	else if (builtin(cmd) != 1)
+	{
+		if (execve(cmd->path, cmd->argv, shell->env) == -1)
+			printf("eurreur\n");
+	}
 	free(shell->pids);
 	free_all(shell, NULL);
 	free_shell(&shell);
-	exit(1);
-	// execve(cmd->path, cmd->argv, shell->env);
+	exit(0);
 }
 
 pid_t	ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
@@ -128,8 +130,11 @@ void	ft_pipex(t_shell *shell)
 	int		i;
 	int		fd_here_temp;
 
-	if (!shell->cmd->pipe && builtin(shell) == 1)
-		return(apply_builtin(shell));
+	if (!shell->cmd->pipe && builtin(shell->cmd) == 1)
+	{
+		apply_builtin(shell, shell->cmd, 0);
+		return;
+	}
 	in_fd = 0;
 	i = 0;
 	cmd_count = count_cmds(shell->cmd);

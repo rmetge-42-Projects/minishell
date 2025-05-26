@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:14:50 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/26 14:37:34 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/26 20:04:52 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,15 @@ void	ft_echo(t_shell *shell, int newline, int fd)
 		j = 2;
 		while (shell->cmd->argv[i][j] == 'n')
 			j++;
-		if (!shell->cmd->argv[i][j])
-		{
-			i++;
-			newline = 0;
-		}
+		if (shell->cmd->argv[i][j])
+			break;
+		i++;
+		newline = 0;
 	}
 	while (shell->cmd->argv[i])
 	{
 		ft_putstr_fd(shell->cmd->argv[i], fd);
-		// printf("%s", shell->cmd->argv[i]);
 		if (shell->cmd->argv[i + 1] != NULL)
-			// printf(" ");
 			ft_putstr_fd(" ", fd);
 		i++;
 	}
@@ -71,13 +68,15 @@ void	ft_unset(t_shell *shell)
 	}
 }
 
-void	ft_pwd(int fd)
+int	ft_pwd(int fd)
 {
 	char	pwd[1024];
 
-	getcwd(pwd, sizeof(pwd));
+	if (getcwd(pwd, sizeof(pwd)) == NULL)
+		return (ft_putstr_fd("erreur", 2), 1);
 	ft_putstr_fd(pwd, fd);
 	ft_putstr_fd("\n", fd);
+	return (0);
 }
 
 int	ft_env(t_shell *shell)

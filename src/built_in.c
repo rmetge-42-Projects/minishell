@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:17:53 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/26 14:31:40 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/26 20:42:58 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,43 +48,46 @@ int	ft_exit(t_shell *shell)
 	return (ft_free_split(args), 0);
 }
 
-void	apply_builtin(t_shell *shell)
+void	apply_builtin(t_shell *shell, t_cmd *cmd, int pipe)
 {
 	int		fd;
 
-	fd = redirection_bulitin(shell->cmd);
-	if (ft_strcmp(shell->cmd->path, "cd") == 0)
-		ft_cd(shell, shell->cmd->argv);
-	else if (ft_strcmp(shell->cmd->path, "pwd") == 0)
+	fd = 1;
+	if (pipe == 0)
+		fd = redirection_bulitin(cmd);
+	// if (!fd)
+	if (ft_strcmp(cmd->path, "cd") == 0)
+		ft_cd(shell, cmd->argv);
+	else if (ft_strcmp(cmd->path, "pwd") == 0)
 		ft_pwd(fd);
-	else if (ft_strcmp(shell->cmd->path, "echo") == 0)
+	else if (ft_strcmp(cmd->path, "echo") == 0)
 		ft_echo(shell, 1, fd);
-	else if (ft_strcmp(shell->cmd->path, "unset") == 0)
+	else if (ft_strcmp(cmd->path, "unset") == 0)
 		ft_unset(shell);
-	else if (ft_strcmp(shell->cmd->path, "export") == 0)
+	else if (ft_strcmp(cmd->path, "export") == 0)
 		ft_export(shell);
-	else if (ft_strncmp(shell->cmd->path, "env", 4) == 0
+	else if (ft_strncmp(cmd->path, "env", 4) == 0
 		/*|| ft_strncmp(shell->cmd->path, "envp", 5) == 0*/)
 		ft_env(shell);
 	// close (fd);
 }
 
-int	builtin(t_shell *shell)
+int	builtin(t_cmd *cmd)
 {
 	// (void)shell;
-	if (!shell->cmd->path)
+	if (!cmd->path)
 		return (0);
-	if (ft_strcmp(shell->cmd->path, "cd") == 0)
+	if (ft_strcmp(cmd->path, "cd") == 0)
 		return (1);
-	else if (ft_strcmp(shell->cmd->path, "pwd") == 0)
+	else if (ft_strcmp(cmd->path, "pwd") == 0)
 		return (1);
-	else if (ft_strcmp(shell->cmd->path, "echo") == 0)
+	else if (ft_strcmp(cmd->path, "echo") == 0)
 		return (1);
-	else if (ft_strcmp(shell->cmd->path, "unset") == 0)
+	else if (ft_strcmp(cmd->path, "unset") == 0)
 		return (1);
-	else if (ft_strcmp(shell->cmd->path, "export") == 0)
+	else if (ft_strcmp(cmd->path, "export") == 0)
 		return (1);
-	if (ft_strcmp(shell->cmd->path, "env") == 0
+	if (ft_strcmp(cmd->path, "env") == 0
 		/*|| ft_strcmp(shell->cmd->path, "envp") == 0*/)
 		return (1);
 	return (0);
