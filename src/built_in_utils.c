@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:14:50 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/23 18:03:17 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/26 14:37:34 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,46 +80,18 @@ void	ft_pwd(int fd)
 	ft_putstr_fd("\n", fd);
 }
 
-void	apply_builtin(t_shell *shell)
+int	ft_env(t_shell *shell)
 {
-	int		fd;
+	t_env	*current;
 
-	fd = redirection_bulitin(shell->cmd);
-	if (ft_strcmp(shell->cmd->path, "cd") == 0)
+	if (!shell->path)
+		return (printf("env: No such file or directory\n"), 0);
+	current = shell->enviro;
+	while (current)
 	{
-		ft_cd(shell, shell->cmd->argv);
+		if (current->value)
+			printf("%s=%s\n", current->key, current->value);
+		current = current->next;
 	}
-	else if (ft_strcmp(shell->cmd->path, "pwd") == 0)
-		ft_pwd(fd);
-	else if (ft_strcmp(shell->cmd->path, "echo") == 0)
-	{
-		ft_echo(shell, 1, fd);
-	}
-	else if (ft_strcmp(shell->cmd->path, "unset") == 0)
-	{
-		ft_unset(shell);
-	}
-	else if (ft_strcmp(shell->cmd->path, "export") == 0)
-	{
-		ft_export(shell);
-	}
-	// close (fd);
-}
-
-int	builtin(t_shell *shell)
-{
-	// (void)shell;
-	if (!shell->cmd->path)
-		return (0);
-	if (ft_strcmp(shell->cmd->path, "cd") == 0)
-		return (1);
-	else if (ft_strcmp(shell->cmd->path, "pwd") == 0)
-		return (1);
-	else if (ft_strcmp(shell->cmd->path, "echo") == 0)
-		return (1);
-	else if (ft_strcmp(shell->cmd->path, "unset") == 0)
-		return (1);
-	else if (ft_strcmp(shell->cmd->path, "export") == 0)
-		return (1);
-	return (0);
+	return (1);
 }

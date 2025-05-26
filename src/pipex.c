@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/23 17:10:58 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/26 15:24:28 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,22 @@ static	void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 		dup2(fd[1], STDOUT_FILENO);
 	close(fd[0]);
 	close(fd[1]);
-	if (cmd->path && g_sig != SIGINT)
+	if (builtin(shell) == 1)
+	{
+		if (ft_strcmp(shell->cmd->path, "cd") != 0)
+			apply_builtin(shell);
+		free(shell->pids);
+		free_all(shell, NULL);
+		free_shell(&shell);
+		exit (0);
+	}
+	else if (cmd->path && g_sig != SIGINT)
 		execve(cmd->path, cmd->argv, shell->env);
 	free(shell->pids);
 	free_all(shell, NULL);
 	free_shell(&shell);
 	exit(1);
-	if (builtin(shell) == 1)
-		exit (0);
-	execve(cmd->path, cmd->argv, shell->env);
+	// execve(cmd->path, cmd->argv, shell->env);
 }
 
 pid_t	ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
@@ -121,14 +128,14 @@ void	ft_pipex(t_shell *shell)
 	int		i;
 	int		fd_here_temp;
 
+	if (!shell->cmd->pipe && builtin(shell) == 1)
+		return(apply_builtin(shell));
 	in_fd = 0;
 	i = 0;
 	cmd_count = count_cmds(shell->cmd);
 	shell->pids = malloc(sizeof(pid_t) * cmd_count);
 	fd_here_temp = apply_heredoc(shell);
 	cmd = shell->cmd;
-	if (!shell->cmd->pipe && builtin(shell) == 1)
-		return(apply_builtin(shell));
 	while (cmd != NULL)
 	{
 		shell->pids[i++] = ft_fork_child(shell, cmd, fd, in_fd);

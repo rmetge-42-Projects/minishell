@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:23:42 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/15 18:13:29 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/26 15:57:03 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ char	*cpy_env(t_env *enviro)
 
 	j = 0;
 	k = 0;
-	len = ft_strlen(enviro->key) + ft_strlen(enviro->value);
+	len = ft_strlen(enviro->key);
+	if (enviro->value)
+		len += ft_strlen(enviro->value);
 	dest = ft_calloc(len + 2, sizeof(char));
 	while (j < ft_strlen(enviro->key))
 	{
@@ -43,10 +45,10 @@ char	*cpy_env(t_env *enviro)
 	}
 	j = 0;
 	dest[k++] = '=';
-	while (j < ft_strlen(enviro->value))
+	if (enviro->value)
 	{
-		dest[k++] = enviro->value[j];
-		j++;
+		while (j < ft_strlen(enviro->value))
+			dest[k++] = enviro->value[j++];
 	}
 	dest[k] = '\0';
 	return (dest);

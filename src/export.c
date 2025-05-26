@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:57:52 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/23 18:04:41 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/26 15:37:19 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ void	ft_export(t_shell *shell)
 	while (args[i])
 	{
 		equal_sign = ft_strchr(args[i], '=');
+		if (equal_sign == NULL)
+			// equal_sign = args[i];
 		res = export_env(args, i, shell, equal_sign);
 		if (res == 1)
 			continue ;

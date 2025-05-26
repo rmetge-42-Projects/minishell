@@ -3,14 +3,40 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:17:53 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/16 13:55:11 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/26 14:31:40 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+// char *ft_strndup(const char *s, size_t n)
+// {
+// 	char	*dup;
+// 	size_t	len;
+
+// 	if (!s)
+// 		return (NULL);
+// 	len = strnlen(s, n); // Trouve la longueur réelle à copier (max n)
+// 	dup = malloc(len + 1); // Alloue la mémoire pour la nouvelle chaîne
+// 	if (!dup)
+// 		return (NULL);
+// 	ft_memcpy(dup, s, len); // Copie les caractères
+// 	dup[len] = '\0'; // Ajoute le caractère nul de fin
+// 	return (dup);
+// }
+
+// void	ft_ctrl_c(int sig)
+// {
+// 	(void)sig;
+
+// 	write(1, "\n", 1);
+// 	rl_on_new_line();
+// 	rl_replace_line("", 0);
+// 	rl_redisplay();
+// }
 
 int	ft_exit(t_shell *shell)
 {
@@ -21,3 +47,70 @@ int	ft_exit(t_shell *shell)
 		return (ft_free_split(args), 1);
 	return (ft_free_split(args), 0);
 }
+
+void	apply_builtin(t_shell *shell)
+{
+	int		fd;
+
+	fd = redirection_bulitin(shell->cmd);
+	if (ft_strcmp(shell->cmd->path, "cd") == 0)
+		ft_cd(shell, shell->cmd->argv);
+	else if (ft_strcmp(shell->cmd->path, "pwd") == 0)
+		ft_pwd(fd);
+	else if (ft_strcmp(shell->cmd->path, "echo") == 0)
+		ft_echo(shell, 1, fd);
+	else if (ft_strcmp(shell->cmd->path, "unset") == 0)
+		ft_unset(shell);
+	else if (ft_strcmp(shell->cmd->path, "export") == 0)
+		ft_export(shell);
+	else if (ft_strncmp(shell->cmd->path, "env", 4) == 0
+		/*|| ft_strncmp(shell->cmd->path, "envp", 5) == 0*/)
+		ft_env(shell);
+	// close (fd);
+}
+
+int	builtin(t_shell *shell)
+{
+	// (void)shell;
+	if (!shell->cmd->path)
+		return (0);
+	if (ft_strcmp(shell->cmd->path, "cd") == 0)
+		return (1);
+	else if (ft_strcmp(shell->cmd->path, "pwd") == 0)
+		return (1);
+	else if (ft_strcmp(shell->cmd->path, "echo") == 0)
+		return (1);
+	else if (ft_strcmp(shell->cmd->path, "unset") == 0)
+		return (1);
+	else if (ft_strcmp(shell->cmd->path, "export") == 0)
+		return (1);
+	if (ft_strcmp(shell->cmd->path, "env") == 0
+		/*|| ft_strcmp(shell->cmd->path, "envp") == 0*/)
+		return (1);
+	return (0);
+}
+
+
+// int	bultin(t_shell *shell)
+// {
+// 	t_env	*current;
+
+// 	// if (ft_strncmp(shell->args[0], "export", 7) == 0)
+// 	// {
+// 	// 	ft_export(shell);
+// 	// 	return (1);
+// 	// }
+// 	if (ft_strncmp(shell->args[0], "env", 4) == 0
+// 		|| ft_strncmp(shell->args[0], "envp", 5) == 0)
+// 	{
+// 		current = shell->enviro;
+// 		while (current)
+// 		{
+// 			if (current->value)
+// 				printf("%s=%s\n", current->key, current->value);
+// 			current = current->next;
+// 		}
+// 		return (1);
+// 	}
+// 	return (0);
+// }

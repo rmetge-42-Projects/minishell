@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/23 17:00:14 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/26 14:37:50 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,17 +134,18 @@ char			**env(t_env	*enviro);
 void			check_arg(t_shell *shell, char *value);
 void			ft_process_quote(char const *s, int *j, char sep);
 void			ft_ctrl_backslash(int sig);
-// void			before_after(char *dollar, char *str, int i);
 int				len_dollar(char *arg);
 char			*chr_path(char *arg, t_env *enviro);
-// char			*dollar_path(char *arg, t_env *enviro, char *first);
 void			ft_process_2(char const *s, int *j, int redir);
 char			*ft_dollar(t_shell *shell, char *first, char *dest);
 char			*space_join(char *s1, char *s2);
-int				builtin(t_shell *shell);
 int				ft_cd(t_shell *shell, char **argv);
-// char			*ft_pwd(t_shell *shell, char *str);
 int				redirection_bulitin(t_cmd *cmd);
 void			apply_builtin(t_shell *shell);
+int				builtin(t_shell *shell);
+void			ft_unset(t_shell *shell);
+void			ft_echo(t_shell *shell, int newline, int fd);
+void			ft_pwd(int fd);
+int				ft_env(t_shell *shell);
 
 #endif
