@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_utile.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 11:59:26 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/27 11:22:54 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/27 15:12:35 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,9 @@ void	free_all(t_shell *shell, char *mini)
 		ft_free_split(shell->env);
 	if (shell->path)
 	{
-		while (shell->path[i])
-			free (shell->path[i++]);
-		free (shell->path);
+		// while (shell->path[i])
+		// 	free (shell->path[i++]);
+		// free (shell->path);
+		ft_free_split(shell->path);
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/27 14:17:45 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/27 15:17:04 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,13 @@ int	check_readline(t_shell *shell, char *mini)
 	// }
 	if (*mini)
 		add_history(mini);
+		
 	if (!shell->args || !shell->args[0])
 		return (1);
 	// if (bultin(shell) == 1)
 	// 	return (free_all(shell, mini), 1);
 	if (ft_exit(shell) == 1)
-		return (free_all(shell, mini), 2);
+		return (ft_free_split(shell->args), free(mini), 2);
 	return (0);
 }
 
@@ -97,7 +98,11 @@ int	main(int argc, char **argv, char **envp)
 		if (ret == 1)
 			continue ;
 		else if (ret == 2)
+		{
+			// free_all(shell, mini);
 			break ;
+		}
+			
 		// printf("good");
 		if (ft_structur(shell, mini) == 1)
 			continue ;
