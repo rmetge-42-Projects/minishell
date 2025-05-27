@@ -6,33 +6,33 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:14:50 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/26 20:04:52 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/27 11:15:30 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_echo(t_shell *shell, int newline, int fd)
+void	ft_echo(t_cmd *cmd, int newline, int fd)
 {
 	int	i;
 	int	j;
 
 	i = 1;
-	while (shell->cmd->argv[i] != NULL
-		&& ft_strncmp(shell->cmd->argv[i], "-n", 2) == 0)
+	while (cmd->argv[i] != NULL
+		&& ft_strncmp(cmd->argv[i], "-n", 2) == 0)
 	{
 		j = 2;
-		while (shell->cmd->argv[i][j] == 'n')
+		while (cmd->argv[i][j] == 'n')
 			j++;
-		if (shell->cmd->argv[i][j])
+		if (cmd->argv[i][j])
 			break;
 		i++;
 		newline = 0;
 	}
-	while (shell->cmd->argv[i])
+	while (cmd->argv[i])
 	{
-		ft_putstr_fd(shell->cmd->argv[i], fd);
-		if (shell->cmd->argv[i + 1] != NULL)
+		ft_putstr_fd(cmd->argv[i], fd);
+		if (cmd->argv[i + 1] != NULL)
 			ft_putstr_fd(" ", fd);
 		i++;
 	}
@@ -40,7 +40,7 @@ void	ft_echo(t_shell *shell, int newline, int fd)
 		ft_putstr_fd("\n", fd);
 }
 
-void	ft_unset(t_shell *shell)
+void	ft_unset(t_shell *shell, t_cmd *cmd)
 {
 	t_env	*env;
 	t_env	*tmp;
@@ -48,21 +48,19 @@ void	ft_unset(t_shell *shell)
 
 	env = shell->enviro;
 	i = 1;
-	if (!shell->cmd->argv[1])
+	if (!cmd->argv[1])
 		return ;
-	while (shell->cmd->argv[i])
+	while (cmd->argv[i])
 	{
-		while (env->next && ft_strcmp(env->next->key, shell->cmd->argv[i]) != 0)
+		while (env->next && ft_strcmp(env->next->key, cmd->argv[i]) != 0)
 			env = env->next;
-		if (env->next && ft_strcmp(env->next->key, shell->cmd->argv[i]) == 0)
+		if (env->next && ft_strcmp(env->next->key, cmd->argv[i]) == 0)
 		{
 			tmp = env->next;
-			// free(env->next);
 			env->next = env->next->next;
 			free(tmp->key);
 			free(tmp->value);
 			free(tmp);
-			// env->next->value = ft_strdup("(null)");
 		}
 		i++;
 	}

@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/26 20:43:17 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/27 11:09:14 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,8 +143,8 @@ int				ft_cd(t_shell *shell, char **argv);
 int				redirection_bulitin(t_cmd *cmd);
 void			apply_builtin(t_shell *shell, t_cmd *cmd, int pipe);
 int				builtin(t_cmd *cmd);
-void			ft_unset(t_shell *shell);
-void			ft_echo(t_shell *shell, int newline, int fd);
+void			ft_unset(t_shell *shell, t_cmd *cmd);
+void			ft_echo(t_cmd *cmd, int newline, int fd);
 int				ft_pwd(int fd);
 int				ft_env(t_shell *shell);
 

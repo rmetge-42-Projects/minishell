@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/26 20:45:46 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/27 11:15:53 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,8 @@ static	void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 	close(fd[1]);
 	if (builtin(cmd) == 1)
 	{
-		if (ft_strncmp(cmd->path, "cd", 2) != 0)
+		if (ft_strcmp(cmd->path, "cd") != 0)
 			apply_builtin(shell, cmd, 1);
-		free(shell->pids);
-		free_all(shell, NULL);
-		free_shell(&shell);
-		exit(0);
 	}
 	else if (builtin(cmd) != 1)
 	{

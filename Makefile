@@ -9,7 +9,7 @@ SRC_DIR = src
 INC_DIR = inc
 OBJ_DIR = obj
 
-SOURCES = ./built_in.c ./builtin_redirection.c ./built_in_utils.c ./bultin_rmn.c ./cd.c ./check_quote.c ./cmd_utils.c ./dollar.c ./env.c ./export.c ./export_utils.c ./export_utils_two.c ./free.c ./free_utile.c ./header.c ./main.c ./path.c ./pipex.c ./pipex_utils.c ./signal.c ./structur_cmd.c ./structur_utile.c ./token_split.c ./token_utile.c 
+SOURCES = ./built_in.c ./builtin_redirection.c ./built_in_utils.c ./cd.c ./check_quote.c ./cmd_utils.c ./dollar.c ./env.c ./export.c ./export_utils.c ./export_utils_two.c ./free.c ./free_utile.c ./header.c ./main.c ./path.c ./pipex.c ./pipex_utils.c ./signal.c ./structur_cmd.c ./structur_utile.c ./token_split.c ./token_utile.c 
 
 OBJS = $(SOURCES:%.c=$(OBJ_DIR)/%.o)
 
