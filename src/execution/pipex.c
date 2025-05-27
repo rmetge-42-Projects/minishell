@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/27 14:12:55 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/27 14:29:35 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,7 @@ static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 		dup2(in_fd, STDIN_FILENO);
 	if (cmd->pipe && !has_output_redirection(cmd))
 		dup2(fd[1], STDOUT_FILENO);
-	
 	apply_redirections(cmd);
-
 	close(fd[0]);
 	close(fd[1]);
 	if (builtin(shell) == 1)
@@ -144,19 +142,7 @@ void	ft_pipex(t_shell *shell)
 		close(fd[1]);
 		if (in_fd != 0)
 			close(in_fd);
-		if (!has_output_redirection(cmd))
-		{
-			
-			in_fd = fd[0];
-			
-		}
-			
-		else
-		{
-			
-			close(fd[0]);
-			in_fd = 0;
-		}
+		in_fd = fd[0];
 		g_sig = 0;
 		cmd = cmd->pipe;
 	}
