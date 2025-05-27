@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 11:26:11 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/27 14:40:47 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/27 15:34:22 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_pipex_before(t_shell *shell)
 	return (0);
 }
 
-void close_free(int in_fd, t_shell *shell)
+void	close_free(int in_fd, t_shell *shell)
 {
 	if (in_fd != 0)
 		close(in_fd);

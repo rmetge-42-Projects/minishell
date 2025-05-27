@@ -3,14 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/27 14:35:16 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/27 15:40:17 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ft_last_fd(int fd)
+{
+	dup2(fd, STDOUT_FILENO);
+	close(fd);
+}
 
 void	apply_redirections(t_cmd *cmd)
 {
@@ -32,17 +38,10 @@ void	apply_redirections(t_cmd *cmd)
 		current = current->next;
 	}
 	if (last_fd != -1)
-	{
-		dup2(last_fd, STDOUT_FILENO);
-		close(last_fd);
-	}
+		ft_last_fd(last_fd);
 	if (cmd->last_heredoc_fd != -1)
-	{
-		dup2(cmd->last_heredoc_fd, STDIN_FILENO);
-		close(cmd->last_heredoc_fd);
-	}
+		ft_last_fd(cmd->last_heredoc_fd);
 }
-
 
 static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 {
@@ -64,8 +63,6 @@ static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 		{
 			if (execve(cmd->path, cmd->argv, shell->env) == -1)
 				printf("eurreur\n");
-			// execve(cmd->path, cmd->argv, shell->env);
-			// printf("erreur\n");
 		}
 	}
 	free(shell->pids);
@@ -100,67 +97,3 @@ int	count_cmds(t_cmd *cmd)
 	}
 	return (count);
 }
-
-int apply_heredoc(t_shell *shell)
-{
-	t_redir	*r;
-	t_list	*redirs;
-	t_cmd	*tmp;
-	int		fd;
-
-	tmp = shell->cmd;
-	while (tmp)
-	{
-		redirs = tmp->redirection;
-		tmp->last_heredoc_fd = -1;
-		while (redirs)
-		{
-			r = (t_redir *)redirs->content;
-			if (r->type == HEREDOC)
-			{
-				fd = handle_heredoc(r->file);
-				if (tmp->last_heredoc_fd != -1)
-					close(tmp->last_heredoc_fd);
-				tmp->last_heredoc_fd = fd;
-			}
-			redirs = redirs->next;
-		}
-		tmp = tmp->pipe;
-	}
-	return (fd);
-}
-
-// void	ft_pipex(t_shell *shell)
-// {
-// 	int		fd[2];
-// 	int		in_fd;
-// 	t_cmd	*cmd;
-// 	int		cmd_count;
-// 	int		i;
-// 	int		fd_here_temp;
-
-// 	in_fd = 0;
-// 	i = 0;
-// 	cmd_count = count_cmds(shell->cmd);
-// 	shell->pids = malloc(sizeof(pid_t) * cmd_count);
-// 	fd_here_temp = apply_heredoc(shell);
-// 	cmd = shell->cmd;
-// 	// if (!shell->cmd->pipe && builtin(shell) == 1)
-// 	// 		return ;
-// 	while (cmd != NULL)
-// 	{
-// 		shell->pids[i++] = ft_fork_child(shell, cmd, fd, in_fd);
-// 		close(fd[1]);
-// 		if (in_fd != 0)
-// 			close(in_fd);
-// 		in_fd = fd[0];
-// 		g_sig = 0;
-// 		cmd = cmd->pipe;
-// 	}
-// 	ft_wait(cmd_count, shell->pids);
-// 	if (in_fd != 0)
-// 		close(in_fd);
-// 	if (shell->cmd->last_heredoc_fd != -1)
-// 		close(shell->cmd->last_heredoc_fd);
-// 	free(shell->pids);
-// }

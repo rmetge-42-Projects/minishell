@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 13:54:04 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/23 11:10:43 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/27 15:42:17 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	ft_ctrl_c(int sig)
 		ft_putstr_fd("^C", 1);
 		g_sig = SIGINT;
 		rl_done = 1;
-		
 	}
 	else if (g_sig != 1 && sig == SIGINT)
 	{
