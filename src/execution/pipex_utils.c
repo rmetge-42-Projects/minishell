@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:57:05 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/27 13:17:46 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/27 14:32:54 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,10 @@ void	ft_wait(int count, pid_t *pids)
 	}
 }
 
-int null_event(){
+int null_event()
+{
 	return (1);
-	}
+}
 
 int	handle_heredoc(char *delimiter)
 {
