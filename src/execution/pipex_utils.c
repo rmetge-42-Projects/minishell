@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:57:05 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/27 12:07:03 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/27 14:33:30 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	handle_heredoc(char *delimiter)
 		}
 		else if ((!line || ft_strcmp(line, delimiter) == 0))
 		{
-			
+
 			if (!line)
 			{
 				ft_putstr_fd("bash: warning: here-document at line ", 2);
@@ -94,7 +94,6 @@ void	open_input(char *file)
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 }
-
 
 
 int	open_out_put(char *file, int append, int last_fd)

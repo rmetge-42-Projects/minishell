@@ -3,28 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   free_utile.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 11:59:26 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/23 12:21:50 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/27 11:22:54 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-// void	free_env(t_shell **shell)
-// {
-// 	int	j;
-// 	int i;
-
-// 	j = 0;
-// 	if ((*shell)->env == NULL)
-// 		return ;
-// 	while ((*shell)->env[j])
-// 		free ((*shell)->env[j++]);
-// 	free ((*shell)->env);
-// 	(*shell)->env = NULL;
-// }
 
 void	free_all(t_shell *shell, char *mini)
 {

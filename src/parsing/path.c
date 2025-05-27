@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:25:05 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/21 09:10:50 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/22 21:11:20 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**ft_path(char **env)
 
 	i = 0;
 	path = NULL;
-	while (path == NULL)
+	while (env[i] && path == NULL)
 	{
 		if (ft_strncmp(env[i], "PATH", 4) == 0)
 		{
@@ -29,6 +29,8 @@ char	**ft_path(char **env)
 		}
 		i++;
 	}
+	if (path == NULL)
+		return(NULL);
 	i = 0;
 	while (path[i])
 	{

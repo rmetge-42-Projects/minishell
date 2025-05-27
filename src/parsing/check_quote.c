@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:23:44 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/21 09:05:11 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/23 17:48:25 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,11 @@ char	*chr_path(char *arg, t_env *enviro)
 	{
 		if (ft_strcmp(dollar, enviro->key) == 0)
 		{
-			free(dollar);
-			return (ft_strdup(enviro->value));
+			if (enviro->value != NULL)
+			{
+				free(dollar);
+				return (ft_strdup(enviro->value));
+			}
 		}
 		enviro = enviro->next;
 	}

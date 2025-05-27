@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structur_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 13:16:31 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/23 12:18:42 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/26 15:38:40 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,22 @@ int	ft_structur(t_shell *shell, char *arg)
 	ft_lstclear(&shell->tokens, free_tokens);
 	if (shell->cmd == 0)
 		return (free_all(shell, arg), 1);
+	// while (shell->cmd)
+	// {
+	// 	int i = 0;
+	// 	printf("path = %s\n", (shell->cmd->path));
+	// 	printf("argv = ");
+	// 	while (shell->cmd->argv[i])
+	// 		printf("%s ", (shell->cmd->argv[i++]));
+	// 	printf("\n");
+	// 	while (shell->cmd->redirection)
+	// 	{
+	// 		printf("redirection file = %s\n", ((t_redir *)shell->cmd->redirection->content)->file);
+	// 		printf("redirection type = %u\n", ((t_redir *)shell->cmd->redirection->content)->type);
+	// 		shell->cmd->redirection = shell->cmd->redirection->next;
+	// 	}
+	// 	shell->cmd = shell->cmd->pipe;
+	// 	printf("\n");
+	// }
 	return (0);
 }
