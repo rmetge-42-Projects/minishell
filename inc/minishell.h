@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/23 13:27:08 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/27 09:40:58 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,5 +144,6 @@ char			*space_join(char *s1, char *s2);
 int				builtin(t_shell *shell);
 int				ft_cd(t_shell *shell, char **argv);
 // char			*ft_pwd(t_shell *shell, char *str);
+int				has_output_redirection(t_cmd *cmd);
 
 #endif

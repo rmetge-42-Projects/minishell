@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/23 13:35:35 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/27 10:08:37 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,11 @@ void	apply_redirections(t_cmd *cmd)
 
 static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 {
-	apply_redirections(cmd);
 	if (in_fd != 0)
 		dup2(in_fd, STDIN_FILENO);
-	if (cmd->pipe)
+	apply_redirections(cmd);
+	
+	if (cmd->pipe && !has_output_redirection(cmd))
 		dup2(fd[1], STDOUT_FILENO);
 	close(fd[0]);
 	close(fd[1]);
