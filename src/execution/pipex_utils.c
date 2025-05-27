@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:57:05 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/27 14:33:30 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/27 17:17:51 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ int	handle_heredoc(char *delimiter)
 		error("pipe heredoc");
 	while (1)
 	{
-		line = readline("> ");
+		// if (isatty(STDIN_FILENO))
+			line = readline("> ");
+		// else
+			//line = readline(NULL);
 		if (g_sig == SIGINT)
 		{
 			rl_event_hook = NULL;
@@ -60,7 +63,7 @@ int	handle_heredoc(char *delimiter)
 		else if ((!line || ft_strcmp(line, delimiter) == 0))
 		{
 
-			if (!line)
+			if (!line && isatty(STDIN_FILENO))
 			{
 				ft_putstr_fd("bash: warning: here-document at line ", 2);
 				ft_putnbr_fd(count_line, 2);

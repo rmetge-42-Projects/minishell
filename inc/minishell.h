@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/27 14:31:26 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/27 16:42:53 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <signal.h>
 # include <errno.h>
 
+#define BUFFER_SIZE 1024
 extern int	g_sig;
 
 enum e_token
@@ -153,5 +154,6 @@ int				count_cmds(t_cmd *cmd);
 void			apply_redirections(t_cmd *cmd);
 pid_t			ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd);
 int				apply_heredoc(t_shell *shell);
+char			*get_next_line(int fd);
 
 #endif
