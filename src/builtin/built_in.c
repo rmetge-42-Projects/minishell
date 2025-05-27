@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:17:53 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/27 15:43:58 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/27 17:47:12 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	apply_builtin(t_shell *shell, t_cmd *cmd, int pipe)
 		ft_unset(shell, shell->cmd);
 	else if (ft_strcmp(cmd->path, "export") == 0)
 		ft_export(shell);
-	else if (ft_strncmp(cmd->path, "env", 4) == 0)
+	else if (ft_strcmp(cmd->path, "env") == 0)
 		ft_env(shell);
 }
 

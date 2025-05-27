@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:14:50 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/27 15:43:29 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/27 18:07:21 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,13 @@ void	ft_echo(t_cmd *cmd, int newline, int fd)
 		ft_putstr_fd("\n", fd);
 }
 
+void	free_tmp(t_env *tmp)
+{
+	free(tmp->key);
+	free(tmp->value);
+	free(tmp);
+}
+
 void	ft_unset(t_shell *shell, t_cmd *cmd)
 {
 	t_env	*env;
@@ -52,15 +59,23 @@ void	ft_unset(t_shell *shell, t_cmd *cmd)
 		return ;
 	while (cmd->argv[i])
 	{
-		while (env->next && ft_strcmp(env->next->key, cmd->argv[i]) != 0)
-			env = env->next;
-		if (env->next && ft_strcmp(env->next->key, cmd->argv[i]) == 0)
+		if (env && ft_strcmp(env->key, cmd->argv[i]) == 0)
 		{
-			tmp = env->next;
-			env->next = env->next->next;
-			free(tmp->key);
-			free(tmp->value);
-			free(tmp);
+			tmp = env;
+			shell->enviro = env->next;
+			env = shell->enviro;
+			free_tmp(tmp);
+		}
+		else
+		{
+			while (env->next && ft_strcmp(env->next->key, cmd->argv[i]) != 0)
+				env = env->next;
+			if (env->next && ft_strcmp(env->next->key, cmd->argv[i]) == 0)
+			{
+				tmp = env->next;
+				env->next = env->next->next;
+				free_tmp(tmp);
+			}
 		}
 		i++;
 	}
@@ -81,8 +96,8 @@ int	ft_env(t_shell *shell)
 {
 	t_env	*current;
 
-	if (!shell->path)
-		return (printf("env: No such file or directory\n"), 0);
+	// if (!shell->path)
+	// 	return (printf("env: No such file or directory\n"), 0);
 	current = shell->enviro;
 	while (current)
 	{
