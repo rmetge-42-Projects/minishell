@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:17:53 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/27 11:15:46 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/27 14:17:41 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,9 @@ int	builtin(t_cmd *cmd)
 		return (1);
 	if (ft_strcmp(cmd->path, "env") == 0)
 		return (1);
+	// if (ft_strcmp(cmd->path, "env") == 0)
+	// if (ft_exit(shell) == 1)
+	// 	return (free_all(shell, mini), 2);
 	return (0);
 }
 

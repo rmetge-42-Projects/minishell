@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/27 11:21:01 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/27 11:37:35 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,5 +148,9 @@ void			ft_echo(t_cmd *cmd, int newline, int fd);
 int				ft_pwd(int fd);
 int				ft_env(t_shell *shell);
 int				has_output_redirection(t_cmd *cmd);
+int				count_cmds(t_cmd *cmd);
+void			apply_redirections(t_cmd *cmd);
+pid_t			ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd);
+int				apply_heredoc(t_shell *shell);
 
 #endif

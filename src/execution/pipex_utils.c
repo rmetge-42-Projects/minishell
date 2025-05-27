@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:57:05 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/27 11:21:15 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/27 13:17:46 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	has_output_redirection(t_cmd *cmd)
 		r = (t_redir *)current->content;
 		if (r->type == OUTPUT || r->type == APPEND)
 			return (1);
-		// current->next;
+		current = current->next;
 	}
 	return (0);
 }
