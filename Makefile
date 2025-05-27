@@ -9,9 +9,9 @@ SRC_DIR = src
 INC_DIR = inc
 OBJ_DIR = obj
 
-SOURCES = ./built_in.c ./builtin_redirection.c ./built_in_utils.c ./cd.c ./check_quote.c ./cmd_utils.c ./dollar.c ./env.c ./export.c ./export_utils.c ./export_utils_two.c ./free.c ./free_utile.c ./header.c ./main.c ./path.c ./pipex.c ./pipex_utils.c ./signal.c ./structur_cmd.c ./structur_utile.c ./token_split.c ./token_utile.c 
+SOURCES = src/builtin/built_in.c src/builtin/built_in_utils.c src/builtin/bultin_rmn.c src/builtin/cd.c src/builtin/env.c src/builtin/export.c src/builtin/export_utils.c src/builtin/export_utils_two.c src/execution/pipex.c src/execution/pipex_utils.c src/execution/signal.c src/free/free.c src/free/free_utile.c src/header.c src/main.c src/parsing/check_quote.c src/parsing/cmd_utils.c src/parsing/dollar.c src/parsing/path.c src/parsing/structur_cmd.c src/parsing/structur_utile.c src/parsing/token_split.c src/parsing/token_utile.c
 
-OBJS = $(SOURCES:%.c=$(OBJ_DIR)/%.o)
+OBJS = $(SOURCES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 
 LIBFT_PATH = ./libft
 LIBFT = $(LIBFT_PATH)/libft.a
@@ -20,11 +20,16 @@ MAKEFLAGS += --no-print-directory
 
 all: message_comp $(NAME) message_done
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c
+DIRS = $(sort $(dir $(OBJS)))
+
+$(DIRS):
+	@mkdir -p $@
+
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(DIRS)
 	@$(CC) $(CFLAGS) -I$(LIBFT_PATH) -I$(INC_DIR) -c $< -o $@
 	@echo -n "."
 
-${NAME}: $(LIBFT)  $(OBJ_DIR) $(OBJS)
+${NAME}: $(LIBFT) $(OBJS)
 	@$(CC) $(CFLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
 
 $(LIBFT):

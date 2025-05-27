@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:57:05 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/23 16:32:10 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/27 11:21:15 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,23 @@ void	open_input(char *file)
 	close(fd);
 }
 
-void	open_out_put(char *file, int append)
+int	has_output_redirection(t_cmd *cmd)
+{
+	t_list	*current;
+	t_redir	*r;
+
+	current = cmd->redirection;
+	while (current)
+	{
+		r = (t_redir *)current->content;
+		if (r->type == OUTPUT || r->type == APPEND)
+			return (1);
+		// current->next;
+	}
+	return (0);
+}
+
+int	open_out_put(char *file, int append, int last_fd)
 {
 	int	fd;
 
@@ -110,6 +126,10 @@ void	open_out_put(char *file, int append)
 		else
 			error("outfile");
 	}
-	dup2(fd, STDOUT_FILENO);
-	close(fd);
+	if (last_fd != -1)
+	{
+		dup2(last_fd, STDOUT_FILENO);
+		close(last_fd);
+	}
+	return (fd);
 }

@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/27 11:09:14 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/27 11:21:01 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ typedef struct s_shell
 
 int				handle_heredoc(char *delimiter);
 void			open_input(char *file);
-void			open_out_put(char *file, int append);
+int				open_out_put(char *file, int append, int last_fd);
 void			error(char *message);
 void			free_tokens(void *token);
 void			free_redirec(void *redir);
@@ -147,5 +147,6 @@ void			ft_unset(t_shell *shell, t_cmd *cmd);
 void			ft_echo(t_cmd *cmd, int newline, int fd);
 int				ft_pwd(int fd);
 int				ft_env(t_shell *shell);
+int				has_output_redirection(t_cmd *cmd);
 
 #endif

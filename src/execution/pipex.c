@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/27 11:15:53 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/27 11:22:44 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ void	apply_redirections(t_cmd *cmd)
 {
 	t_redir	*r;
 	t_list	*current;
+	int		last_fd;
 
+	last_fd = -1;
 	current = cmd->redirection;
 	while (current)
 	{
@@ -24,10 +26,15 @@ void	apply_redirections(t_cmd *cmd)
 		if (r->type == INPUT)
 			open_input(r->file);
 		else if (r->type == OUTPUT)
-			open_out_put(r->file, 0);
+			last_fd = open_out_put(r->file, 0, last_fd);
 		else if (r->type == APPEND)
-			open_out_put(r->file, 1);
+			last_fd = open_out_put(r->file, 1, last_fd);
 		current = current->next;
+	}
+	if (last_fd != -1)
+	{
+		dup2(last_fd, STDOUT_FILENO);
+		close(last_fd);
 	}
 	if (cmd->last_heredoc_fd != -1)
 	{
@@ -36,12 +43,14 @@ void	apply_redirections(t_cmd *cmd)
 	}
 }
 
-static	void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
+
+static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 {
-	apply_redirections(cmd);
 	if (in_fd != 0)
 		dup2(in_fd, STDIN_FILENO);
-	if (cmd->pipe)
+	apply_redirections(cmd);
+
+	if (cmd->pipe && !has_output_redirection(cmd))
 		dup2(fd[1], STDOUT_FILENO);
 	close(fd[0]);
 	close(fd[1]);
@@ -143,7 +152,10 @@ void	ft_pipex(t_shell *shell)
 		close(fd[1]);
 		if (in_fd != 0)
 			close(in_fd);
-		in_fd = fd[0];
+		if (!has_output_redirection(cmd))
+			in_fd = fd[0];
+		else
+			in_fd = 0;
 		g_sig = 0;
 		cmd = cmd->pipe;
 	}
