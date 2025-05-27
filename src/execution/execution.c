@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 11:26:11 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/27 14:34:04 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/27 14:40:47 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,7 @@ void	ft_pipex(t_shell *shell)
 		close(fd[1]);
 		if (in_fd != 0)
 			close(in_fd);
-		if (!has_output_redirection(cmd))
-			in_fd = fd[0];
-		else
-			in_fd = 0;
+		in_fd = fd[0];
 		g_sig = 0;
 		cmd = cmd->pipe;
 	}

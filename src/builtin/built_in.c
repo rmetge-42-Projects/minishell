@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:17:53 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/27 14:17:41 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/27 14:31:45 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,9 @@
 
 int	ft_exit(t_shell *shell)
 {
-	char	**args;
-
-	args = ft_split(shell->line, ' ');
-	if (ft_strncmp(args[0], "exit", 5) == 0)
-		return (ft_free_split(args), 1);
-	return (ft_free_split(args), 0);
+	if (ft_strncmp(shell->args[0], "exit", 5) == 0)
+		return (1);
+	return (0);
 }
 
 void	apply_builtin(t_shell *shell, t_cmd *cmd, int pipe)

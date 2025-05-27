@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/27 13:21:03 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/27 14:35:16 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,9 @@ static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 {
 	if (in_fd != 0)
 		dup2(in_fd, STDIN_FILENO);
-	apply_redirections(cmd);
-
 	if (cmd->pipe && !has_output_redirection(cmd))
 		dup2(fd[1], STDOUT_FILENO);
+	apply_redirections(cmd);
 	close(fd[0]);
 	close(fd[1]);
 	if (builtin(cmd) == 1)
@@ -130,3 +129,38 @@ int apply_heredoc(t_shell *shell)
 	}
 	return (fd);
 }
+
+// void	ft_pipex(t_shell *shell)
+// {
+// 	int		fd[2];
+// 	int		in_fd;
+// 	t_cmd	*cmd;
+// 	int		cmd_count;
+// 	int		i;
+// 	int		fd_here_temp;
+
+// 	in_fd = 0;
+// 	i = 0;
+// 	cmd_count = count_cmds(shell->cmd);
+// 	shell->pids = malloc(sizeof(pid_t) * cmd_count);
+// 	fd_here_temp = apply_heredoc(shell);
+// 	cmd = shell->cmd;
+// 	// if (!shell->cmd->pipe && builtin(shell) == 1)
+// 	// 		return ;
+// 	while (cmd != NULL)
+// 	{
+// 		shell->pids[i++] = ft_fork_child(shell, cmd, fd, in_fd);
+// 		close(fd[1]);
+// 		if (in_fd != 0)
+// 			close(in_fd);
+// 		in_fd = fd[0];
+// 		g_sig = 0;
+// 		cmd = cmd->pipe;
+// 	}
+// 	ft_wait(cmd_count, shell->pids);
+// 	if (in_fd != 0)
+// 		close(in_fd);
+// 	if (shell->cmd->last_heredoc_fd != -1)
+// 		close(shell->cmd->last_heredoc_fd);
+// 	free(shell->pids);
+// }
