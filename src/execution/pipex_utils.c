@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:57:05 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/27 09:45:56 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/27 12:07:03 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,21 +95,7 @@ void	open_input(char *file)
 	close(fd);
 }
 
-int	has_output_redirection(t_cmd *cmd)
-{
-	t_list	*current;
-	t_redir	*r;
 
-	current = cmd->redirection;
-	while (current)
-	{
-		r = (t_redir *)current->content;
-		if (r->type == OUTPUT || r->type == APPEND)
-			return (1);
-		// current->next;
-	}
-	return (0);
-}
 
 int	open_out_put(char *file, int append, int last_fd)
 {
@@ -132,4 +118,35 @@ int	open_out_put(char *file, int append, int last_fd)
 		close(last_fd);
 	}
 	return (fd);
+}
+
+int	has_input_redirection(t_cmd *cmd)
+{
+	t_list	*current = cmd->redirection;
+	t_redir	*r;
+
+	while (current)
+	{
+		r = (t_redir *)current->content;
+		if (r->type == INPUT || r->type == HEREDOC)
+			return (1);
+		current = current->next;
+	}
+	return (0);
+}
+
+int	has_output_redirection(t_cmd *cmd)
+{
+	t_list	*current;
+	t_redir	*r;
+
+	current = cmd->redirection;
+	while (current)
+	{
+		r = (t_redir *)current->content;
+		if (r->type == OUTPUT || r->type == APPEND)
+			return (1);
+		current = current->next;
+	}
+	return (0);
 }

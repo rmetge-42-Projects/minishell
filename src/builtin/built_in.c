@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:17:53 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/16 13:55:11 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/27 14:17:06 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,7 @@
 
 int	ft_exit(t_shell *shell)
 {
-	char	**args;
-
-	args = ft_split(shell->line, ' ');
-	if (ft_strncmp(args[0], "exit", 5) == 0)
-		return (ft_free_split(args), 1);
-	return (ft_free_split(args), 0);
+	if (ft_strncmp(shell->args[0], "exit", 5) == 0)
+		return (1);
+	return (0);
 }
