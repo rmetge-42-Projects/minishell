@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 14:25:44 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/28 14:48:47 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	main(int argc, char **argv, char **envp)
 			mini = ft_strtrim(line, "\n");
 			free(line);
 		}
-		
+
 		if (!mini)
 		{
 			if (shell->tty)
@@ -82,11 +82,11 @@ int	main(int argc, char **argv, char **envp)
 		
 		if (ret == 1 || ft_structur(shell, mini) == 1)
 			continue ;
-		
+
 		ft_pipex(shell);
 		// printf("Exit_code = %i", shell->exit_code);
 		free_all(shell, mini);
-		
+
 	}
 	// free_shell(&shell);
 	// if (shell->tty)

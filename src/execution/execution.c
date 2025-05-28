@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 11:26:11 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 11:50:52 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/28 14:50:11 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,15 @@ int	ft_pipex_before(t_shell *shell)
 	return (0);
 }
 
+void	close_free(int in_fd, t_shell *shell)
+{
+	if (in_fd != 0)
+		close(in_fd);
+	if (shell->cmd->last_heredoc_fd != -1)
+		close(shell->cmd->last_heredoc_fd);
+	free(shell->pids);
+}
+
 void	ft_pipex(t_shell *shell)
 {
 	int		fd[2];
@@ -34,7 +43,7 @@ void	ft_pipex(t_shell *shell)
 	int		i;
 
 	if (ft_pipex_before(shell) == 1)
-		return;
+		return ;
 	in_fd = 0;
 	i = 0;
 	cmd_count = count_cmds(shell->cmd);

@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 14:24:00 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/28 14:49:04 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ typedef struct s_cmd
 	t_list			*redirection;
 	struct s_cmd	*pipe;
 	int				last_heredoc_fd;
-
 }	t_cmd;
 
 typedef struct s_redir
@@ -101,7 +100,7 @@ void			free_redirec(void *redir);
 void			ft_ctrl_c(int sig);
 void			ft_pipex(t_shell *shell);
 char			*find_path(char **envp, char *cmd);
-char			**ft_path(char **env);
+void			ft_path(t_shell *shell);
 int				ft_structur(t_shell *shell, char *cmd);
 t_list			*stuctur_token(char const *s, t_shell *shell);
 t_token			*ft_tokennew(char *value, enum e_token type);
@@ -150,7 +149,6 @@ void			ft_echo(t_cmd *cmd, int newline, int fd);
 int				ft_pwd(int fd);
 int				ft_env(t_shell *shell);
 int				has_output_redirection(t_cmd *cmd);
-int				has_input_redirection(t_cmd *cmd);
 int				count_cmds(t_cmd *cmd);
 void			apply_redirections(t_cmd *cmd);
 pid_t			ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd);

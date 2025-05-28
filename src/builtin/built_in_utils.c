@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:14:50 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 14:10:55 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/28 14:49:25 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_echo(t_cmd *cmd, int newline, int fd)
 		while (cmd->argv[i][j] == 'n')
 			j++;
 		if (cmd->argv[i][j])
-			break;
+			break ;
 		i++;
 		newline = 0;
 	}
@@ -40,6 +40,22 @@ void	ft_echo(t_cmd *cmd, int newline, int fd)
 		ft_putstr_fd("\n", fd);
 }
 
+void	sup_env(t_env *env, char *argv)
+{
+	t_env	*tmp;
+
+	while (env->next && ft_strcmp(env->next->key, argv) != 0)
+		env = env->next;
+	if (env->next && ft_strcmp(env->next->key, argv) == 0)
+	{
+		tmp = env->next;
+		env->next = env->next->next;
+		free(tmp->key);
+		free(tmp->value);
+		free(tmp);
+	}
+}
+
 void	ft_unset(t_shell *shell, t_cmd *cmd)
 {
 	t_env	*env;
@@ -52,16 +68,17 @@ void	ft_unset(t_shell *shell, t_cmd *cmd)
 		return ;
 	while (cmd->argv[i])
 	{
-		while (env->next && ft_strcmp(env->next->key, cmd->argv[i]) != 0)
-			env = env->next;
-		if (env->next && ft_strcmp(env->next->key, cmd->argv[i]) == 0)
+		if (env && ft_strcmp(env->key, cmd->argv[i]) == 0)
 		{
-			tmp = env->next;
-			env->next = env->next->next;
+			tmp = shell->enviro;
+			shell->enviro = shell->enviro->next;
+			env = shell->enviro;
 			free(tmp->key);
 			free(tmp->value);
 			free(tmp);
 		}
+		else
+			sup_env(env, cmd->argv[i]);
 		i++;
 	}
 }

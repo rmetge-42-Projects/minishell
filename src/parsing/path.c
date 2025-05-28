@@ -6,40 +6,38 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:25:05 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/22 21:11:20 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/27 15:51:49 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**ft_path(char **env)
+void	ft_path(t_shell *shell)
 {
 	int		i;
-	char	**path;
 	char	*tmp;
 
 	i = 0;
-	path = NULL;
-	while (env[i] && path == NULL)
+	while (shell->env[i] && shell->path == NULL)
 	{
-		if (ft_strncmp(env[i], "PATH", 4) == 0)
+		if (ft_strncmp(shell->env[i], "PATH", 4) == 0)
 		{
-			path = ft_split(env[i] + 5, ':');
+			shell->path = ft_split(shell->env[i] + 5, ':');
 			break ;
 		}
 		i++;
 	}
-	if (path == NULL)
-		return(NULL);
+	if (shell->path == NULL)
+		return ;
 	i = 0;
-	while (path[i])
+	while (shell->path[i])
 	{
-		tmp = path[i];
-		path[i] = ft_strjoin(path[i], "/");
+		tmp = shell->path[i];
+		shell->path[i] = ft_strjoin(shell->path[i], "/");
 		free(tmp);
 		i++;
 	}
-	return (path);
+	return ;
 }
 
 char	*find_path(char **envp, char *cmd)
