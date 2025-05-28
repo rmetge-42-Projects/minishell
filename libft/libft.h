@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/04 14:58:23 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/14 16:34:32 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/28 10:35:19 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,5 +82,6 @@ void	ft_strlen_pf(int *nbr, char *str);
 int		ft_printf(const char *format, ...);
 void	*ft_free_split(char **split);
 int		ft_strcmp(const char *s1, const char *s2);
+char	*get_next_line(int fd);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 11:39:25 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/28 11:58:19 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <signal.h>
 # include <errno.h>
 
+#define BUFFER_SIZE 1024
 extern int	g_sig;
 
 enum e_token
@@ -84,6 +85,8 @@ typedef struct s_shell
 	char	**args;
 	char	**env;
 	char	**path;
+	int		tty;
+	int		exit_code;
 	t_env	*enviro;
 	pid_t	*pids;
 }	t_shell;

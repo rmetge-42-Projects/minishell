@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:57:05 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/27 15:42:24 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/28 12:00:12 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 
 void	ft_wait(int count, pid_t *pids)
 {
-	int	j;
+	int	i;
 
-	j = 0;
-	while (j < count)
+	i = 0;
+	while (i < count)
 	{
-		waitpid(pids[j], NULL, 0);
-		j++;
+		waitpid(pids[i], NULL, 0);
+		i++;
 	}
 }
 

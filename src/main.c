@@ -6,7 +6,11 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/05/27 17:29:30 by rmetge           ###   ########.fr       */
+=======
+/*   Updated: 2025/05/28 11:19:31 by bemma            ###   ########.fr       */
+>>>>>>> emma
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +35,9 @@ t_shell	*shell_crl(char **envp)
 {
 	t_shell	*shell;
 
-	print_header();
+	shell->tty = isatty(STDIN_FILENO);
+	if (shell->tty)
+		print_header();
 	shell = ft_calloc(1, sizeof(t_shell));
 	if (!shell)
 		return (NULL);
@@ -45,6 +51,7 @@ int	main(int argc, char **argv, char **envp)
 	char	*mini;
 	t_shell	*shell;
 	int		ret;
+	char	*line;
 
 	(void)argc;
 	(void)argv;
@@ -54,17 +61,25 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		shell->path = NULL;
-		mini = readline("\001\033[38;5;205m\002minishell> \001\033[0m\002");
+		if (shell->tty)
+			mini = readline("\001\033[38;5;205m\002minishell> \001\033[0m\002");
+		else
+		{
+			line = get_next_line(STDIN_FILENO);
+			mini = ft_strtrim(line, "\n");
+			free(line);
+		}
 		if (!mini)
 			break ;
 		ret = check_readline(shell, mini);
 		if (ret == 2)
 			break ;
-		else if (ret == 1 || ft_structur(shell, mini) == 1)
+		if (ret == 1 || ft_structur(shell, mini) == 1)
 			continue ;
 		ft_pipex(shell);
 		free_all(shell, mini);
 	}
 	free_shell(&shell);
-	printf("Bye 👋\n");
+	if (shell->tty)
+		printf("Bye 👋\n");
 }
