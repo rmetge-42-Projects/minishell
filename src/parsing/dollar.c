@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 12:58:17 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/28 14:48:11 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,17 @@ char	*dollar_arg(char *first, int i, int j, t_shell *shell)
 	char	*arg;
 	char	*path;
 
-	printf("first = %c\n", first[j]);
-	if (i == 0 && first[j - 1] == '$')
+	if (i == 0 && first[j - 1] == '$' && first[j] != 34 && first[j] != 39)
 		path = ft_strdup("$");
-	else if (first[j] == '?')
-		path = ft_itoa(shell->exit_code);
 	else
 	{
 		arg = ft_strndup(first + j, i);
-		path = chr_path(arg, shell->enviro);
+		if (ft_strcmp(arg, "?") == 0)
+			path = ft_itoa(shell->exit_code);
+		else
+			path = chr_path(arg, shell->enviro);
 		free(arg);
 	}
-	printf("doll = %s\n", path);
 	return (path);
 }
 
@@ -38,12 +37,8 @@ char	*ft_dollar(t_shell *shell, char *first, char *dest)
 	int		j;
 	char	*before;
 	char	*res;
-	char	*tmp;
 
 	i = 0;
-	before = NULL;
-	res = NULL;
-	tmp = NULL;
 	while (first[i] && first[i] != '$')
 		i++;
 	before = ft_strndup(first, i);
@@ -51,13 +46,11 @@ char	*ft_dollar(t_shell *shell, char *first, char *dest)
 		i++;
 	j = i;
 	i = 0;
-	if (first[j + i] == '?')
+	while (first[j + i]
+		&& (ft_isalnum(first[j + i]) || first[j + i] == '_'))
 		i++;
-	else
-	{
-		while (first[j + i] && (ft_isalnum(first[j + i]) || first[j + i] == '_'))
-			i++;
-	}
+	if (first[j + 0] == '?')
+		i++;
 	res = space_join(dest, before);
 	dest = space_join(res, dollar_arg(first, i, j, shell));
 	if (first[j + i])
