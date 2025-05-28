@@ -6,26 +6,23 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 10:17:07 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 15:51:19 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/28 18:04:29 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-enum e_token	token_type(const char *s)
+enum e_token	token_type(const char *s, int i)
 {
-	int	i;
-
-	i = 0;
 	if (s[i] == 39 && s[i + 1] == 39)
-		token_type(s + 2);
-	if (s[0] == '|')
+		return (token_type(s, i + 2));
+	if (s[i] == '|')
 		return (PIPE);
-	else if (s[0] == '>' || s[0] == '<')
+	else if (s[i] == '>' || s[0] == '<')
 		return (REDIRECT);
-	else if (s[0] == 39)
+	else if (s[i] == 39)
 		return (QUOTE1);
-	else if (s[0] == 34)
+	else if (s[i] == 34)
 		return (QUOTE2);
 	else
 		return (ARG);
