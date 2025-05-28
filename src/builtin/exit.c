@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 10:56:40 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/28 15:04:07 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/28 15:31:22 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	ft_exit(t_shell *shell, t_cmd *cmd)
 	}
 	if (args[2])
 	{
-		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
+		ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
 		shell->exit_code = 1;
 		return (1);
 	}

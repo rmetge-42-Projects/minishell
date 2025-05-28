@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils_two.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:00:24 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/15 14:02:21 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/28 15:37:04 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,19 @@ void	print_copy(t_env *cpy)
 	while (cpy)
 	{
 		if (cpy->value)
+		// {
+		// 	ft_putstr_fd("declare -x ", STDIN_FILENO);
+		// 	ft_putstr_fd(cpy->key, STDIN_FILENO);
+		// 	ft_putstr_fd("=\"", STDIN_FILENO);
+		// 	ft_putstr_fd(cpy->value, STDIN_FILENO);
+		// 	ft_putendl_fd("\"", STDIN_FILENO);
+		// }
 			printf("declare -x %s=\"%s\"\n", cpy->key, cpy->value);
 		else
+		// {
+		// 	ft_putstr_fd("declare -x ", STDIN_FILENO);
+		// 	ft_putendl_fd(cpy->key, STDIN_FILENO);
+		// }
 			printf("declare -x %s\n", cpy->key);
 		cpy = cpy->next;
 	}

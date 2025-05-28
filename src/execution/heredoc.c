@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:45:33 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/27 15:40:42 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/28 15:17:44 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,11 @@ void	putstr_line(int count_line, char *delimiter, char *line)
 {
 	if (!line)
 	{
-		ft_putstr_fd("bash: warning: here-document at line ", 2);
-		ft_putnbr_fd(count_line, 2);
-		ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
-		ft_putstr_fd(delimiter, 2);
-		ft_putstr_fd("')\n", 2);
+		ft_putstr_fd("bash: warning: here-document at line ", STDERR_FILENO);
+		ft_putnbr_fd(count_line, STDERR_FILENO);
+		ft_putstr_fd(" delimited by end-of-file (wanted `", STDERR_FILENO);
+		ft_putstr_fd(delimiter, STDERR_FILENO);
+		ft_putstr_fd("')\n", STDERR_FILENO);
 	}
 }
 

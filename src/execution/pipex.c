@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/28 15:05:10 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/28 15:34:11 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 	free(shell->pids);
 	free_all(shell, NULL);
 	free_shell(&shell);
-	exit(1);
+	exit(0);
 }
 
 pid_t	ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
