@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 10:17:07 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 14:55:30 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/28 15:51:19 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 
 enum e_token	token_type(const char *s)
 {
-	// int	i;
+	int	i;
 
-	// i = 0;
+	i = 0;
+	if (s[i] == 39 && s[i + 1] == 39)
+		token_type(s + 2);
 	if (s[0] == '|')
 		return (PIPE);
 	else if (s[0] == '>' || s[0] == '<')

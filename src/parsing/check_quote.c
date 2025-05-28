@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:23:44 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 15:17:57 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/28 16:13:33 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ t_token	*check_quote(t_shell *shell, int j, const char *s)
 
 	arg_type = token_type(s);
 	first = ft_substr(s, 0, j);
-	if ((arg_type != REDIRECT /*ARG || arg_type == QUOTE2*/) && ft_strchr(first, '$'))
+	if ((arg_type == ARG || arg_type == QUOTE2) && ft_strchr(first, '$'))
 	{
 		dest = ft_dollar(shell, first, NULL);
 		free(first);

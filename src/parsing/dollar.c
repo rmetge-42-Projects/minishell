@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 15:26:46 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/28 16:49:54 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,19 @@ char	*dollar_arg(char *first, int i, int j, t_shell *shell)
 	char	*arg;
 	char	*path;
 
-	if (i == 0 && first[j - 1] == '$' && first[j] != 34 && first[j] != 39)
-		path = ft_strdup("$");
+	// printf("%s\n", first);
+	// if (i == 0 && first[j - 1] == '$') /*&& (first[j] == 34 && first[j] == 39))*/
+	// 	path = ft_strdup("$");
+	// else
+	// {
+	arg = ft_strndup(first + j, i);
+	if (ft_strcmp(arg, "?") == 0)
+		path = ft_itoa(shell->exit_code);
 	else
-	{
-		arg = ft_strndup(first + j, i);
-		if (ft_strcmp(arg, "?") == 0)
-			path = ft_itoa(shell->exit_code);
-		else
-			path = chr_path(arg, shell->enviro);
-		free(arg);
-	}
+		path = chr_path(arg, shell->enviro);
+	free(arg);
+	// }
+	// printf("%s\n", path);
 	return (path);
 }
 
@@ -39,10 +41,20 @@ char	*ft_dollar(t_shell *shell, char *first, char *dest)
 	char	*res;
 
 	i = 0;
-	if (first[i] == 34)
-		return (first);
+	// if (first[i] == 39)
+	// 	return (ft_strdup(first));
 	while (first[i] && first[i] != '$')
+	{
+		if (first[i] == 34 || first[i] == 39)
+		{
+			j = 1;
+			while (first[j + i] != first[i])
+				j++;
+			i += j;
+		}
 		i++;
+
+	}
 	before = ft_strndup(first, i);
 	if (first[i])
 		i++;
@@ -51,10 +63,11 @@ char	*ft_dollar(t_shell *shell, char *first, char *dest)
 	while (first[j + i]
 		&& (ft_isalnum(first[j + i]) || first[j + i] == '_'))
 		i++;
-	if (first[j + 0] == '?')
+	if (first[j] == '?')
 		i++;
 	res = space_join(dest, before);
 	dest = space_join(res, dollar_arg(first, i, j, shell));
+	// printf("dest %s\n", dest);
 	if (first[j + i])
 		return (ft_dollar(shell, (first + j + i), dest));
 	return (dest);
