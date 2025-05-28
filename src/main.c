@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 12:36:16 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/28 14:25:44 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,12 @@ int	main(int argc, char **argv, char **envp)
 		}
 		
 		if (!mini)
-			break ;
+		{
+			if (shell->tty)
+				ft_putendl_fd("exit", STDERR_FILENO);
+			exit_shell(shell, shell->exit_code, 0);
+		}
+			
 		
 		ret = check_readline(shell, mini);
 		// if (ret == 2)
@@ -83,7 +88,7 @@ int	main(int argc, char **argv, char **envp)
 		free_all(shell, mini);
 		
 	}
-	free_shell(&shell);
-	if (shell->tty)
-		printf("Bye 👋\n");
+	// free_shell(&shell);
+	// if (shell->tty)
+	// 	printf("Bye 👋\n");
 }

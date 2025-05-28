@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structur_utile.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:10:11 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/23 15:00:54 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/28 14:14:08 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	stuctur_redicection(t_list **arg, t_cmd **cmd)
 {
 	if (((t_token *)(*arg)->next->content)->type == REDIRECT
 		|| (*arg)->next == NULL)
-		return (printf("Erreur"), 0);
+		return (ft_putstr_fd("Erreur", STDERR_FILENO), 0);
 	ft_lstadd_back(&(*cmd)->redirection, ft_lstnew(wich_redirect(*arg)));
 	(*arg) = (*arg)->next;
 	return (1);
@@ -70,7 +70,8 @@ int	path_cmd(t_shell *shell, t_cmd *cmd, t_list **argument)
 	else if (shell->path == NULL)
 	{
 		cmd->path = ft_strdup(t->value);
-		printf("command not found: %s\n", t->value);
+		ft_putstr_fd("command not found: ", STDERR_FILENO);
+		ft_putendl_fd(t->value, STDERR_FILENO);
 	}
 	else
 		cmd->path = ft_find_path_cmd(shell->path, t->value);

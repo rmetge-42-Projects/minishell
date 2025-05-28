@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 12:13:42 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/28 14:24:00 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,5 +156,6 @@ void			apply_redirections(t_cmd *cmd);
 pid_t			ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd);
 int				apply_heredoc(t_shell *shell);
 int				ft_exit(t_shell *shell, t_cmd *cmd);
+void			exit_shell(t_shell *shell, int exit_code, int i);
 
 #endif

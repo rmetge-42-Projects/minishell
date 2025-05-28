@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:14:50 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/27 11:15:30 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/28 14:10:55 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	ft_pwd(int fd)
 	char	pwd[1024];
 
 	if (getcwd(pwd, sizeof(pwd)) == NULL)
-		return (ft_putstr_fd("erreur", 2), 1);
+		return (ft_putstr_fd("erreur", STDERR_FILENO), 1);
 	ft_putstr_fd(pwd, fd);
 	ft_putstr_fd("\n", fd);
 	return (0);
@@ -82,7 +82,7 @@ int	ft_env(t_shell *shell)
 	t_env	*current;
 
 	if (!shell->path)
-		return (printf("env: No such file or directory\n"), 0);
+		return (ft_putstr_fd("env: No such file or directory\n", STDERR_FILENO), 0);
 	current = shell->enviro;
 	while (current)
 	{
