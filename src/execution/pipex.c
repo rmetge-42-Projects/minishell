@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/28 13:13:20 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/28 15:05:10 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,18 +66,30 @@ static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 				// cas d’un chemin absolu ou relatif
 				execve(cmd->path, cmd->argv, shell->env);
 				perror(cmd->argv[0]); // affiche "No such file or directory" ou autre
+				shell->exit_code = 127;
+				free(shell->pids);
+				free_all(shell, NULL);
+				free_shell(&shell);
 				exit(127);
 			}
 			else
 			{
 				if (!cmd->path)
 				{
-					ft_putstr_fd(cmd->argv[0], 2);
-					ft_putstr_fd(": command not found", 2);
+					ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
+					ft_putstr_fd(": command not found", STDERR_FILENO);
+					shell->exit_code = 127;
+					free(shell->pids);
+					free_all(shell, NULL);
+					free_shell(&shell);
 					exit(127);
 				}
 				execve(cmd->path, cmd->argv, shell->env);
 				perror(cmd->argv[0]);
+				shell->exit_code = 127;
+				free(shell->pids);
+				free_all(shell, NULL);
+				free_shell(&shell);
 				exit(127);
 			}
 				// printf("eurreur\n");

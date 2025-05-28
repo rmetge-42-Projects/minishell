@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:39:59 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/22 20:17:46 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/28 14:11:42 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,12 @@ int	ft_cd(t_shell *shell, char **argv)
 	else
 		src = ft_strdup(argv[1]);
 	if (src == NULL)
-		return (free(src), printf("cd: argument required\n"), 1);
+		return (free(src), ft_putstr_fd("cd: argument required\n", STDERR_FILENO), 1);
 	if (chdir(src) != 0)
 	{
-		printf("cd failed: %s\n", src);
+		ft_putstr_fd("cd failed: ", STDERR_FILENO);
+		ft_putendl_fd(src, STDERR_FILENO);
+		// printf("cd failed: %s\n", src);
 		return (free(src), 1);
 	}
 	getcwd(cwd, sizeof(cwd));

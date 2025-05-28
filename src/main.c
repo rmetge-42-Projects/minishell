@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 14:22:16 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/28 15:03:51 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,12 @@ int	main(int argc, char **argv, char **envp)
 				ft_putendl_fd("exit", STDERR_FILENO);
 			exit_shell(shell, shell->exit_code, 0);
 		}
-
+			
+		
 		ret = check_readline(shell, mini);
 		// if (ret == 2)
 		// 	break ;
-
+		
 		if (ret == 1 || ft_structur(shell, mini) == 1)
 			continue ;
 

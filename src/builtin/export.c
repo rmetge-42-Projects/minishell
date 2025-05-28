@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:57:52 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/26 16:09:59 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/28 14:13:20 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,10 @@ int	export_env(char **args, int i, t_shell *shell, char *equal_sign)
 	}
 	if (!key || !is_valid_identifier(key))
 	{
-		printf("export: `%s': not a valid identifier\n", args[i]);
+		ft_putstr_fd("export: `", STDERR_FILENO);
+		ft_putstr_fd(args[i], STDERR_FILENO);
+		ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+		// printf("export: `%s': not a valid identifier\n", args[i]);
 		free(key);
 		if (value)
 			free(value);

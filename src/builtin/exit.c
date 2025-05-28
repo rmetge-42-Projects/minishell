@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 10:56:40 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/28 14:10:01 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/28 15:04:07 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,14 @@ int	ft_exit(t_shell *shell, t_cmd *cmd)
 		exit_shell(shell, shell->exit_code, 1);
 	if (is_numeric(args[1]) == 0)
 	{
-		ft_putstr_fd("minishell: exit: ", 2);
-		ft_putstr_fd(args[1], 2);
-		ft_putstr_fd("numeric argument required", 2);
+		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+		ft_putstr_fd(args[1], STDERR_FILENO);
+		ft_putstr_fd("numeric argument required", STDERR_FILENO);
 		exit_shell(shell, 2, 1);
 	}
 	if (args[2])
 	{
-		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR_FILENO);
 		shell->exit_code = 1;
 		return (1);
 	}
