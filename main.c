@@ -6,17 +6,13 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2025/05/27 17:29:30 by rmetge           ###   ########.fr       */
-=======
-/*   Updated: 2025/05/28 11:19:31 by bemma            ###   ########.fr       */
->>>>>>> emma
+/*   Updated: 2025/05/28 12:04:29 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_sig;
+int g_sig;
 
 int	check_readline(t_shell *shell, char *mini)
 {
@@ -35,10 +31,10 @@ t_shell	*shell_crl(char **envp)
 {
 	t_shell	*shell;
 
+	shell = ft_calloc(1, sizeof(t_shell));
 	shell->tty = isatty(STDIN_FILENO);
 	if (shell->tty)
 		print_header();
-	shell = ft_calloc(1, sizeof(t_shell));
 	if (!shell)
 		return (NULL);
 	shell->enviro = NULL;
@@ -57,6 +53,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	shell = shell_crl(envp);
 	manege_signal();
+	//int i = 0;
 	rl_catch_signals = 0;
 	while (1)
 	{
@@ -66,18 +63,24 @@ int	main(int argc, char **argv, char **envp)
 		else
 		{
 			line = get_next_line(STDIN_FILENO);
+			//printf("line = |%s| ", line);
 			mini = ft_strtrim(line, "\n");
 			free(line);
 		}
+
 		if (!mini)
 			break ;
+
 		ret = check_readline(shell, mini);
 		if (ret == 2)
 			break ;
+
 		if (ret == 1 || ft_structur(shell, mini) == 1)
 			continue ;
+
 		ft_pipex(shell);
 		free_all(shell, mini);
+
 	}
 	free_shell(&shell);
 	if (shell->tty)
