@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 11:19:31 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/28 12:36:16 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@ int	check_readline(t_shell *shell, char *mini)
 		add_history(mini);
 	if (!shell->args || !shell->args[0])
 		return (1);
-	if (ft_exit(shell) == 1)
-		return (ft_free_split(shell->args), free(mini), 2);
+	// if (ft_exit(shell) == 1)
+	// 	return (ft_free_split(shell->args), free(mini), 2);
 	return (0);
 }
 
@@ -31,10 +31,10 @@ t_shell	*shell_crl(char **envp)
 {
 	t_shell	*shell;
 
+	shell = ft_calloc(1, sizeof(t_shell));
 	shell->tty = isatty(STDIN_FILENO);
 	if (shell->tty)
 		print_header();
-	shell = ft_calloc(1, sizeof(t_shell));
 	if (!shell)
 		return (NULL);
 	shell->enviro = NULL;
@@ -72,13 +72,14 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		
 		ret = check_readline(shell, mini);
-		if (ret == 2)
-			break ;
+		// if (ret == 2)
+		// 	break ;
 		
 		if (ret == 1 || ft_structur(shell, mini) == 1)
 			continue ;
 		
 		ft_pipex(shell);
+		// printf("Exit_code = %i", shell->exit_code);
 		free_all(shell, mini);
 		
 	}

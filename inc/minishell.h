@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 11:35:25 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/28 12:13:42 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ void			error(char *message);
 void			free_tokens(void *token);
 void			free_redirec(void *redir);
 void			ft_ctrl_c(int sig);
-int				ft_exit(t_shell *shell);
 void			ft_pipex(t_shell *shell);
 char			*find_path(char **envp, char *cmd);
 char			**ft_path(char **env);
@@ -126,7 +125,7 @@ void			free_all(t_shell *shell, char *mini);
 t_env			*env_new_node(char *key, char *value);
 int				is_valid_identifier(char *key);
 t_env			*copy_env_list(t_env *env);
-void			ft_wait(int i, pid_t *pids);
+void			ft_wait(int i, pid_t *pids, t_shell *shell);
 void			manege_signal(void);
 int				check_ctrl_h(void);
 void			add_or_update_env(t_env **env, char *key, char *value);
@@ -156,5 +155,6 @@ int				count_cmds(t_cmd *cmd);
 void			apply_redirections(t_cmd *cmd);
 pid_t			ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd);
 int				apply_heredoc(t_shell *shell);
+int				ft_exit(t_shell *shell, t_cmd *cmd);
 
 #endif
