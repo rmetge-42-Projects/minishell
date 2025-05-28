@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/27 15:53:08 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/28 11:39:25 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ typedef struct s_cmd
 	t_list			*redirection;
 	struct s_cmd	*pipe;
 	int				last_heredoc_fd;
-
 }	t_cmd;
 
 typedef struct s_redir
