@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/27 16:42:53 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/28 11:35:25 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ typedef struct s_shell
 	char	**args;
 	char	**env;
 	char	**path;
+	int		tty;
+	int		exit_code;
 	t_env	*enviro;
 	pid_t	*pids;
 }	t_shell;
@@ -154,6 +156,5 @@ int				count_cmds(t_cmd *cmd);
 void			apply_redirections(t_cmd *cmd);
 pid_t			ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd);
 int				apply_heredoc(t_shell *shell);
-char			*get_next_line(int fd);
 
 #endif

@@ -1,3 +1,8 @@
+CC = cc
+CFLAGS = -Wall -Wextra -Werror
+
+NAME = libft.a
+
 SRC = ft_atoi.c \
 		ft_bzero.c \
 		ft_isalnum.c \
@@ -40,7 +45,8 @@ SRC = ft_atoi.c \
 		ft_putunsigned.c\
 		ft_strnlen.c\
 		ft_strndup.c\
-		ft_strcmp.c
+		ft_strcmp.c\
+		get_next_line.c
 
 SRC_BONUS = ft_lstnew_bonus.c\
 				ft_lstadd_front_bonus.c\
@@ -56,11 +62,6 @@ SRC_BONUS = ft_lstnew_bonus.c\
 OBJ = ${SRC:.c=.o}
 OBJ_BONUS = ${SRC_BONUS:.c=.o}
 
-CC = cc
-CFLAGS = -Wall -Wextra -Werror -I. -g
-
-NAME = libft.a
-
 MAKEFLAGS += --no-print-directory
 
 all: ${NAME}
@@ -69,7 +70,7 @@ ${NAME}: ${OBJ}
 	@ar rcs ${NAME} ${OBJ}
 
 %.o: %.c
-	@${CC} ${CFLAGS} -c -o $@ $<
+	@${CC} ${CFLAGS} -I. -c $< -o $@
 
 bonus: ${OBJ_BONUS} ${OBJ}
 	@ar rcs ${NAME} ${OBJ} ${OBJ_BONUS}

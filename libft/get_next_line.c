@@ -6,11 +6,12 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 16:38:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/27 16:42:05 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/28 10:42:50 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "get_next_line.h"
+#include "libft.h"
 
 static char	*strjoin_n_free(char *str1, char *str2)
 {

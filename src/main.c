@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/27 17:18:10 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/28 11:19:31 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ t_shell	*shell_crl(char **envp)
 {
 	t_shell	*shell;
 
-	if (isatty(STDIN_FILENO))
+	shell->tty = isatty(STDIN_FILENO);
+	if (shell->tty)
 		print_header();
 	shell = ft_calloc(1, sizeof(t_shell));
 	if (!shell)
@@ -47,7 +48,6 @@ int	main(int argc, char **argv, char **envp)
 	t_shell	*shell;
 	int		ret;
 	char	*line;
-	// int		atty;
 
 	(void)argc;
 	(void)argv;
@@ -55,11 +55,10 @@ int	main(int argc, char **argv, char **envp)
 	manege_signal();
 	//int i = 0;
 	rl_catch_signals = 0;
-	// atty = isatty(STDIN_FILENO);
 	while (1)
 	{
 		shell->path = NULL;
-		if (isatty(STDIN_FILENO))
+		if (shell->tty)
 			mini = readline("\001\033[38;5;205m\002minishell> \001\033[0m\002");
 		else
 		{
@@ -68,7 +67,6 @@ int	main(int argc, char **argv, char **envp)
 			mini = ft_strtrim(line, "\n");
 			free(line);
 		}
-		
 		
 		if (!mini)
 			break ;
@@ -85,6 +83,6 @@ int	main(int argc, char **argv, char **envp)
 		
 	}
 	free_shell(&shell);
-	if (isatty(STDIN_FILENO))
+	if (shell->tty)
 		printf("Bye 👋\n");
 }

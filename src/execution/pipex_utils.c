@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:57:05 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/27 17:17:51 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/28 11:39:29 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ void	error(char *message)
 
 void	ft_wait(int count, pid_t *pids)
 {
-	int	j;
+	int	i;
 
-	j = 0;
-	while (j < count)
+	i = 0;
+	while (i < count)
 	{
-		waitpid(pids[j], NULL, 0);
-		j++;
+		waitpid(pids[i], NULL, 0);
+		i++;
 	}
 }
 
