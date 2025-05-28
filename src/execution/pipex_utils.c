@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:57:05 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/28 14:50:25 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/28 14:52:37 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,10 +87,4 @@ int	has_output_redirection(t_cmd *cmd)
 		current = current->next;
 	}
 	return (0);
-}
-
-void	error(char *message)
-{
-	perror(message);
-	exit (1);
 }

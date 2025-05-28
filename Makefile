@@ -9,7 +9,7 @@ SRC_DIR = src
 INC_DIR = inc
 OBJ_DIR = obj
 
-SOURCES = src/builtin/built_in.c src/builtin/builtin_redirection.c src/builtin/built_in_utils.c src/builtin/cd.c src/builtin/env.c src/builtin/exit.c src/builtin/export.c src/builtin/export_utils.c src/builtin/export_utils_two.c src/execution/execution.c src/execution/pipex.c src/execution/pipex_utils.c src/execution/signal.c src/free/free.c src/free/free_utile.c src/header.c src/main.c src/parsing/check_quote.c src/parsing/cmd_utils.c src/parsing/dollar.c src/parsing/path.c src/parsing/structur_cmd.c src/parsing/structur_utile.c src/parsing/token_split.c src/parsing/token_utile.c 
+SOURCES = src/builtin/built_in.c src/builtin/builtin_redirection.c src/builtin/built_in_utils.c src/builtin/cd.c src/builtin/env.c src/builtin/exit.c src/builtin/export.c src/builtin/export_utils.c src/builtin/export_utils_two.c src/execution/execution.c src/execution/heredoc.c src/execution/pipex.c src/execution/pipex_utils.c src/execution/signal.c src/free/free.c src/free/free_utile.c src/header.c src/main.c src/parsing/check_quote.c src/parsing/cmd_utils.c src/parsing/dollar.c src/parsing/path.c src/parsing/structur_cmd.c src/parsing/structur_utile.c src/parsing/token_split.c src/parsing/token_utile.c 
 
 OBJS = $(SOURCES:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
 

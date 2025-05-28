@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 12:58:17 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/28 14:57:46 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*dollar_arg(char *first, int i, int j, t_shell *shell)
 	char	*arg;
 	char	*path;
 
-	printf("first = %c\n", first[j]);
+	// printf("first = %c\n", first[j]);
 	if (i == 0 && first[j - 1] == '$')
 		path = ft_strdup("$");
 	else if (first[j] == '?')
@@ -28,7 +28,7 @@ char	*dollar_arg(char *first, int i, int j, t_shell *shell)
 		path = chr_path(arg, shell->enviro);
 		free(arg);
 	}
-	printf("doll = %s\n", path);
+	// printf("doll = %s\n", path);
 	return (path);
 }
 
