@@ -6,20 +6,35 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:57:05 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/28 12:00:12 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/28 13:13:09 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_wait(int count, pid_t *pids)
+void	error(char *message)
+{
+	perror(message);
+	exit (1);
+}
+
+void	ft_wait(int count, pid_t *pids, t_shell *shell)
 {
 	int	i;
+	int	status;
 
 	i = 0;
 	while (i < count)
 	{
-		waitpid(pids[i], NULL, 0);
+		if (waitpid(pids[i], &status, 0) == -1)
+			error("waitpid");
+		if (i == count - 1)
+		{
+			if (WIFEXITED(status))
+				shell->exit_code = WEXITSTATUS(status);
+			else if (WIFSIGNALED(status))
+				shell->exit_code = 128 + WTERMSIG(status);
+		}
 		i++;
 	}
 }

@@ -6,18 +6,11 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:17:53 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/28 11:59:25 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/28 13:12:42 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	ft_exit(t_shell *shell)
-{
-	if (ft_strncmp(shell->args[0], "exit", 5) == 0)
-		return (1);
-	return (0);
-}
 
 void	apply_builtin(t_shell *shell, t_cmd *cmd, int pipe)
 {
@@ -38,6 +31,8 @@ void	apply_builtin(t_shell *shell, t_cmd *cmd, int pipe)
 		ft_export(shell);
 	else if (ft_strcmp(cmd->path, "env") == 0)
 		ft_env(shell);
+	else if (ft_strcmp(cmd->path, "exit") == 0)
+		ft_exit(shell, cmd);
 }
 
 int	builtin(t_cmd *cmd)
@@ -56,5 +51,10 @@ int	builtin(t_cmd *cmd)
 		return (1);
 	if (ft_strcmp(cmd->path, "env") == 0)
 		return (1);
+	else if (ft_strcmp(cmd->path, "exit") == 0)
+		return (1);
+	// if (ft_strcmp(cmd->path, "env") == 0)
+	// if (ft_exit(shell) == 1)
+	// 	return (free_all(shell, mini), 2);
 	return (0);
 }

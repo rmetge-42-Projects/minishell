@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/27 15:40:17 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/28 13:13:20 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,28 @@ static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 	{
 		if (cmd->path && g_sig != SIGINT)
 		{
-			if (execve(cmd->path, cmd->argv, shell->env) == -1)
-				printf("eurreur\n");
+			if (ft_strchr(cmd->argv[0], '/'))
+			{
+				// cas d’un chemin absolu ou relatif
+				execve(cmd->path, cmd->argv, shell->env);
+				perror(cmd->argv[0]); // affiche "No such file or directory" ou autre
+				exit(127);
+			}
+			else
+			{
+				if (!cmd->path)
+				{
+					ft_putstr_fd(cmd->argv[0], 2);
+					ft_putstr_fd(": command not found", 2);
+					exit(127);
+				}
+				execve(cmd->path, cmd->argv, shell->env);
+				perror(cmd->argv[0]);
+				exit(127);
+			}
+				// printf("eurreur\n");
+			// execve(cmd->path, cmd->argv, shell->env);
+			// printf("erreur\n");
 		}
 	}
 	free(shell->pids);

@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 11:26:11 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/27 15:34:22 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/28 13:12:54 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,10 @@ void	ft_pipex(t_shell *shell)
 		g_sig = 0;
 		cmd = cmd->pipe;
 	}
-	ft_wait(cmd_count, shell->pids);
-	close_free(in_fd, shell);
+	ft_wait(cmd_count, shell->pids, shell);
+	if (in_fd != 0)
+		close(in_fd);
+	if (shell->cmd->last_heredoc_fd != -1)
+		close(shell->cmd->last_heredoc_fd);
+	free(shell->pids);
 }
