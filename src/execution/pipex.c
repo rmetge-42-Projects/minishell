@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/28 14:50:40 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/28 15:05:10 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 				free_all(shell, NULL);
 				free_shell(&shell);
 				exit(127);
-			}		
-			else		
-			{		
+			}
+			else
+			{
 				if (!cmd->path)
 				{
 					ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
@@ -91,7 +91,7 @@ static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 				free_all(shell, NULL);
 				free_shell(&shell);
 				exit(127);
-			}		
+			}
 				// printf("eurreur\n");
 			// execve(cmd->path, cmd->argv, shell->env);
 			// printf("erreur\n");
