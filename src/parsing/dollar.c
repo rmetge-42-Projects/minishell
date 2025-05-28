@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 14:48:11 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/28 15:19:20 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ char	*ft_dollar(t_shell *shell, char *first, char *dest)
 	char	*res;
 
 	i = 0;
+	if (first[i] == 34)
+		return (first);
 	while (first[i] && first[i] != '$')
 		i++;
 	before = ft_strndup(first, i);
