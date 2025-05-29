@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:23:44 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 18:05:08 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/29 16:12:17 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ char	*chr_path(char *arg, t_env *enviro)
 
 	dollar = ft_calloc(len_dollar(arg) + 1, 1);
 	ft_strlcpy(dollar, arg, len_dollar(arg) + 1);
+	// printf("%s\n", dollar);
 	while (enviro)
 	{
 		if (ft_strcmp(dollar, enviro->key) == 0)
@@ -51,25 +52,25 @@ char	*space_join(char *s1, char *s2)
 	if (s1 && s2)
 	{
 		dest = ft_strjoin(s1, s2);
-		free(s1);
-		free(s2);
+		// free(s1);
+		// free(s2);
 	}
 	else if (s1)
 	{
-		dest = s1;
-		free(s2);
+		dest = ft_strdup(s1);
+		// free(s2);
 	}
 	else if (s2)
 	{
-		dest = s2;
-		free(s1);
+		dest = ft_strdup(s2);
+		// free(s1);
 	}
 	else
 	{
 		dest = NULL;
-		free(s1);
-		free(s2);
 	}
+	free(s1);
+	free(s2);
 	return (dest);
 }
 

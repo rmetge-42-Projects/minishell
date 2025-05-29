@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/29 14:20:55 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/29 16:12:12 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,27 @@ char	*dollar_arg(char *first, int i, int j, t_shell *shell)
 	// 	return (NULL);
 		// path = ft_strdup("$");
 	// else
-	// {
+	if (i == 0)
+		return (NULL);
 	if (i == 1 && first[j] == '$' && first[j + 1] != 34 && first[j + 1] != 39)
 		return (ft_strdup("$"));
 	j++;
 	i--;
-	// printf("bef pth %s\n", first + j);
-	arg = ft_strndup(first + j, i);
-	if (ft_strcmp(arg, "?") == 0)
-		path = ft_itoa(shell->exit_code);
+	// printf("%i\n", i);
+	// printf("bef pth %s\n", first + j +i - 1);
+	if (first + j && first +j + i - 1)
+	{
+		arg = ft_strndup(first + j, i);
+		if (ft_strcmp(arg, "?") == 0)
+			path = ft_itoa(shell->exit_code);
+		else
+			path = chr_path(arg, shell->enviro);
+		free(arg);
+	}
 	else
-		path = chr_path(arg, shell->enviro);
-	free(arg);
+		path = NULL;
 	// }
+	// printf("pth = %s\n", path);
 	return (path);
 }
 
@@ -41,17 +49,16 @@ char	*ft_dollar(t_shell *shell, char *first, char *dest)
 {
 	int		i;
 	int		j;
-	// int		k;
 	char	*before;
 	char	*res;
 	char	*arg;
-	// char	*tmp;
 	char *f2;
+	int	x;
 
 	i = 0;
+	x = 0;
 	before = NULL;
 	arg = NULL;
-	// printf("%s\n", first);
 	while (first[i] && first[i] != '$')
 	{
 		if (first[i] == 39)
@@ -64,27 +71,19 @@ char	*ft_dollar(t_shell *shell, char *first, char *dest)
 		}
 		else if (first[i] && first[i] == 34)
 		{
-			before = ft_strndup(first, i);
+			if (i != 0)
+				before = ft_strndup(first, i);
 			j = 1;
-			// k = i;
 			while (first[i + j] && first[j + i] != 34)
 				j++;
-			// j++;
 			i++;
 			j--;
 			f2 = ft_substr(first, i, j);
-			// f2 = ft_strdup("$");
 			// printf("f2 = %s\n", f2);
-			// return (NULL);
 			if (ft_strchr(f2, '$'))
 			{
 				arg = ft_dollar(shell, f2, NULL);
-				// i += j + 1;
-			}
-			else
-			{
-				free(before);
-				before = NULL;
+				x = 1;
 			}
 			i += j + 1;
 			j = 0;
@@ -93,10 +92,15 @@ char	*ft_dollar(t_shell *shell, char *first, char *dest)
 		else
 			i++;
 	}
-	if (arg == NULL)
+	if (arg == NULL && x == 0)
 	{
-		if (!before)
-		before = ft_strndup(first, i);
+		if (before)
+		{
+			free(before);
+			before = NULL;
+		}
+		if (i != 0)
+			before = ft_strndup(first, i);
 		j = i;
 		i = 0;
 		if (first[j])
@@ -106,9 +110,7 @@ char	*ft_dollar(t_shell *shell, char *first, char *dest)
 			j++;
 			while (first[i + j] && first[j + i] != 34)
 				i++;
-
 			f2 = ft_substr(first, j, i);
-			// printf("%s\n", f2);
 			arg = ft_dollar(shell, f2, NULL);
 			free(f2);
 		}
@@ -124,7 +126,11 @@ char	*ft_dollar(t_shell *shell, char *first, char *dest)
 			arg = dollar_arg(first, i, j, shell);
 	}
 	res = space_join(dest, before);
+	// free(before);
+	// free(dest);
 	dest = space_join(res, arg);
+	// free(res);
+	// free(arg);
 	if (first[j + i])
 		return (ft_dollar(shell, (first + j + i), dest));
 	return (dest);
