@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 12:10:11 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 14:14:08 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/30 12:34:18 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,7 @@ int	path_cmd(t_shell *shell, t_cmd *cmd, t_list **argument)
 		|| ft_strcmp("exit", t->value) == 0)
 		cmd->path = ft_strdup(t->value);
 	else if (shell->path == NULL)
-	{
 		cmd->path = ft_strdup(t->value);
-		ft_putstr_fd("command not found: ", STDERR_FILENO);
-		ft_putendl_fd(t->value, STDERR_FILENO);
-	}
 	else
 		cmd->path = ft_find_path_cmd(shell->path, t->value);
 	if (cmd->path == NULL)

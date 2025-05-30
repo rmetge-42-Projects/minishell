@@ -6,13 +6,13 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 15:03:51 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/30 11:45:14 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int g_sig;
+int	g_sig;
 
 int	check_readline(t_shell *shell, char *mini)
 {
@@ -22,8 +22,6 @@ int	check_readline(t_shell *shell, char *mini)
 		add_history(mini);
 	if (!shell->args || !shell->args[0])
 		return (1);
-	// if (ft_exit(shell) == 1)
-	// 	return (ft_free_split(shell->args), free(mini), 2);
 	return (0);
 }
 
@@ -42,53 +40,47 @@ t_shell	*shell_crl(char **envp)
 	return (shell);
 }
 
+char	*read_line(t_shell *shell, char *mini)
+{
+	char	*line;
+
+	if (shell->tty)
+		mini = readline("\001\033[38;5;205m\002minishell> \001\033[0m\002");
+	else
+	{
+		line = get_next_line(STDIN_FILENO);
+		mini = ft_strtrim(line, "\n");
+		free(line);
+	}
+	if (!mini)
+	{
+		if (shell->tty)
+			ft_putendl_fd("exit", STDERR_FILENO);
+		exit_shell(shell, shell->exit_code, 0);
+	}
+	return (mini);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*mini;
 	t_shell	*shell;
 	int		ret;
-	char	*line;
 
 	(void)argc;
 	(void)argv;
 	shell = shell_crl(envp);
 	manege_signal();
-	//int i = 0;
 	rl_catch_signals = 0;
+	mini = NULL;
 	while (1)
 	{
 		shell->path = NULL;
-		if (shell->tty)
-			mini = readline("\001\033[38;5;205m\002minishell> \001\033[0m\002");
-		else
-		{
-			line = get_next_line(STDIN_FILENO);
-			//printf("line = |%s| ", line);
-			mini = ft_strtrim(line, "\n");
-			free(line);
-		}
-
-		if (!mini)
-		{
-			if (shell->tty)
-				ft_putendl_fd("exit", STDERR_FILENO);
-			exit_shell(shell, shell->exit_code, 0);
-		}
-			
-		
+		mini = read_line(shell, mini);
 		ret = check_readline(shell, mini);
-		// if (ret == 2)
-		// 	break ;
-		
 		if (ret == 1 || ft_structur(shell, mini) == 1)
 			continue ;
-
 		ft_pipex(shell);
-		// printf("Exit_code = %i", shell->exit_code);
 		free_all(shell, mini);
-
 	}
-	// free_shell(&shell);
-	// if (shell->tty)
-	// 	printf("Bye 👋\n");
 }

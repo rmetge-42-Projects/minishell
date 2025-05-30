@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:17:53 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/28 15:03:57 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/30 14:13:46 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	apply_builtin(t_shell *shell, t_cmd *cmd, int pipe)
 	else if (ft_strcmp(cmd->path, "unset") == 0)
 		ft_unset(shell, shell->cmd);
 	else if (ft_strcmp(cmd->path, "export") == 0)
-		ft_export(shell);
+		ft_export(shell, shell->cmd);
 	else if (ft_strcmp(cmd->path, "env") == 0)
 		ft_env(shell);
 	else if (ft_strcmp(cmd->path, "exit") == 0)
@@ -53,8 +53,5 @@ int	builtin(t_cmd *cmd)
 		return (1);
 	else if (ft_strcmp(cmd->path, "exit") == 0)
 		return (1);
-	// if (ft_strcmp(cmd->path, "env") == 0)
-	// if (ft_exit(shell) == 1)
-	// 	return (free_all(shell, mini), 2);
 	return (0);
 }

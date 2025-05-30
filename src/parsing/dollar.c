@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/30 15:56:30 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/30 15:59:07 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*dollar_arg(char *first, int i, int j, t_shell *shell)
 
 char	*if_34(char *first, int *i, t_shell *shell)
 {
-	int	j;
+	int		j;
 	char	*f2;
 	char	*arg;
 	char	*before;
@@ -65,6 +65,7 @@ char	*if_34(char *first, int *i, t_shell *shell)
 		return (space_join(before, arg));
 	return (free(before), NULL);
 }
+
 
 char	*ft_before(char *first, t_shell *shell, int *i)
 {
@@ -152,3 +153,4 @@ char	*ft_dollar(t_shell *shell, char *first, char *dest)
 		return (ft_dollar(shell, (first + i), dest));
 	return (dest);
 }
+

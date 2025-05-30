@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:14:50 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 14:49:25 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/30 12:14:24 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,7 @@ int	ft_pwd(int fd)
 
 	if (getcwd(pwd, sizeof(pwd)) == NULL)
 		return (ft_putstr_fd("erreur", STDERR_FILENO), 1);
-	ft_putstr_fd(pwd, fd);
-	ft_putstr_fd("\n", fd);
+	ft_putendl_fd(pwd, fd);
 	return (0);
 }
 
@@ -99,7 +98,8 @@ int	ft_env(t_shell *shell)
 	t_env	*current;
 
 	if (!shell->path)
-		return (ft_putstr_fd("env: No such file or directory\n", STDERR_FILENO), 0);
+		return (ft_putendl_fd("env: No such file or directory",
+				STDERR_FILENO), 0);
 	current = shell->enviro;
 	while (current)
 	{

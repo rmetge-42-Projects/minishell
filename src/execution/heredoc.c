@@ -3,31 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:45:33 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/27 15:40:42 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/30 10:58:48 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	null_event(void)
-{
-	return (1);
-}
-
-void	putstr_line(int count_line, char *delimiter, char *line)
-{
-	if (!line)
-	{
-		ft_putstr_fd("bash: warning: here-document at line ", 2);
-		ft_putnbr_fd(count_line, 2);
-		ft_putstr_fd(" delimited by end-of-file (wanted `", 2);
-		ft_putstr_fd(delimiter, 2);
-		ft_putstr_fd("')\n", 2);
-	}
-}
 
 int	heredoc_execut(int fd[2], char *delimiter, int count_line, char *line)
 {

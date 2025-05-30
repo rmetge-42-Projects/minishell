@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:57:05 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/28 15:05:03 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/30 14:52:47 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	ft_wait(int count, pid_t *pids, t_shell *shell)
 		{
 			if (WIFEXITED(status))
 				shell->exit_code = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
+			if (WIFSIGNALED(status))
 				shell->exit_code = 128 + WTERMSIG(status);
 		}
 		i++;
@@ -50,7 +50,7 @@ void	open_input(char *file)
 	close(fd);
 }
 
-int	open_out_put(char *file, int append, int last_fd)
+int	open_out_put(char *file, int append)
 {
 	int	fd;
 
@@ -64,11 +64,6 @@ int	open_out_put(char *file, int append, int last_fd)
 			error("outfile append");
 		else
 			error("outfile");
-	}
-	if (last_fd != -1)
-	{
-		dup2(last_fd, STDOUT_FILENO);
-		close(last_fd);
 	}
 	return (fd);
 }
