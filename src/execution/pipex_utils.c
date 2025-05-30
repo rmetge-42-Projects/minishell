@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:57:05 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/30 13:05:14 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/30 14:52:47 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,6 @@ int	open_out_put(char *file, int append)
 		else
 			error("outfile");
 	}
-	// if (last_fd != -1)
-	// {
-	// 	dup2(last_fd, STDOUT_FILENO);
-	// 	close(last_fd);
-	// }
 	return (fd);
 }
 

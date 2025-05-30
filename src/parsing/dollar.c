@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/30 14:51:06 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/30 15:39:22 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*dollar_arg(char *first, int i, int j, t_shell *shell)
 
 char	*if_34(char *first, int *i, t_shell *shell)
 {
-	int	j;
+	int		j;
 	char	*f2;
 	char	*arg;
 	char	*before;
@@ -68,6 +68,7 @@ char	*if_34(char *first, int *i, t_shell *shell)
 	free(before);
 	return (NULL);
 }
+
 
 char	*ft_before(char *first, t_shell *shell, int *i)
 {
@@ -98,7 +99,6 @@ char	*ft_before(char *first, t_shell *shell, int *i)
 		return (ft_strndup(first, (*i)));
 	return (NULL);
 }
-
 
 char	*ft_dollar(t_shell *shell, char *first, char *dest)
 {
@@ -148,7 +148,134 @@ char	*ft_dollar(t_shell *shell, char *first, char *dest)
 	res = space_join(dest, before);
 	dest = space_join(res, arg);
 	if (first [j + i])
-		return (ft_dollar(shell, (first + j + i), dest));
+	{
+		dest = ft_dollar(shell, (first + j + i), dest);
+		return (dest);
+	}
 	return (dest);
 }
+
+
+// char	*expand_var(const char *start, int len, t_shell *shell)
+// {
+// 	char	*name;
+// 	char	*value;
+
+// 	if (len == 2 && start[1] == '?')
+// 		return (ft_itoa(shell->exit_code));
+// 	name = ft_strndup(start + 1, len - 1);
+// 	if (!name)
+// 		return (NULL);
+// 	value = chr_path(name, shell->enviro);
+// 	free(name);
+// 	if (!value)
+// 		return (ft_strdup(""));
+// 	return (value);
+// }
+
+// char	*handle_single_quote(const char *str, int *i)
+// {
+// 	int		start;
+// 	char	*res;
+
+// 	start = ++(*i);
+// 	while (str[*i] && str[*i] != '\'')
+// 		(*i)++;
+// 	res = ft_strndup(str + start, *i - start);
+// 	if (str[*i] == '\'')
+// 		(*i)++;
+// 	return (res);
+// }
+
+// char	*extract_var(const char *str, int *i, t_shell *shell)
+// {
+// 	int		start;
+// 	int		len;
+
+// 	start = *i - 1;
+// 	if (str[*i] == '?')
+// 	{
+// 		(*i)++;
+// 		return (expand_var(str + start, 2, shell));
+// 	}
+// 	else if (str[*i] == '{')
+// 	{
+// 		int brace_start = ++(*i);
+// 		while (str[*i] && str[*i] != '}')
+// 			(*i)++;
+// 		len = *i - brace_start;
+// 		if (str[*i] == '}')
+// 			(*i)++;
+// 		return (expand_var(str + brace_start - 1, len + 2, shell));
+// 	}
+// 	else
+// 	{
+// 		int var_start = *i;
+// 		while (ft_isalnum(str[*i]) || str[*i] == '_')
+// 			(*i)++;
+// 		len = *i - var_start;
+// 		return (expand_var(str + var_start - 1, len + 1, shell));
+// 	}
+// }
+
+// char	*handle_double_quote(const char *str, int *i, t_shell *shell)
+// {
+// 	char	*res;
+// 	char	*tmp;
+// 	int		start;
+
+// 	res = NULL;
+// 	start = ++(*i);
+// 	while (str[*i] && str[*i] != '"')
+// 	{
+// 		if (str[*i] == '$')
+// 		{
+// 			if (*i > start)
+// 				res = space_join(res, ft_strndup(str + start, *i - start));
+// 			(*i)++;
+// 			tmp = extract_var(str, i, shell);
+// 			res = space_join(res, tmp);
+// 			start = *i;
+// 		}
+// 		else
+// 			(*i)++;
+// 	}
+// 	if (*i > start)
+// 		res = space_join(res, ft_strndup(str + start, *i - start));
+// 	if (str[*i] == '"')
+// 		(*i)++;
+// 	return (res);
+// }
+
+// char	*ft_dollar(t_shell *shell, const char *str, char *dest)
+// {
+// 	int		i;
+// 	int		start;
+// 	char	*res;
+// 	char	*tmp;
+
+// 	i = 0;
+// 	res = NULL;
+// 	while (str[i])
+// 	{
+// 		if (str[i] == '\'')
+// 			tmp = handle_single_quote(str, &i);
+// 		else if (str[i] == '"')
+// 			tmp = handle_double_quote(str, &i, shell);
+// 		else if (str[i] == '$')
+// 		{
+// 			i++;
+// 			tmp = extract_var(str, &i, shell);
+// 		}
+// 		else
+// 		{
+// 			start = i;
+// 			while (str[i] && str[i] != '$' && str[i] != '\'' && str[i] != '"')
+// 				i++;
+// 			tmp = ft_strndup(str + start, i - start);
+// 		}
+// 		res = space_join(res, tmp);
+// 	}
+// 	return (space_join(dest, res));
+// }
 

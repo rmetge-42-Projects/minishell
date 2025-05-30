@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/30 14:14:47 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/30 15:41:23 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,7 @@ int				ft_exit(t_shell *shell, t_cmd *cmd);
 void			exit_shell(t_shell *shell, int exit_code, int i);
 enum e_token	token_type(const char *s, int i);
 int				null_event(void);
+// char			*ft_dollar(t_shell *shell, const char *str, char *dest);
 void			putstr_line(int count_line, char *delimiter, char *line);
 
 #endif
