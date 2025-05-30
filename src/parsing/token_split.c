@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:41:25 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/20 18:36:42 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/28 15:50:04 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ static void	ft_process(char const *s, int *j, int *k)
 		else
 			(*j)++;
 	}
+	// if (s[*j] == 39  && s[*j] == s[*j + 1])
+	// 	j += 2;
 	*k = *j;
 	ft_process_2(s, j, redir);
 }

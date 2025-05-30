@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 15:03:32 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/28 18:02:51 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,6 @@ void			ft_path(t_shell *shell);
 int				ft_structur(t_shell *shell, char *cmd);
 t_list			*stuctur_token(char const *s, t_shell *shell);
 t_token			*ft_tokennew(char *value, enum e_token type);
-enum e_token	token_type(const char *s);
 int				chr_sep(char c);
 char			*ft_find_path_cmd(char **path, char *argv);
 int				stuctur_redicection(t_list **arg, t_cmd **cmd);
@@ -155,5 +154,6 @@ pid_t			ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd);
 int				apply_heredoc(t_shell *shell);
 int				ft_exit(t_shell *shell, t_cmd *cmd);
 void			exit_shell(t_shell *shell, int exit_code, int i);
+enum e_token	token_type(const char *s, int i);
 
 #endif
