@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:30:46 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/16 16:36:13 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/30 10:55:13 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 void	free_tokens(void *token)
 {
-	free(((t_token *)token)->value);
-	free((t_token *)token);
+	if (((t_token *)token)->value)
+		free(((t_token *)token)->value);
+	if ((t_token *)token)
+		free((t_token *)token);
 }
 
 void	free_redirec(void *redir)
