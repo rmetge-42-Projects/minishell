@@ -6,15 +6,15 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/28 15:34:11 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/30 13:05:26 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_last_fd(int fd)
+void	ft_last_fd(int fd, int type)
 {
-	dup2(fd, STDOUT_FILENO);
+	dup2(fd, type);
 	close(fd);
 }
 
@@ -32,15 +32,37 @@ void	apply_redirections(t_cmd *cmd)
 		if (r->type == INPUT)
 			open_input(r->file);
 		else if (r->type == OUTPUT)
-			last_fd = open_out_put(r->file, 0, last_fd);
+			last_fd = open_out_put(r->file, 0);
 		else if (r->type == APPEND)
-			last_fd = open_out_put(r->file, 1, last_fd);
+			last_fd = open_out_put(r->file, 1);
 		current = current->next;
 	}
 	if (last_fd != -1)
-		ft_last_fd(last_fd);
+		ft_last_fd(last_fd, STDOUT_FILENO);
 	if (cmd->last_heredoc_fd != -1)
-		ft_last_fd(cmd->last_heredoc_fd);
+		ft_last_fd(cmd->last_heredoc_fd, STDIN_FILENO);
+}
+
+void	put_error(t_cmd *cmd, t_shell *shell)
+{
+	if (cmd->path && g_sig != SIGINT)
+	{
+		if (!cmd->path && ft_strchr(cmd->argv[0], '/') == NULL)
+		{
+			ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
+			ft_putstr_fd(": command not found", STDERR_FILENO);
+		}
+		else
+		{
+			execve(cmd->path, cmd->argv, shell->env);
+			perror(cmd->argv[0]);
+		}
+		shell->exit_code = 127;
+		free(shell->pids);
+		free_all(shell, NULL);
+		free_shell(&shell);
+		exit(127);
+	}
 }
 
 static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
@@ -58,45 +80,7 @@ static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 			apply_builtin(shell, cmd, 1);
 	}
 	else if (builtin(cmd) != 1)
-	{
-		if (cmd->path && g_sig != SIGINT)
-		{
-			if (ft_strchr(cmd->argv[0], '/'))
-			{
-				// cas d’un chemin absolu ou relatif
-				execve(cmd->path, cmd->argv, shell->env);
-				perror(cmd->argv[0]); // affiche "No such file or directory" ou autre
-				shell->exit_code = 127;
-				free(shell->pids);
-				free_all(shell, NULL);
-				free_shell(&shell);
-				exit(127);
-			}
-			else
-			{
-				if (!cmd->path)
-				{
-					ft_putstr_fd(cmd->argv[0], STDERR_FILENO);
-					ft_putstr_fd(": command not found", STDERR_FILENO);
-					shell->exit_code = 127;
-					free(shell->pids);
-					free_all(shell, NULL);
-					free_shell(&shell);
-					exit(127);
-				}
-				execve(cmd->path, cmd->argv, shell->env);
-				perror(cmd->argv[0]);
-				shell->exit_code = 127;
-				free(shell->pids);
-				free_all(shell, NULL);
-				free_shell(&shell);
-				exit(127);
-			}
-				// printf("eurreur\n");
-			// execve(cmd->path, cmd->argv, shell->env);
-			// printf("erreur\n");
-		}
-	}
+		put_error(cmd, shell);
 	free(shell->pids);
 	free_all(shell, NULL);
 	free_shell(&shell);
@@ -115,17 +99,4 @@ pid_t	ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 	if (pid == 0)
 		child_process(shell, cmd, fd, in_fd);
 	return (pid);
-}
-
-int	count_cmds(t_cmd *cmd)
-{
-	int	count;
-
-	count = 0;
-	while (cmd != NULL)
-	{
-		count++;
-		cmd = cmd->pipe;
-	}
-	return (count);
 }

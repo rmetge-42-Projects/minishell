@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structur_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 13:16:31 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 14:51:33 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/30 11:58:28 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,35 +67,10 @@ int	ft_structur(t_shell *shell, char *arg)
 		free_all(shell, arg);
 		return (ft_lstclear(&shell->tokens, free_tokens), 1);
 	}
-	// while (shell->tokens->content)
-	// {
-	// 	printf("%s\n", ((t_token *)shell->tokens->content)->value);
-	// 	printf("%u\n", ((t_token *)shell->tokens->content)->type);
-	// 	shell->tokens = shell->tokens->next;
-	// }
-	// return (1);
-	// printf("i");
 	structur_cmd(shell);
 	shell->tokens = t;
 	ft_lstclear(&shell->tokens, free_tokens);
 	if (shell->cmd == 0)
 		return (free_all(shell, arg), 1);
-	// while (shell->cmd)
-	// {
-	// 	int i = 0;
-	// 	printf("path = %s\n", (shell->cmd->path));
-	// 	printf("argv = ");
-	// 	while (shell->cmd->argv[i])
-	// 		printf("%s ", (shell->cmd->argv[i++]));
-	// 	printf("\n");
-	// 	while (shell->cmd->redirection)
-	// 	{
-	// 		printf("redirection file = %s\n", ((t_redir *)shell->cmd->redirection->content)->file);
-	// 		printf("redirection type = %u\n", ((t_redir *)shell->cmd->redirection->content)->type);
-	// 		shell->cmd->redirection = shell->cmd->redirection->next;
-	// 	}
-	// 	shell->cmd = shell->cmd->pipe;
-	// 	printf("\n");
-	// }
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 14:00:24 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 15:37:04 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/30 13:25:17 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,20 +54,39 @@ void	print_copy(t_env *cpy)
 	while (cpy)
 	{
 		if (cpy->value)
-		// {
-		// 	ft_putstr_fd("declare -x ", STDIN_FILENO);
-		// 	ft_putstr_fd(cpy->key, STDIN_FILENO);
-		// 	ft_putstr_fd("=\"", STDIN_FILENO);
-		// 	ft_putstr_fd(cpy->value, STDIN_FILENO);
-		// 	ft_putendl_fd("\"", STDIN_FILENO);
-		// }
 			printf("declare -x %s=\"%s\"\n", cpy->key, cpy->value);
 		else
-		// {
-		// 	ft_putstr_fd("declare -x ", STDIN_FILENO);
-		// 	ft_putendl_fd(cpy->key, STDIN_FILENO);
-		// }
 			printf("declare -x %s\n", cpy->key);
 		cpy = cpy->next;
 	}
 }
+
+// void	print_copy(t_env *cpy)
+// {
+// 	while (cpy)
+// 	{
+// 		if (cpy->value)
+// 		{
+// 			char *val = cpy->value;
+// 			size_t len = ft_strlen(val);
+
+// 			// Vérifie si la valeur est entourée de guillemets
+// 			if (len >= 2 && val[0] == '"' && val[len - 1] == '"')
+// 			{
+// 				// Affiche sans les guillemets
+// 				char *clean_val = ft_strndup(val + 1, len - 2);
+// 				printf("declare -x %s=\"%s\"\n", cpy->key, clean_val);
+// 				free(clean_val);
+// 			}
+// 			else
+// 			{
+// 				// Affiche normalement
+// 				printf("declare -x %s=\"%s\"\n", cpy->key, val);
+// 			}
+// 		}
+// 		else
+// 			printf("declare -x %s\n", cpy->key);
+
+// 		cpy = cpy->next;
+// 	}
+// }

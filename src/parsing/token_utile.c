@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_utile.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 10:17:07 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/29 15:44:28 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/30 11:57:40 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_token	*ft_tokennew(char *value, enum e_token type)
 	token = (t_token *) ft_calloc(1, sizeof(t_token));
 	if (!token)
 		return (free(token), NULL);
-	token->value =  value;
+	token->value = value;
 	token->type = type;
 	return (token);
 }

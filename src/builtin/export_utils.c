@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 16:00:23 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/15 17:53:53 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/30 13:58:41 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,12 @@ int	is_valid_identifier(char *key)
 {
 	int	i;
 
-	if (!key || (!ft_isalpha(key[0]) && key[0] != '_'))
+	if (!key || (!ft_isalnum(key[0]) && key[0] != '_'))
 		return (0);
 	i = 1;
 	while (key[i])
 	{
-		if (!ft_isalnum(key[i]) && key[i] != '_')
+		if (!ft_isalnum(key[i]) && key[i] != '_' && key[i] != 32)
 			return (0);
 		i++;
 	}

@@ -6,11 +6,24 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 11:26:11 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 15:04:49 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/30 12:51:14 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	count_cmds(t_cmd *cmd)
+{
+	int	count;
+
+	count = 0;
+	while (cmd != NULL)
+	{
+		count++;
+		cmd = cmd->pipe;
+	}
+	return (count);
+}
 
 int	ft_pipex_before(t_shell *shell)
 {
@@ -60,9 +73,5 @@ void	ft_pipex(t_shell *shell)
 		cmd = cmd->pipe;
 	}
 	ft_wait(cmd_count, shell->pids, shell);
-	if (in_fd != 0)
-		close(in_fd);
-	if (shell->cmd->last_heredoc_fd != -1)
-		close(shell->cmd->last_heredoc_fd);
-	free(shell->pids);
+	close_free(in_fd, shell);
 }

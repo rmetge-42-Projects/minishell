@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 18:02:51 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/30 14:14:47 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@
 # include <signal.h>
 # include <errno.h>
 
-#define BUFFER_SIZE 1024
+# define BUFFER_SIZE 1024
+
 extern int	g_sig;
 
 enum e_token
@@ -93,7 +94,7 @@ typedef struct s_shell
 
 int				handle_heredoc(char *delimiter);
 void			open_input(char *file);
-int				open_out_put(char *file, int append, int last_fd);
+int				open_out_put(char *file, int append);
 void			error(char *message);
 void			free_tokens(void *token);
 void			free_redirec(void *redir);
@@ -117,7 +118,7 @@ void			free_tokens(void *token);
 void			free_cmd(t_cmd **cmd);
 void			init_env(t_env **env, char **envp);
 void			env_add_back(t_env **env, t_env *new_node);
-void			ft_export(t_shell *shell);
+void			ft_export(t_shell *shell, t_cmd *cmd);
 void			print_header(void);
 void			free_all(t_shell *shell, char *mini);
 t_env			*env_new_node(char *key, char *value);
@@ -125,7 +126,6 @@ int				is_valid_identifier(char *key);
 t_env			*copy_env_list(t_env *env);
 void			ft_wait(int i, pid_t *pids, t_shell *shell);
 void			manege_signal(void);
-int				check_ctrl_h(void);
 void			add_or_update_env(t_env **env, char *key, char *value);
 void			ft_swap_env(t_env *current, t_env *next);
 void			print_copy(t_env *cpy);
@@ -155,5 +155,7 @@ int				apply_heredoc(t_shell *shell);
 int				ft_exit(t_shell *shell, t_cmd *cmd);
 void			exit_shell(t_shell *shell, int exit_code, int i);
 enum e_token	token_type(const char *s, int i);
+int				null_event(void);
+void			putstr_line(int count_line, char *delimiter, char *line);
 
 #endif

@@ -6,28 +6,11 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:45:33 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 15:17:44 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/30 10:58:48 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	null_event(void)
-{
-	return (1);
-}
-
-void	putstr_line(int count_line, char *delimiter, char *line)
-{
-	if (!line)
-	{
-		ft_putstr_fd("bash: warning: here-document at line ", STDERR_FILENO);
-		ft_putnbr_fd(count_line, STDERR_FILENO);
-		ft_putstr_fd(" delimited by end-of-file (wanted `", STDERR_FILENO);
-		ft_putstr_fd(delimiter, STDERR_FILENO);
-		ft_putstr_fd("')\n", STDERR_FILENO);
-	}
-}
 
 int	heredoc_execut(int fd[2], char *delimiter, int count_line, char *line)
 {

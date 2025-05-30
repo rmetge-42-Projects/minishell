@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:14:50 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/28 15:40:09 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/30 12:14:24 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,17 +98,13 @@ int	ft_env(t_shell *shell)
 	t_env	*current;
 
 	if (!shell->path)
-		return (ft_putendl_fd("env: No such file or directory", STDERR_FILENO), 0);
+		return (ft_putendl_fd("env: No such file or directory",
+				STDERR_FILENO), 0);
 	current = shell->enviro;
 	while (current)
 	{
 		if (current->value)
-		{
-			// ft_putstr_fd(current->key, STDIN_FILENO);
-			// ft_putstr_fd("=", STDIN_FILENO);
-			// ft_putendl_fd(current->value, STDIN_FILENO);
 			printf("%s=%s\n", current->key, current->value);
-		}
 		current = current->next;
 	}
 	return (1);

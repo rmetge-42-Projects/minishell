@@ -3,21 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 13:54:04 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/28 12:00:18 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/30 11:16:32 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	check_ctrl_h(void)
-{
-	if (g_sig == 0)
-		return (1);
-	return (0);
-}
 
 void	ft_ctrl_c(int sig)
 {

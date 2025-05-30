@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:57:52 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/28 14:13:20 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/30 14:22:27 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,27 +41,45 @@ void	sort_env(t_env *cpy)
 	return ;
 }
 
-int	export_env(char **args, int i, t_shell *shell, char *equal_sign)
+void	error_export(char **args, int i)
+{
+	ft_putstr_fd("export: `", STDERR_FILENO);
+	ft_putstr_fd(args[i], STDERR_FILENO);
+	ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
+}
+
+char	*init_for_export(char *equal_sign)
+{
+	char	*raw_value;
+	char	*value;
+
+	raw_value = equal_sign + 1;
+	if (raw_value[0] == '"' && raw_value[ft_strlen(raw_value) - 1] == '"')
+		value = ft_strndup(raw_value + 1, ft_strlen(raw_value) - 2);
+	else
+		value = ft_strdup(raw_value);
+	return (value);
+}
+
+
+int	export_env(t_cmd *cmd, int i, t_shell *shell, char *equal_sign)
 {
 	char	*key;
 	char	*value;
 
 	if (equal_sign)
 	{
-		key = ft_strndup(args[i], equal_sign - args[i]);
-		value = ft_strdup(equal_sign + 1);
+		key = ft_strndup(cmd->argv[i], equal_sign - cmd->argv[i]);
+		value = init_for_export(equal_sign);
 	}
 	else
 	{
-		key = strdup(args[i]);
+		key = strdup(cmd->argv[i]);
 		value = NULL;
 	}
 	if (!key || !is_valid_identifier(key))
 	{
-		ft_putstr_fd("export: `", STDERR_FILENO);
-		ft_putstr_fd(args[i], STDERR_FILENO);
-		ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
-		// printf("export: `%s': not a valid identifier\n", args[i]);
+		error_export(cmd->argv, i);
 		free(key);
 		if (value)
 			free(value);
@@ -72,28 +90,24 @@ int	export_env(char **args, int i, t_shell *shell, char *equal_sign)
 	return (0);
 }
 
-void	ft_export(t_shell *shell)
+void	ft_export(t_shell *shell, t_cmd *cmd)
 {
-	char	**args;
 	char	*equal_sign;
 	int		i;
 	int		res;
 
-	args = ft_split(shell->line, ' ');
-	if (!args[1])
+	if (!cmd->argv[1])
 	{
 		sort_env(copy_env_list(shell->enviro));
-		ft_free_split(args);
 		return ;
 	}
 	i = 1;
-	while (args[i])
+	while (cmd->argv[i])
 	{
-		equal_sign = ft_strchr(args[i], '=');
-		res = export_env(args, i, shell, equal_sign);
+		equal_sign = ft_strchr(cmd->argv[i], '=');
+		res = export_env(cmd, i, shell, equal_sign);
 		i++;
 		if (res == 1)
 			continue ;
 	}
-	ft_free_split(args);
 }
