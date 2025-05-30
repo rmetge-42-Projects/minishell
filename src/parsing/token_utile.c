@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 10:17:07 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/30 11:57:40 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/30 14:51:31 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ t_token	*ft_tokennew(char *value, enum e_token type)
 {
 	t_token	*token;
 
+	// if (value == NULL)
+	// 	return (NULL);
 	token = (t_token *) ft_calloc(1, sizeof(t_token));
 	if (!token)
 		return (free(token), NULL);

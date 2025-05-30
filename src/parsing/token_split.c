@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:41:25 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/30 11:57:15 by bemma            ###   ########.fr       */
+/*   Updated: 2025/05/30 14:51:23 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,8 @@ t_list	*stuctur_token(char const *s, t_shell *shell)
 			t = check_quote(shell, j - k, s + k);
 			if (t->value != NULL)
 				ft_lstadd_back(&dest, ft_lstnew((t)));
+			else
+				free_tokens(t);
 		}
 	}
 	return (dest);
