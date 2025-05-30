@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/30 14:58:46 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/30 15:56:30 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,16 +122,11 @@ char	*ft_arg(char *first, t_shell *shell, int *i)
 	arg = NULL;
 	if (first[j + (*i)])
 	{
-		if (first[j + (*i)] == 34)
-			arg = if_dollar_34(first, &j, i, shell, &x);
-		else
-		{
-			while (first[j + (*i)]
-				&& (ft_isalnum(first[j + (*i)]) || first[j + (*i)] == '_'))
-				(*i)++;
-			if (first[j + (*i)] && first[j + (*i)] == '?')
-				(*i)++;
-		}
+		while (first[j + (*i)]
+			&& (ft_isalnum(first[j + (*i)]) || first[j + (*i)] == '_'))
+			(*i)++;
+		if (first[j + (*i)] && first[j + (*i)] == '?')
+			(*i)++;
 	}
 	if (!arg && x == 0)
 		arg = dollar_arg(first, (*i), j, shell);
