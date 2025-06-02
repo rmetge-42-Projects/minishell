@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:57:05 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/30 14:52:47 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/02 11:34:15 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,13 @@ void	ft_wait(int count, pid_t *pids, t_shell *shell)
 	i = 0;
 	while (i < count)
 	{
-		if (waitpid(pids[i], &status, 0) == -1)
-			error("waitpid");
+		status = 0;
+		waitpid(pids[i], &status, 0);
 		if (i == count - 1)
 		{
 			if (WIFEXITED(status))
 				shell->exit_code = WEXITSTATUS(status);
-			if (WIFSIGNALED(status))
+			else if (WIFSIGNALED(status))
 				shell->exit_code = 128 + WTERMSIG(status);
 		}
 		i++;

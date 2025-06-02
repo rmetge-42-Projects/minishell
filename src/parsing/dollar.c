@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/30 15:59:07 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/06/02 11:38:07 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*dollar_arg(char *first, int i, int j, t_shell *shell)
 		return (ft_strdup("$"));
 	j++;
 	i--;
-	if (first + j && first +j + i - 1)
+	if (first + j && first + j + i - 1)
 	{
 		arg = ft_strndup(first + j, i);
 		if (ft_strcmp(arg, "?") == 0)
