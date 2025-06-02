@@ -6,14 +6,15 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:57:05 by bemma             #+#    #+#             */
-/*   Updated: 2025/06/02 11:46:52 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/02 14:25:29 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	error(char *message)
+void	error(char *message, t_shell *shell)
 {
+	free_all(shell, NULL);
 	perror(message);
 	exit (1);
 }
@@ -39,18 +40,18 @@ void	ft_wait(int count, pid_t *pids, t_shell *shell)
 	}
 }
 
-void	open_input(char *file)
+void	open_input(char *file, t_shell *shell)
 {
 	int	fd;
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		error("infile");
+		error("infile", shell);
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 }
 
-int	open_out_put(char *file, int append)
+int	open_out_put(char *file, int append, t_shell *shell)
 {
 	int	fd;
 
@@ -61,9 +62,9 @@ int	open_out_put(char *file, int append)
 	if (fd == -1)
 	{
 		if (append == 1)
-			error("outfile append");
+			error("outfile append", shell);
 		else
-			error("outfile");
+			error("outfile", shell);
 	}
 	return (fd);
 }

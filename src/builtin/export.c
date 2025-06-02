@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:57:52 by bemma             #+#    #+#             */
-/*   Updated: 2025/06/02 11:41:17 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/02 13:45:53 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ char	*init_for_export(char *equal_sign)
 	return (value);
 }
 
+
 int	export_env(t_cmd *cmd, int i, t_shell *shell, char *equal_sign)
 {
 	char	*key;
@@ -89,7 +90,7 @@ int	export_env(t_cmd *cmd, int i, t_shell *shell, char *equal_sign)
 	return (0);
 }
 
-void	ft_export(t_shell *shell, t_cmd *cmd)
+int	ft_export(t_shell *shell, t_cmd *cmd)
 {
 	char	*equal_sign;
 	int		i;
@@ -98,7 +99,7 @@ void	ft_export(t_shell *shell, t_cmd *cmd)
 	if (!cmd->argv[1])
 	{
 		sort_env(copy_env_list(shell->enviro));
-		return ;
+		return (0);
 	}
 	i = 1;
 	while (cmd->argv[i])
@@ -109,4 +110,7 @@ void	ft_export(t_shell *shell, t_cmd *cmd)
 		if (res == 1)
 			continue ;
 	}
+	if (res == 1)
+		return (1);
+	return (0);
 }

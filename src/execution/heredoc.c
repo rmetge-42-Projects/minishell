@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:45:33 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/02 14:11:04 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/02 14:25:19 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	handle_heredoc(char *delimiter, t_shell *shell)
 	rl_event_hook = null_event;
 	g_sig = 1;
 	if (pipe(fd) == -1)
-		error("pipe heredoc");
+		error("pipe heredoc", shell);
 	if (heredoc_execut(fd, delimiter, NULL, shell) == -1)
 		return (-1);
 	rl_event_hook = NULL;
