@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/02 14:46:17 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/06/02 15:33:27 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char	*dollar_arg(char *first, int i, int j, t_shell *shell)
 	char	*arg;
 	char	*path;
 
+	// printf("fr = %s\n", first + j);
 	if (i == 0)
 		return (NULL);
 	if (i == 1 && first[j] == '$' && first[j + 1] != 34 && first[j + 1] != 39)
@@ -43,27 +44,46 @@ char	*if_34(char *first, int *i, t_shell *shell)
 	char	*f2;
 	char	*arg;
 	char	*before;
+	int		len;
+	// char	*tmp;
 
 	arg = NULL;
 	if (first[*i] && (first[*i] == 34 || first[*i] == 39))
 	{
-		(*i)++;
-		if (i != 0)
-			before = ft_strndup(first, (*i));
-		j = 0;
-		while (first[(*i) + j] && (first[j + (*i)] != 34 ||first[j + (*i)] != 39))
+		j = 1;
+		len = (*i) + j;
+		before = ft_strndup(first, len);
+		// printf("%s\n", before);
+		while (first[(*i) + j] && first[j + (*i)] != (first[(*i)]))
 			j++;
-		// (*i)++;
-		j++;
+		// j++;
 		f2 = ft_substr(first, (*i), j);
+		// printf("%s\n", f2);
 		if (ft_strchr(f2, '$'))
-			arg = ft_dollar(shell, f2, NULL);
-		(*i) += j;
-		j = 0;
+		{
+			// tmp = ft_strndup(f2 + 1, ft_strlen(f2) - 2);
+			arg = ft_dollar(shell, f2 + 1, NULL);
+			// free(tmp);
+		}
+		// j++;
 		free(f2);
+		// if (arg)
+		// {
+		// 	f2 = ft_strjoin(arg, first[j + *i]);
+		// 	arg = f2;
+
+		// }
+
+		(*i) += j;
+		// j = 0;
 	}
 	if (arg)
-		return (space_join(before, arg));
+	{
+		f2 = space_join(arg, ft_strndup(first + (*i), 1));
+		// printf("%s\n",f2);
+		(*i)++;
+		return (space_join(before, f2));
+	}
 	return (free(before), NULL);
 }
 
@@ -114,6 +134,7 @@ char	*ft_arg(char *first, t_shell *shell, int *i)
 		if (first[j + (*i)] && first[j + (*i)] == '?')
 			(*i)++;
 	}
+	// printf("i = %i\n", *i);
 	if (!arg && x == 0)
 		arg = dollar_arg(first, (*i), j, shell);
 	(*i) += j;
