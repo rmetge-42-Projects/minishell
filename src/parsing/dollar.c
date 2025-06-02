@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/02 14:14:15 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/06/02 14:16:14 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ char	*ft_dollar(t_shell *shell, char *first, char *dest)
 	// printf("arg === %s\n", arg);
 	res = space_join(dest, before);
 	dest = space_join(res, arg);
-	printf("dest === %s\n", dest);
+	// printf("dest === %s\n", dest);
 	if (first [i])
 		return (ft_dollar(shell, (first + i), dest));
 	return (dest);
