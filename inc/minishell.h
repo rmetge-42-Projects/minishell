@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/30 15:41:23 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/02 13:44:04 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,10 +92,10 @@ typedef struct s_shell
 	pid_t	*pids;
 }	t_shell;
 
-int				handle_heredoc(char *delimiter);
-void			open_input(char *file);
-int				open_out_put(char *file, int append);
-void			error(char *message);
+int				handle_heredoc(char *delimiter, t_shell *shell);
+void			open_input(char *file, t_shell *shell);
+int				open_out_put(char *file, int append, t_shell *shell);
+void			error(char *message, t_shell *shell);
 void			free_tokens(void *token);
 void			free_redirec(void *redir);
 void			ft_ctrl_c(int sig);
@@ -118,7 +118,7 @@ void			free_tokens(void *token);
 void			free_cmd(t_cmd **cmd);
 void			init_env(t_env **env, char **envp);
 void			env_add_back(t_env **env, t_env *new_node);
-void			ft_export(t_shell *shell, t_cmd *cmd);
+int				ft_export(t_shell *shell, t_cmd *cmd);
 void			print_header(void);
 void			free_all(t_shell *shell, char *mini);
 t_env			*env_new_node(char *key, char *value);
@@ -140,16 +140,16 @@ void			ft_process_2(char const *s, int *j, int redir);
 char			*ft_dollar(t_shell *shell, char *first, char *dest);
 char			*space_join(char *s1, char *s2);
 int				ft_cd(t_shell *shell, char **argv);
-int				redirection_bulitin(t_cmd *cmd);
+int				redirection_bulitin(t_cmd *cmd, t_shell *shell);
 void			apply_builtin(t_shell *shell, t_cmd *cmd, int pipe);
 int				builtin(t_cmd *cmd);
-void			ft_unset(t_shell *shell, t_cmd *cmd);
-void			ft_echo(t_cmd *cmd, int newline, int fd);
+int				ft_unset(t_shell *shell, t_cmd *cmd);
+int				ft_echo(t_cmd *cmd, int newline, int fd);
 int				ft_pwd(int fd);
 int				ft_env(t_shell *shell);
 int				has_output_redirection(t_cmd *cmd);
 int				count_cmds(t_cmd *cmd);
-void			apply_redirections(t_cmd *cmd);
+void			apply_redirections(t_cmd *cmd, t_shell *shell);
 pid_t			ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd);
 int				apply_heredoc(t_shell *shell);
 int				ft_exit(t_shell *shell, t_cmd *cmd);

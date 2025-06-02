@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:45:33 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/30 10:58:48 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/02 13:39:01 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ int	heredoc_execut(int fd[2], char *delimiter, int count_line, char *line)
 	return (0);
 }
 
-int	handle_heredoc(char *delimiter)
+int	handle_heredoc(char *delimiter, t_shell *shell)
 {
 	int		fd[2];
 
 	rl_event_hook = null_event;
 	g_sig = 1;
 	if (pipe(fd) == -1)
-		error("pipe heredoc");
+		error("pipe heredoc", shell);
 	if (heredoc_execut(fd, delimiter, 0, NULL) == -1)
 		return (-1);
 	rl_event_hook = NULL;
@@ -74,7 +74,7 @@ int	apply_heredoc(t_shell *shell)
 			r = (t_redir *)redirs->content;
 			if (r->type == HEREDOC)
 			{
-				fd = handle_heredoc(r->file);
+				fd = handle_heredoc(r->file, shell);
 				if (tmp->last_heredoc_fd != -1)
 					close(tmp->last_heredoc_fd);
 				tmp->last_heredoc_fd = fd;

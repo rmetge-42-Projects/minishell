@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 11:18:32 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/30 13:05:26 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/02 13:29:52 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	ft_last_fd(int fd, int type)
 	close(fd);
 }
 
-void	apply_redirections(t_cmd *cmd)
+void	apply_redirections(t_cmd *cmd, t_shell *shell)
 {
 	t_redir	*r;
 	t_list	*current;
@@ -30,11 +30,11 @@ void	apply_redirections(t_cmd *cmd)
 	{
 		r = (t_redir *)current->content;
 		if (r->type == INPUT)
-			open_input(r->file);
+			open_input(r->file, shell);
 		else if (r->type == OUTPUT)
-			last_fd = open_out_put(r->file, 0);
+			last_fd = open_out_put(r->file, 0, shell);
 		else if (r->type == APPEND)
-			last_fd = open_out_put(r->file, 1);
+			last_fd = open_out_put(r->file, 1, shell);
 		current = current->next;
 	}
 	if (last_fd != -1)
@@ -71,7 +71,7 @@ static void	child_process(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 		dup2(in_fd, STDIN_FILENO);
 	if (cmd->pipe && !has_output_redirection(cmd))
 		dup2(fd[1], STDOUT_FILENO);
-	apply_redirections(cmd);
+	apply_redirections(cmd, shell);
 	close(fd[0]);
 	close(fd[1]);
 	if (builtin(cmd) == 1)
@@ -92,10 +92,10 @@ pid_t	ft_fork_child(t_shell *shell, t_cmd *cmd, int *fd, int in_fd)
 	pid_t	pid;
 
 	if (pipe(fd) == -1)
-		error("Pipe Error");
+		error("Pipe Error", shell);
 	pid = fork();
 	if (pid == -1)
-		error("Fork Error");
+		error("Fork Error", shell);
 	if (pid == 0)
 		child_process(shell, cmd, fd, in_fd);
 	return (pid);

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   built_in_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:14:50 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/30 12:14:24 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/02 11:58:41 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_echo(t_cmd *cmd, int newline, int fd)
+int	ft_echo(t_cmd *cmd, int newline, int fd)
 {
 	int	i;
 	int	j;
@@ -38,6 +38,7 @@ void	ft_echo(t_cmd *cmd, int newline, int fd)
 	}
 	if (newline)
 		ft_putstr_fd("\n", fd);
+	return (0);
 }
 
 void	sup_env(t_env *env, char *argv)
@@ -56,7 +57,7 @@ void	sup_env(t_env *env, char *argv)
 	}
 }
 
-void	ft_unset(t_shell *shell, t_cmd *cmd)
+int	ft_unset(t_shell *shell, t_cmd *cmd)
 {
 	t_env	*env;
 	t_env	*tmp;
@@ -65,7 +66,7 @@ void	ft_unset(t_shell *shell, t_cmd *cmd)
 	env = shell->enviro;
 	i = 1;
 	if (!cmd->argv[1])
-		return ;
+		return (0);
 	while (cmd->argv[i])
 	{
 		if (env && ft_strcmp(env->key, cmd->argv[i]) == 0)
@@ -81,6 +82,7 @@ void	ft_unset(t_shell *shell, t_cmd *cmd)
 			sup_env(env, cmd->argv[i]);
 		i++;
 	}
+	return (0);
 }
 
 int	ft_pwd(int fd)

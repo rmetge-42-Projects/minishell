@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:39:59 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/30 11:50:58 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/02 13:43:02 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,23 @@ void	chang_cdw(t_shell *shell, char *str)
 	shell->enviro = env_tmp;
 }
 
+int	len_split(char **str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	return (i);
+}
+
 int	ft_cd(t_shell *shell, char **argv)
 {
 	char	cwd[1024];
 	char	*src;
 
+	if (len_split(argv) > 2)
+		return (ft_putstr_fd("minishell: cd: too many arguments\n", 2), 2);
 	if (!argv[1] || ft_strcmp("~", argv[1]) == 0)
 		src = chr_path("HOME", shell->enviro);
 	else if (ft_strcmp("-", argv[1]) == 0)
