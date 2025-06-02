@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/02 15:33:27 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/06/02 16:34:32 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,42 +45,21 @@ char	*if_34(char *first, int *i, t_shell *shell)
 	char	*arg;
 	char	*before;
 	int		len;
-	// char	*tmp;
 
 	arg = NULL;
-	if (first[*i] && (first[*i] == 34 || first[*i] == 39))
-	{
-		j = 1;
-		len = (*i) + j;
-		before = ft_strndup(first, len);
-		// printf("%s\n", before);
-		while (first[(*i) + j] && first[j + (*i)] != (first[(*i)]))
-			j++;
-		// j++;
-		f2 = ft_substr(first, (*i), j);
-		// printf("%s\n", f2);
-		if (ft_strchr(f2, '$'))
-		{
-			// tmp = ft_strndup(f2 + 1, ft_strlen(f2) - 2);
-			arg = ft_dollar(shell, f2 + 1, NULL);
-			// free(tmp);
-		}
-		// j++;
-		free(f2);
-		// if (arg)
-		// {
-		// 	f2 = ft_strjoin(arg, first[j + *i]);
-		// 	arg = f2;
-
-		// }
-
-		(*i) += j;
-		// j = 0;
-	}
+	j = 1;
+	len = (*i) + j;
+	before = ft_strndup(first, len);
+	while (first[(*i) + j] && first[j + (*i)] != (first[(*i)]))
+		j++;
+	f2 = ft_substr(first, (*i), j);
+	if (ft_strchr(f2, '$'))
+		arg = ft_dollar(shell, f2 + 1, NULL);
+	free(f2);
+	(*i) += j;
 	if (arg)
 	{
 		f2 = space_join(arg, ft_strndup(first + (*i), 1));
-		// printf("%s\n",f2);
 		(*i)++;
 		return (space_join(before, f2));
 	}
@@ -89,19 +68,10 @@ char	*if_34(char *first, int *i, t_shell *shell)
 
 char	*ft_before(char *first, t_shell *shell, int *i)
 {
-	// int		j;
 	char	*before;
 
 	while (first[*i] && first[*i] != '$')
 	{
-		// if (first[*i] == 39)
-		// {
-		// 	j = 1;
-		// 	while (first[(*i) + j] && first[j + (*i)] != first[(*i)])
-		// 		j++;
-		// 	j++;
-		// 	(*i) += j;
-		// }
 		if (first[(*i)] &&( first[(*i)] == 34 || first[(*i)] == 39))
 		{
 			before = if_34(first, i, shell);
@@ -134,7 +104,6 @@ char	*ft_arg(char *first, t_shell *shell, int *i)
 		if (first[j + (*i)] && first[j + (*i)] == '?')
 			(*i)++;
 	}
-	// printf("i = %i\n", *i);
 	if (!arg && x == 0)
 		arg = dollar_arg(first, (*i), j, shell);
 	(*i) += j;
@@ -151,13 +120,10 @@ char	*ft_dollar(t_shell *shell, char *first, char *dest)
 	i = 0;
 	arg = NULL;
 	before = ft_before(first, shell, &i);
-	// printf("before === %s\n", before);
 	if (first[i] && first[i] == '$')
 		arg = ft_arg(first, shell, &i);
-	// printf("arg === %s\n", arg);
 	res = space_join(dest, before);
 	dest = space_join(res, arg);
-	// printf("dest === %s\n", dest);
 	if (first [i])
 		return (ft_dollar(shell, (first + i), dest));
 	return (dest);
