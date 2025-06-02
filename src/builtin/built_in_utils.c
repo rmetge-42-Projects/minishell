@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:14:50 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/02 16:31:32 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/02 16:36:40 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,12 +37,10 @@ int	ft_echo(t_cmd *cmd, int newline, int fd)
 		j = 2;
 		while (cmd->argv[i][j] == 'n')
 			j++;
-		while (cmd->argv[i][j] && cmd->argv[i][j] == ' ')
-			j++;
-		newline = 0;
 		if (cmd->argv[i][j])
 			break ;
 		i++;
+		newline = 0;
 	}
 	print_echo(cmd, i, fd, newline);
 	return (0);

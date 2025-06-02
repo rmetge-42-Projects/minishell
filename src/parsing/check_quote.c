@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_quote.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:23:44 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/30 14:50:39 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/02 16:30:11 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,12 @@ t_token	*check_quote(t_shell *shell, int j, const char *s)
 	if ((arg_type == ARG || arg_type == QUOTE2) && ft_strchr(first, '$'))
 	{
 		dest = ft_dollar(shell, first, NULL);
+		free(first);
+		return (ft_tokennew(dest, arg_type));
+	}
+	if (arg_type == ARG && ft_strcmp("~", first) == 0)
+	{
+		dest = chr_path("HOME", shell->enviro);
 		free(first);
 		return (ft_tokennew(dest, arg_type));
 	}

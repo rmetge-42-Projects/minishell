@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/02 15:46:00 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/02 16:37:06 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,19 +46,16 @@ char	*if_34(char *first, int *i, t_shell *shell)
 	int		len;
 
 	arg = NULL;
-	if (first[*i] && (first[*i] == 34 || first[*i] == 39))
-	{
-		j = 1;
-		len = (*i) + j;
-		before = ft_strndup(first, len);
-		while (first[(*i) + j] && first[j + (*i)] != (first[(*i)]))
-			j++;
-		f2 = ft_substr(first, (*i), j);
-		if (ft_strchr(f2, '$'))
-			arg = ft_dollar(shell, f2 + 1, NULL);
-		free(f2);
-		(*i) += j;
-	}
+	j = 1;
+	len = (*i) + j;
+	before = ft_strndup(first, len);
+	while (first[(*i) + j] && first[j + (*i)] != (first[(*i)]))
+		j++;
+	f2 = ft_substr(first, (*i), j);
+	if (ft_strchr(f2, '$'))
+		arg = ft_dollar(shell, f2 + 1, NULL);
+	free(f2);
+	(*i) += j;
 	if (arg)
 	{
 		f2 = space_join(arg, ft_strndup(first + (*i), 1));
@@ -74,8 +71,7 @@ char	*ft_before(char *first, t_shell *shell, int *i)
 
 	while (first[*i] && first[*i] != '$')
 	{
-		if (first[(*i)] && (first[(*i)] == 34 || first[(*i)] == 39)
-			&& g_sig != 1)
+		if (first[(*i)] &&( first[(*i)] == 34 || first[(*i)] == 39))
 		{
 			before = if_34(first, i, shell);
 			if (before)
