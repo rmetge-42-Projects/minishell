@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/02 11:42:07 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/02 14:14:37 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*ft_before(char *first, t_shell *shell, int *i)
 
 	while (first[*i] && first[*i] != '$')
 	{
-		if (first[*i] == 39)
+		if (first[*i] == 39 && g_sig != 1)
 		{
 			j = 1;
 			while (first[(*i) + j] && first[j + (*i)] != first[(*i)])
@@ -81,7 +81,7 @@ char	*ft_before(char *first, t_shell *shell, int *i)
 			j++;
 			(*i) += j;
 		}
-		else if (first[(*i)] && first[(*i)] == 34)
+		else if (first[(*i)] && first[(*i)] == 34 && g_sig != 1)
 		{
 			before = if_34(first, i, shell);
 			if (before)

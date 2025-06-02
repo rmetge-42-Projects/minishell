@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/02 11:13:54 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/02 13:40:08 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ typedef struct s_shell
 	pid_t	*pids;
 }	t_shell;
 
-int				handle_heredoc(char *delimiter);
+int				handle_heredoc(char *delimiter, t_shell *shell);
 void			open_input(char *file);
 int				open_out_put(char *file, int append);
 void			error(char *message);
