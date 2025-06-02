@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:17:53 by bemma             #+#    #+#             */
-/*   Updated: 2025/06/02 12:03:43 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/06/02 13:56:54 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	apply_builtin(t_shell *shell, t_cmd *cmd, int pipe)
 
 	fd = 1;
 	if (pipe == 0)
-		fd = redirection_bulitin(cmd);
+		fd = redirection_bulitin(cmd, shell);
 	if (ft_strcmp(cmd->path, "cd") == 0)
 		exit_code = ft_cd(shell, cmd->argv);
 	else if (ft_strcmp(cmd->path, "pwd") == 0)

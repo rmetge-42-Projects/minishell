@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/02 11:42:07 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/02 14:14:15 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,17 +47,18 @@ char	*if_34(char *first, int *i, t_shell *shell)
 	arg = NULL;
 	if (first[*i] && first[*i] == 34)
 	{
+		(*i)++;
 		if (i != 0)
 			before = ft_strndup(first, (*i));
-		j = 1;
+		j = 0;
 		while (first[(*i) + j] && first[j + (*i)] != 34)
 			j++;
-		(*i)++;
-		j--;
+		// (*i)++;
+		j++;
 		f2 = ft_substr(first, (*i), j);
 		if (ft_strchr(f2, '$'))
 			arg = ft_dollar(shell, f2, NULL);
-		(*i) += j + 1;
+		(*i) += j;
 		j = 0;
 		free(f2);
 	}
@@ -129,10 +130,13 @@ char	*ft_dollar(t_shell *shell, char *first, char *dest)
 	i = 0;
 	arg = NULL;
 	before = ft_before(first, shell, &i);
+	// printf("before === %s\n", before);
 	if (first[i] && first[i] == '$')
 		arg = ft_arg(first, shell, &i);
+	// printf("arg === %s\n", arg);
 	res = space_join(dest, before);
 	dest = space_join(res, arg);
+	printf("dest === %s\n", dest);
 	if (first [i])
 		return (ft_dollar(shell, (first + i), dest));
 	return (dest);
