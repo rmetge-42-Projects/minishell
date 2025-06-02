@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/30 15:59:07 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/05/30 16:03:07 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*dollar_arg(char *first, int i, int j, t_shell *shell)
 		return (ft_strdup("$"));
 	j++;
 	i--;
-	if (first + j && first +j + i - 1)
+	if (first + j && first + j + i - 1)
 	{
 		arg = ft_strndup(first + j, i);
 		if (ft_strcmp(arg, "?") == 0)
@@ -66,7 +66,6 @@ char	*if_34(char *first, int *i, t_shell *shell)
 	return (free(before), NULL);
 }
 
-
 char	*ft_before(char *first, t_shell *shell, int *i)
 {
 	int		j;
@@ -86,7 +85,7 @@ char	*ft_before(char *first, t_shell *shell, int *i)
 		{
 			before = if_34(first, i, shell);
 			if (before)
-				return(before);
+				return (before);
 		}
 		else
 			(*i)++;
@@ -94,21 +93,6 @@ char	*ft_before(char *first, t_shell *shell, int *i)
 	if ((*i) != 0)
 		return (ft_strndup(first, (*i)));
 	return (NULL);
-}
-
-char	*if_dollar_34(char *first, int *j, int *i, t_shell *shell, int *x)
-{
-	char	*arg;
-	char	*f2;
-
-	(*j)++;
-	while (first[(*i) + (*j)] && first[(*j) + (*i)] != 34)
-		(*i)++;
-	f2 = ft_substr(first, (*j), (*i));
-	arg = ft_dollar(shell, f2, NULL);
-	free(f2);
-	(*x) = 1;
-	return (arg);
 }
 
 char	*ft_arg(char *first, t_shell *shell, int *i)
@@ -153,4 +137,3 @@ char	*ft_dollar(t_shell *shell, char *first, char *dest)
 		return (ft_dollar(shell, (first + i), dest));
 	return (dest);
 }
-

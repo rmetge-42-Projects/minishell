@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 11:57:52 by bemma             #+#    #+#             */
-/*   Updated: 2025/05/30 14:22:27 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/02 11:10:07 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ char	*init_for_export(char *equal_sign)
 		value = ft_strdup(raw_value);
 	return (value);
 }
-
 
 int	export_env(t_cmd *cmd, int i, t_shell *shell, char *equal_sign)
 {
