@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/02 15:11:39 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/02 15:24:14 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ char	*ft_before(char *first, t_shell *shell, int *i)
 		// 	j++;
 		// 	(*i) += j;
 		// }
-		if (first[(*i)] &&( first[(*i)] == 34 || first[(*i)] == 39))
+		if (first[(*i)] &&( first[(*i)] == 34 || first[(*i)] == 39) && g_sig != 1)
 		{
 			before = if_34(first, i, shell);
 			if (before)
@@ -130,13 +130,10 @@ char	*ft_dollar(t_shell *shell, char *first, char *dest)
 	i = 0;
 	arg = NULL;
 	before = ft_before(first, shell, &i);
-	// printf("before === %s\n", before);
 	if (first[i] && first[i] == '$')
 		arg = ft_arg(first, shell, &i);
-	// printf("arg === %s\n", arg);
 	res = space_join(dest, before);
 	dest = space_join(res, arg);
-	// printf("dest === %s\n", dest);
 	if (first [i])
 		return (ft_dollar(shell, (first + i), dest));
 	return (dest);

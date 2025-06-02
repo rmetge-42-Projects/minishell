@@ -6,30 +6,36 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:45:33 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/02 14:25:19 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/02 15:27:22 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int	ctrl_c_heredoc(int fd[2], char *line)
+{
+	if (g_sig == SIGINT)
+	{
+		rl_event_hook = NULL;
+		close(fd[0]);
+		close(fd[1]);
+		if (line)
+			free(line);
+		return (-1);
+	}
+	return (0);
+}
+
 int	heredoc_execut(int fd[2], char *delimiter, char *line, t_shell *shell)
 {
 	int	count_line;
-	
 
 	count_line = 0;
 	while (1)
 	{
 		line = readline("> ");
-		if (g_sig == SIGINT)
-		{
-			rl_event_hook = NULL;
-			close(fd[0]);
-			close(fd[1]);
-			if (line)
-				free(line);
+		if (ctrl_c_heredoc(fd, line) == -1)
 			return (-1);
-		}
 		if ((!line || ft_strcmp(line, delimiter) == 0))
 		{
 			putstr_line(count_line, delimiter, line);
