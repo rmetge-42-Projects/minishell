@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/02 15:40:43 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/02 15:46:00 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ char	*dollar_arg(char *first, int i, int j, t_shell *shell)
 	char	*arg;
 	char	*path;
 
-	// printf("fr = %s\n", first + j);
 	if (i == 0)
 		return (NULL);
 	if (i == 1 && first[j] == '$' && first[j + 1] != 34 && first[j + 1] != 39)
@@ -45,7 +44,6 @@ char	*if_34(char *first, int *i, t_shell *shell)
 	char	*arg;
 	char	*before;
 	int		len;
-	// char	*tmp;
 
 	arg = NULL;
 	if (first[*i] && (first[*i] == 34 || first[*i] == 39))
@@ -53,34 +51,17 @@ char	*if_34(char *first, int *i, t_shell *shell)
 		j = 1;
 		len = (*i) + j;
 		before = ft_strndup(first, len);
-		// printf("%s\n", before);
 		while (first[(*i) + j] && first[j + (*i)] != (first[(*i)]))
 			j++;
-		// j++;
 		f2 = ft_substr(first, (*i), j);
-		// printf("%s\n", f2);
 		if (ft_strchr(f2, '$'))
-		{
-			// tmp = ft_strndup(f2 + 1, ft_strlen(f2) - 2);
 			arg = ft_dollar(shell, f2 + 1, NULL);
-			// free(tmp);
-		}
-		// j++;
 		free(f2);
-		// if (arg)
-		// {
-		// 	f2 = ft_strjoin(arg, first[j + *i]);
-		// 	arg = f2;
-
-		// }
-
 		(*i) += j;
-		// j = 0;
 	}
 	if (arg)
 	{
 		f2 = space_join(arg, ft_strndup(first + (*i), 1));
-		// printf("%s\n",f2);
 		(*i)++;
 		return (space_join(before, f2));
 	}
@@ -89,20 +70,12 @@ char	*if_34(char *first, int *i, t_shell *shell)
 
 char	*ft_before(char *first, t_shell *shell, int *i)
 {
-	// int		j;
 	char	*before;
 
 	while (first[*i] && first[*i] != '$')
 	{
-		// if (first[*i] == 39)
-		// {
-		// 	j = 1;
-		// 	while (first[(*i) + j] && first[j + (*i)] != first[(*i)])
-		// 		j++;
-		// 	j++;
-		// 	(*i) += j;
-		// }
-		if (first[(*i)] &&( first[(*i)] == 34 || first[(*i)] == 39) && g_sig != 1)
+		if (first[(*i)] && (first[(*i)] == 34 || first[(*i)] == 39)
+			&& g_sig != 1)
 		{
 			before = if_34(first, i, shell);
 			if (before)
@@ -134,7 +107,6 @@ char	*ft_arg(char *first, t_shell *shell, int *i)
 		if (first[j + (*i)] && first[j + (*i)] == '?')
 			(*i)++;
 	}
-	// printf("i = %i\n", *i);
 	if (!arg && x == 0)
 		arg = dollar_arg(first, (*i), j, shell);
 	(*i) += j;

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   built_in_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:14:50 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/02 11:58:41 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/06/02 15:56:44 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_echo(t_cmd *cmd, int newline, int fd)
+int	ft_echo(t_cmd *cmd, int newline, int fd, t_shell *shell)
 {
 	int	i;
 	int	j;
@@ -31,7 +31,10 @@ int	ft_echo(t_cmd *cmd, int newline, int fd)
 	}
 	while (cmd->argv[i])
 	{
-		ft_putstr_fd(cmd->argv[i], fd);
+		if (ft_strchr(cmd->argv[i], '~'))
+			ft_putstr_fd(chr_path("HOME", shell->enviro), fd);
+		else
+			ft_putstr_fd(cmd->argv[i], fd);
 		if (cmd->argv[i + 1] != NULL)
 			ft_putstr_fd(" ", fd);
 		i++;

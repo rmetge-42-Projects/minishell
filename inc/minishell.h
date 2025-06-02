@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/02 14:24:31 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/02 15:54:54 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,7 @@ int				redirection_bulitin(t_cmd *cmd, t_shell *shell);
 void			apply_builtin(t_shell *shell, t_cmd *cmd, int pipe);
 int				builtin(t_cmd *cmd);
 int				ft_unset(t_shell *shell, t_cmd *cmd);
-int				ft_echo(t_cmd *cmd, int newline, int fd);
+int				ft_echo(t_cmd *cmd, int newline, int fd, t_shell *shell);
 int				ft_pwd(int fd);
 int				ft_env(t_shell *shell);
 int				has_output_redirection(t_cmd *cmd);

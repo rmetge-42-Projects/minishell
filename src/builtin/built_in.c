@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:17:53 by bemma             #+#    #+#             */
-/*   Updated: 2025/06/02 15:28:07 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/02 15:55:06 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	apply_builtin(t_shell *shell, t_cmd *cmd, int pipe)
 	else if (ft_strcmp(cmd->path, "pwd") == 0)
 		ex_code = ft_pwd(fd);
 	else if (ft_strcmp(cmd->path, "echo") == 0)
-		ex_code = ft_echo(cmd, 1, fd);
+		ex_code = ft_echo(cmd, 1, fd, shell);
 	else if (ft_strcmp(cmd->path, "unset") == 0)
 		ex_code = ft_unset(shell, shell->cmd);
 	else if (ft_strcmp(cmd->path, "export") == 0)
