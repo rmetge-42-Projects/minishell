@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/02 14:37:12 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/02 15:11:39 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,13 @@ char	*if_34(char *first, int *i, t_shell *shell)
 	char	*before;
 
 	arg = NULL;
-	if (first[*i] && first[*i] == 34)
+	if (first[*i] && (first[*i] == 34 || first[*i] == 39))
 	{
 		(*i)++;
 		if (i != 0)
 			before = ft_strndup(first, (*i));
 		j = 0;
-		while (first[(*i) + j] && first[j + (*i)] != 34)
+		while (first[(*i) + j] && (first[j + (*i)] != 34 ||first[j + (*i)] != 39))
 			j++;
 		// (*i)++;
 		j++;
@@ -69,20 +69,20 @@ char	*if_34(char *first, int *i, t_shell *shell)
 
 char	*ft_before(char *first, t_shell *shell, int *i)
 {
-	int		j;
+	// int		j;
 	char	*before;
 
 	while (first[*i] && first[*i] != '$')
 	{
-		if (first[*i] == 39 && g_sig != 1)
-		{
-			j = 1;
-			while (first[(*i) + j] && first[j + (*i)] != first[(*i)])
-				j++;
-			j++;
-			(*i) += j;
-		}
-		else if (first[(*i)] && first[(*i)] == 34/* && g_sig != 1*/)
+		// if (first[*i] == 39)
+		// {
+		// 	j = 1;
+		// 	while (first[(*i) + j] && first[j + (*i)] != first[(*i)])
+		// 		j++;
+		// 	j++;
+		// 	(*i) += j;
+		// }
+		if (first[(*i)] &&( first[(*i)] == 34 || first[(*i)] == 39))
 		{
 			before = if_34(first, i, shell);
 			if (before)
