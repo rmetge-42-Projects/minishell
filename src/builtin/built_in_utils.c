@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:14:50 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/02 15:57:25 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/06/02 16:16:56 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,14 @@ int	ft_echo(t_cmd *cmd, int newline, int fd)
 		j = 2;
 		while (cmd->argv[i][j] == 'n')
 			j++;
-		while (cmd->argv[i][j] && cmd->argv[i][j] == ' ')
-			j++;
-		newline = 0;
 		if (cmd->argv[i][j])
 			break ;
 		i++;
+		newline = 0;
 	}
 	while (cmd->argv[i])
 	{
-		ft_putstr_fd(cmd->argv[i] + j, fd);
+		ft_putstr_fd(cmd->argv[i], fd);
 		if (cmd->argv[i + 1] != NULL)
 			ft_putstr_fd(" ", fd);
 		i++;
