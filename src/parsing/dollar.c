@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/03 13:05:07 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/03 14:17:25 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,6 @@ char	*if_34(char *first, int *i, t_shell *shell, enum e_token type)
 	before = ft_strndup(first, len);
 	while (first[(*i) + j] && first[j + (*i)] != (first[(*i)]))
 		j++;
-
 	f2 = ft_substr(first, (*i), j);
 	if (ft_strchr(f2, '$'))
 		arg = ft_dollar(shell, f2 + 1, NULL, type);

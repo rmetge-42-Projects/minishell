@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:41:25 by rmetge            #+#    #+#             */
-/*   Updated: 2025/05/30 14:51:23 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/03 13:18:16 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	ft_process(char const *s, int *j, int *k)
 	ft_process_2(s, j, redir);
 }
 
-static int	check_all_quote(char *s)
+int	check_all_quote(char *s)
 {
 	int	quote[2];
 	int	i;
