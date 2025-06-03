@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dollar.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/03 14:52:45 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/03 15:34:58 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*if_quote(char *first, int *i, t_shell *shell, enum e_token type)
 
 	arg = NULL;
 	j = 1;
-	before = ft_strndup(first, (*i) + j);
+	before = ft_strndup(first, (*i));
 	while (first[(*i) + j] && first[j + (*i)] != (first[(*i)]))
 		j++;
 	f2 = ft_substr(first, (*i), j);
@@ -77,7 +77,7 @@ char	*ft_before(char *first, t_shell *shell, int *i, enum e_token type)
 				ft_no_quote(first, i);
 			else
 			{
-				before = if_quote(first, i, shell, type);
+				before = if_quote(first, i, shell, QUOTE2);
 				if (before)
 					return (before);
 			}
@@ -85,9 +85,7 @@ char	*ft_before(char *first, t_shell *shell, int *i, enum e_token type)
 		else
 			(*i)++;
 	}
-	if ((*i) != 0 && first[(*i) - 1] && first[(*i) - 1] == '\\')
-		return (ft_strndup(first, (*i - 1)));
-	else if ((*i) != 0)
+	if ((*i) != 0)
 		return (ft_strndup(first, (*i)));
 	return (NULL);
 }
@@ -110,9 +108,7 @@ char	*ft_arg(char *first, t_shell *shell, int *i)
 		if (first[j + (*i)] && first[j + (*i)] == '?')
 			(*i)++;
 	}
-	if (j > 0 && first[j - 1] == '\\')
-		arg = ft_strndup(first + j, (*i));
-	else if (!arg && x == 0)
+	if (!arg && x == 0)
 		arg = dollar_arg(first, (*i), j, shell);
 	(*i) += j;
 	return (arg);

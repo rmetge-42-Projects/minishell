@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structur_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 13:16:31 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/02 16:33:36 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/03 15:01:28 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,12 +65,17 @@ int	ft_structur(t_shell *shell, char *arg)
 	if ((shell->tokens == NULL) || (check_token(shell->tokens) == 1))
 	{
 		free_all(shell, arg);
+		ft_putstr_fd("parsing error\n", 2);
 		return (ft_lstclear(&shell->tokens, free_tokens), 1);
+
 	}
 	structur_cmd(shell);
 	shell->tokens = t;
 	ft_lstclear(&shell->tokens, free_tokens);
 	if (shell->cmd == 0)
+	{
+		ft_putstr_fd("parsing error\n", 2);
 		return (free_all(shell, arg), 1);
+	}
 	return (0);
 }
