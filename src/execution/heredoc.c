@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:45:33 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/02 15:27:22 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/03 13:11:37 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	heredoc_execut(int fd[2], char *delimiter, char *line, t_shell *shell)
 			break ;
 		}
 		if (ft_strchr(line, '$'))
-			line = ft_dollar(shell, line, NULL);
+			line = ft_dollar(shell, line, NULL, QUOTE2);
 		ft_putendl_fd(line, fd[1]);
 		count_line++;
 		free(line);

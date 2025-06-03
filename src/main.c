@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
+/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 11:02:57 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/02 11:36:22 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/03 13:12:50 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,22 @@ int	check_readline(t_shell *shell, char *mini)
 	return (0);
 }
 
+void	shlvl(t_env *enviro)
+{
+	t_env	*tmp;
+	int		val;
+
+	tmp = enviro;
+	while (ft_strcmp(tmp->key, "SHLVL") != 0)
+		tmp = tmp->next;
+	if (ft_strcmp(tmp->key, "SHLVL") == 0)
+	{
+		val = ft_atoi(tmp->value);
+		free(tmp->value);
+		tmp->value = ft_itoa(val + 1);
+	}
+}
+
 t_shell	*shell_crl(char **envp)
 {
 	t_shell	*shell;
@@ -37,6 +53,7 @@ t_shell	*shell_crl(char **envp)
 		return (NULL);
 	shell->enviro = NULL;
 	init_env(&shell->enviro, envp);
+	shlvl(shell->enviro);
 	return (shell);
 }
 

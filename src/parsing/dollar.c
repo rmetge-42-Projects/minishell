@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/03 12:23:41 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/06/03 13:02:16 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*dollar_arg(char *first, int i, int j, t_shell *shell)
 	return (path);
 }
 
-char	*if_34(char *first, int *i, t_shell *shell, enum e_token type)
+char	*if_quote(char *first, int *i, t_shell *shell, enum e_token type)
 {
 	int		j;
 	char	*f2;
@@ -78,7 +78,7 @@ char	*ft_before(char *first, t_shell *shell, int *i, enum e_token type)
 				ft_no_quote(first, i);
 			else
 			{
-				before = if_34(first, i, shell, type);
+				before = if_quote(first, i, shell, type);
 				if (before)
 					return (before);
 			}
