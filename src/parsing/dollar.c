@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/02 16:34:32 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/06/02 16:35:35 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ char	*dollar_arg(char *first, int i, int j, t_shell *shell)
 	char	*arg;
 	char	*path;
 
-	// printf("fr = %s\n", first + j);
 	if (i == 0)
 		return (NULL);
 	if (i == 1 && first[j] == '$' && first[j + 1] != 34 && first[j + 1] != 39)
