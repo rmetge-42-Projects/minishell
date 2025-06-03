@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 17:39:59 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/02 13:43:02 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/06/02 15:26:29 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,7 @@ int	ft_cd(t_shell *shell, char **argv)
 	if (!argv[1] || ft_strcmp("~", argv[1]) == 0)
 		src = chr_path("HOME", shell->enviro);
 	else if (ft_strcmp("-", argv[1]) == 0)
-	{
 		src = chr_path("OLDPWD", shell->enviro);
-	}
 	else
 		src = ft_strdup(argv[1]);
 	if (src == NULL)

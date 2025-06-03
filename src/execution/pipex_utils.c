@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/09 15:57:05 by bemma             #+#    #+#             */
-/*   Updated: 2025/06/02 13:46:03 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/06/02 14:25:29 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	ft_wait(int count, pid_t *pids, t_shell *shell)
 	int	status;
 
 	i = 0;
-	while (i <= count)
+	while (i < count)
 	{
 		status = 0;
 		waitpid(pids[i], &status, 0);

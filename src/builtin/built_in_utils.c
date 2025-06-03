@@ -3,14 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   built_in_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 09:14:50 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/02 16:16:56 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/06/02 16:36:40 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	print_echo(t_cmd *cmd, int i, int fd, int newline)
+{
+	while (cmd->argv[i])
+	{
+		ft_putstr_fd(cmd->argv[i], fd);
+		if (cmd->argv[i + 1] != NULL)
+			ft_putstr_fd(" ", fd);
+		i++;
+	}
+	if (newline)
+		ft_putstr_fd("\n", fd);
+}
 
 int	ft_echo(t_cmd *cmd, int newline, int fd)
 {
@@ -29,32 +42,8 @@ int	ft_echo(t_cmd *cmd, int newline, int fd)
 		i++;
 		newline = 0;
 	}
-	while (cmd->argv[i])
-	{
-		ft_putstr_fd(cmd->argv[i], fd);
-		if (cmd->argv[i + 1] != NULL)
-			ft_putstr_fd(" ", fd);
-		i++;
-	}
-	if (newline)
-		ft_putstr_fd("\n", fd);
+	print_echo(cmd, i, fd, newline);
 	return (0);
-}
-
-void	sup_env(t_env *env, char *argv)
-{
-	t_env	*tmp;
-
-	while (env->next && ft_strcmp(env->next->key, argv) != 0)
-		env = env->next;
-	if (env->next && ft_strcmp(env->next->key, argv) == 0)
-	{
-		tmp = env->next;
-		env->next = env->next->next;
-		free(tmp->key);
-		free(tmp->value);
-		free(tmp);
-	}
 }
 
 int	ft_unset(t_shell *shell, t_cmd *cmd)
@@ -93,21 +82,4 @@ int	ft_pwd(int fd)
 		return (ft_putstr_fd("erreur", STDERR_FILENO), 1);
 	ft_putendl_fd(pwd, fd);
 	return (0);
-}
-
-int	ft_env(t_shell *shell)
-{
-	t_env	*current;
-
-	if (!shell->path)
-		return (ft_putendl_fd("env: No such file or directory",
-				STDERR_FILENO), 0);
-	current = shell->enviro;
-	while (current)
-	{
-		if (current->value)
-			printf("%s=%s\n", current->key, current->value);
-		current = current->next;
-	}
-	return (1);
 }

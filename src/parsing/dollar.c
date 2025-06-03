@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/03 12:21:34 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/06/03 12:23:41 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*ft_before(char *first, t_shell *shell, int *i, enum e_token type)
 
 	while (first[*i] && first[*i] != '$')
 	{
-		if (first[(*i)] &&( first[(*i)] == 34 || first[(*i)] == 39))
+		if (first[(*i)] && (first[(*i)] == 34 || first[(*i)] == 39))
 		{
 			if (first[(*i)] == 39 && type != QUOTE2)
 				ft_no_quote(first, i);

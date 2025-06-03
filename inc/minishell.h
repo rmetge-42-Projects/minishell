@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/03 12:21:58 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/06/03 12:23:27 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,5 +158,7 @@ enum e_token	token_type(const char *s, int i);
 int				null_event(void);
 void			ft_no_quote(char *first, int *i);
 void			putstr_line(int count_line, char *delimiter, char *line);
+void			sup_env(t_env *env, char *argv);
+int				ft_env(t_shell *shell);
 
 #endif

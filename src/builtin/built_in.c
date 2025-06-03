@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_in.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 14:17:53 by bemma             #+#    #+#             */
-/*   Updated: 2025/06/02 13:56:54 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/06/02 16:13:32 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,26 +15,27 @@
 void	apply_builtin(t_shell *shell, t_cmd *cmd, int pipe)
 {
 	int	fd;
-	int	exit_code = 1;
+	int	ex_code;
 
 	fd = 1;
+	ex_code = 1;
 	if (pipe == 0)
 		fd = redirection_bulitin(cmd, shell);
 	if (ft_strcmp(cmd->path, "cd") == 0)
-		exit_code = ft_cd(shell, cmd->argv);
+		ex_code = ft_cd(shell, cmd->argv);
 	else if (ft_strcmp(cmd->path, "pwd") == 0)
-		exit_code = ft_pwd(fd);
+		ex_code = ft_pwd(fd);
 	else if (ft_strcmp(cmd->path, "echo") == 0)
-		exit_code = ft_echo(cmd, 1, fd);
+		ex_code = ft_echo(cmd, 1, fd);
 	else if (ft_strcmp(cmd->path, "unset") == 0)
-		exit_code = ft_unset(shell, shell->cmd);
+		ex_code = ft_unset(shell, shell->cmd);
 	else if (ft_strcmp(cmd->path, "export") == 0)
-		exit_code = ft_export(shell, shell->cmd);
+		ex_code = ft_export(shell, shell->cmd);
 	else if (ft_strcmp(cmd->path, "env") == 0)
-		exit_code = ft_env(shell);
+		ex_code = ft_env(shell);
 	else if (ft_strcmp(cmd->path, "exit") == 0)
-		exit_code = ft_exit(shell, cmd);
-	shell->exit_code = exit_code;
+		ex_code = ft_exit(shell, cmd);
+	shell->exit_code = ex_code;
 }
 
 int	builtin(t_cmd *cmd)
