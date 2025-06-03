@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 10:49:15 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/02 13:45:47 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/06/03 12:21:58 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,7 @@ void			ft_ctrl_backslash(int sig);
 int				len_dollar(char *arg);
 char			*chr_path(char *arg, t_env *enviro);
 void			ft_process_2(char const *s, int *j, int redir);
-char			*ft_dollar(t_shell *shell, char *first, char *dest);
+char			*ft_dollar(t_shell *shell, char *first, char *dest, enum e_token type);
 char			*space_join(char *s1, char *s2);
 int				ft_cd(t_shell *shell, char **argv);
 int				redirection_bulitin(t_cmd *cmd, t_shell *shell);
@@ -156,7 +156,7 @@ int				ft_exit(t_shell *shell, t_cmd *cmd);
 void			exit_shell(t_shell *shell, int exit_code, int i);
 enum e_token	token_type(const char *s, int i);
 int				null_event(void);
-// char			*ft_dollar(t_shell *shell, const char *str, char *dest);
+void			ft_no_quote(char *first, int *i);
 void			putstr_line(int count_line, char *delimiter, char *line);
 
 #endif
