@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:23:44 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/02 16:30:11 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/06/03 12:21:46 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,23 +63,35 @@ char	*space_join(char *s1, char *s2)
 
 t_token	*check_quote(t_shell *shell, int j, const char *s)
 {
-	enum e_token	arg_type;
+	enum e_token	type;
 	char			*first;
 	char			*dest;
 
-	arg_type = token_type(s, 0);
+	type = token_type(s, 0);
 	first = ft_substr(s, 0, j);
-	if ((arg_type == ARG || arg_type == QUOTE2) && ft_strchr(first, '$'))
+	if ((type == ARG || type == QUOTE2) && ft_strchr(first, '$'))
 	{
-		dest = ft_dollar(shell, first, NULL);
+		dest = ft_dollar(shell, first, NULL, type);
 		free(first);
-		return (ft_tokennew(dest, arg_type));
+		return (ft_tokennew(dest, type));
 	}
-	if (arg_type == ARG && ft_strcmp("~", first) == 0)
+	if (type == ARG && ft_strcmp("~", first) == 0)
 	{
 		dest = chr_path("HOME", shell->enviro);
 		free(first);
-		return (ft_tokennew(dest, arg_type));
+		return (ft_tokennew(dest, type));
 	}
-	return (ft_tokennew(first, arg_type));
+	return (ft_tokennew(first, type));
+}
+
+void	ft_no_quote(char *first, int *i)
+{
+	int		j;
+	int		len;
+
+	j = 1;
+	len = (*i) + j;
+	while (first[(*i) + j] && first[j + (*i)] != (first[(*i)]))
+		j++;
+	(*i) += j;
 }
