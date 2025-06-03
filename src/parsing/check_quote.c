@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 11:23:44 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/03 14:12:40 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/03 14:36:00 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_token	*check_quote(t_shell *shell, int j, const char *s)
 
 	type = token_type(s, 0);
 	first = ft_substr(s, 0, j);
-	if ((type == ARG || type == QUOTE2) && ft_strchr(first, '$'))
+	if (/*(type == ARG || type == QUOTE2) &&*/ ft_strchr(first, '$'))
 	{
 		dest = ft_dollar(shell, first, NULL, type);
 		free(first);
@@ -93,5 +93,5 @@ void	ft_no_quote(char *first, int *i)
 	len = (*i) + j;
 	while (first[(*i) + j] && first[j + (*i)] != (first[(*i)]))
 		j++;
-	(*i) += j;
+	(*i) += j + 1;
 }

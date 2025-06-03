@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/03 14:17:25 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/03 14:36:06 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char	*dollar_arg(char *first, int i, int j, t_shell *shell)
 	if (first + j && first + j + i - 1)
 	{
 		arg = ft_strndup(first + j, i);
+		// printf("ijrf = %s\n", arg);
 		if (ft_strcmp(arg, "?") == 0)
 			path = ft_itoa(shell->exit_code);
 		else
@@ -37,7 +38,7 @@ char	*dollar_arg(char *first, int i, int j, t_shell *shell)
 	return (path);
 }
 
-char	*if_34(char *first, int *i, t_shell *shell, enum e_token type)
+char	*if_quote(char *first, int *i, t_shell *shell, enum e_token type)
 {
 	int		j;
 	char	*f2;
@@ -54,6 +55,8 @@ char	*if_34(char *first, int *i, t_shell *shell, enum e_token type)
 	f2 = ft_substr(first, (*i), j);
 	if (ft_strchr(f2, '$'))
 		arg = ft_dollar(shell, f2 + 1, NULL, type);
+	else
+		arg = ft_strdup(f2);
 	free(f2);
 	(*i) += j;
 	if (arg)
@@ -62,7 +65,7 @@ char	*if_34(char *first, int *i, t_shell *shell, enum e_token type)
 		(*i)++;
 		return (space_join(before, f2));
 	}
-	return (free(before), NULL);
+	return (before);
 }
 
 char	*ft_before(char *first, t_shell *shell, int *i, enum e_token type)
@@ -77,7 +80,7 @@ char	*ft_before(char *first, t_shell *shell, int *i, enum e_token type)
 				ft_no_quote(first, i);
 			else
 			{
-				before = if_34(first, i, shell, type);
+				before = if_quote(first, i, shell, type);
 				if (before)
 					return (before);
 			}
@@ -85,7 +88,7 @@ char	*ft_before(char *first, t_shell *shell, int *i, enum e_token type)
 		else
 			(*i)++;
 	}
-	if ((*i) != 0 && first[(*i) - 1] == '\\')
+	if ((*i) != 0 && first[(*i) - 1] && first[(*i) - 1] == '\\')
 		return (ft_strndup(first, (*i - 1)));
 	else if ((*i) != 0)
 		return (ft_strndup(first, (*i)));
@@ -110,7 +113,7 @@ char	*ft_arg(char *first, t_shell *shell, int *i)
 		if (first[j + (*i)] && first[j + (*i)] == '?')
 			(*i)++;
 	}
-	if (first[j - 1] == '\\')
+	if (first[j - 1] && first[j - 1] == '\\')
 		arg = ft_strndup(first + j, (*i));
 	else if (!arg && x == 0)
 		arg = dollar_arg(first, (*i), j, shell);
