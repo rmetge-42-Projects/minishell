@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/03 15:15:52 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/06/03 15:30:21 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,7 @@ char	*ft_before(char *first, t_shell *shell, int *i, enum e_token type)
 		else
 			(*i)++;
 	}
-	if ((*i) != 0 && first[(*i) - 1] && first[(*i) - 1] == '\\')
-		return (ft_strndup(first, (*i - 1)));
-	else if ((*i) != 0)
+	if ((*i) != 0)
 		return (ft_strndup(first, (*i)));
 	return (NULL);
 }
@@ -110,9 +108,7 @@ char	*ft_arg(char *first, t_shell *shell, int *i)
 		if (first[j + (*i)] && first[j + (*i)] == '?')
 			(*i)++;
 	}
-	if (j > 0 && first[j - 1] == '\\')
-		arg = ft_strndup(first + j, (*i));
-	else if (!arg && x == 0)
+	if (!arg && x == 0)
 		arg = dollar_arg(first, (*i), j, shell);
 	(*i) += j;
 	return (arg);

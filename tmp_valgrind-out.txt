@@ -1,0 +1,164 @@
+==378137== Memcheck, a memory error detector
+==378137== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==378137== Using Valgrind-3.18.1-42b08ed5bd-20211015 and LibVEX; rerun with -h for copyright info
+==378137== Command: .//minishell
+==378137== Parent PID: 377291
+==378137== 
+--378137-- 
+--378137-- Valgrind options:
+--378137--    --leak-check=full
+--378137--    --show-leak-kinds=all
+--378137--    --track-origins=yes
+--378137--    --verbose
+--378137--    --log-file=tmp_valgrind-out.txt
+--378137-- Contents of /proc/version:
+--378137--   Linux version 5.15.0-139-generic (buildd@lcy02-amd64-029) (gcc (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0, GNU ld (GNU Binutils for Ubuntu) 2.38) #149-Ubuntu SMP Fri Apr 11 22:06:13 UTC 2025
+--378137-- 
+--378137-- Arch and hwcaps: AMD64, LittleEndian, amd64-cx16-lzcnt-rdtscp-sse3-ssse3-avx-avx2-bmi-f16c-rdrand-rdseed
+--378137-- Page sizes: currently 4096, max supported 4096
+--378137-- Valgrind library directory: /usr/libexec/valgrind
+--378137-- Reading syms from /home/rmetge/cursus/github/mini_bug/minishell
+--378137-- Reading syms from /usr/lib/x86_64-linux-gnu/ld-linux-x86-64.so.2
+--378137--   Considering /usr/lib/debug/.build-id/e4/de036b19e4768e7591b596c4be9f9015f2d28a.debug ..
+--378137--   .. build-id is valid
+--378137-- Reading syms from /usr/libexec/valgrind/memcheck-amd64-linux
+--378137--    object doesn't have a symbol table
+--378137--    object doesn't have a dynamic symbol table
+--378137-- Scheduler: using generic scheduler lock implementation.
+--378137-- Reading suppressions file: /usr/libexec/valgrind/default.supp
+==378137== embedded gdbserver: reading from /tmp/vgdb-pipe-from-vgdb-to-378137-by-rmetge-on-???
+==378137== embedded gdbserver: writing to   /tmp/vgdb-pipe-to-vgdb-from-378137-by-rmetge-on-???
+==378137== embedded gdbserver: shared mem   /tmp/vgdb-pipe-shared-mem-vgdb-378137-by-rmetge-on-???
+==378137== 
+==378137== TO CONTROL THIS PROCESS USING vgdb (which you probably
+==378137== don't want to do, unless you know exactly what you're doing,
+==378137== or are doing some strange experiment):
+==378137==   /usr/bin/vgdb --pid=378137 ...command...
+==378137== 
+==378137== TO DEBUG THIS PROCESS USING GDB: start GDB like this
+==378137==   /path/to/gdb .//minishell
+==378137== and then give GDB the following command
+==378137==   target remote | /usr/bin/vgdb --pid=378137
+==378137== --pid is optional if only one valgrind process is running
+==378137== 
+--378137-- REDIR: 0x402aa40 (ld-linux-x86-64.so.2:strlen) redirected to 0x580bcec2 (???)
+--378137-- REDIR: 0x402a810 (ld-linux-x86-64.so.2:index) redirected to 0x580bcedc (???)
+--378137-- Reading syms from /usr/libexec/valgrind/vgpreload_core-amd64-linux.so
+--378137--    object doesn't have a symbol table
+--378137-- Reading syms from /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so
+--378137--    object doesn't have a symbol table
+==378137== WARNING: new redirection conflicts with existing -- ignoring it
+--378137--     old: 0x0402aa40 (strlen              ) R-> (0000.0) 0x580bcec2 ???
+--378137--     new: 0x0402aa40 (strlen              ) R-> (2007.0) 0x0484ee30 strlen
+--378137-- REDIR: 0x4027220 (ld-linux-x86-64.so.2:strcmp) redirected to 0x484fcd0 (strcmp)
+--378137-- REDIR: 0x402afa0 (ld-linux-x86-64.so.2:mempcpy) redirected to 0x4853840 (mempcpy)
+--378137-- Reading syms from /usr/lib/x86_64-linux-gnu/libreadline.so.8.1
+--378137--    object doesn't have a symbol table
+--378137-- Reading syms from /usr/lib/x86_64-linux-gnu/libc.so.6
+--378137--   Considering /usr/lib/debug/.build-id/cd/410b710f0f094c6832edd95931006d883af48e.debug ..
+--378137--   .. build-id is valid
+==378137== WARNING: new redirection conflicts with existing -- ignoring it
+--378137--     old: 0x0496ac60 (memalign            ) R-> (1011.0) 0x0484e080 memalign
+--378137--     new: 0x0496ac60 (memalign            ) R-> (1017.0) 0x0484e050 aligned_alloc
+==378137== WARNING: new redirection conflicts with existing -- ignoring it
+--378137--     old: 0x0496ac60 (memalign            ) R-> (1011.0) 0x0484e080 memalign
+--378137--     new: 0x0496ac60 (memalign            ) R-> (1017.0) 0x0484e020 aligned_alloc
+==378137== WARNING: new redirection conflicts with existing -- ignoring it
+--378137--     old: 0x0496ac60 (memalign            ) R-> (1011.0) 0x0484e080 memalign
+--378137--     new: 0x0496ac60 (memalign            ) R-> (1017.0) 0x0484e050 aligned_alloc
+==378137== WARNING: new redirection conflicts with existing -- ignoring it
+--378137--     old: 0x0496ac60 (memalign            ) R-> (1011.0) 0x0484e080 memalign
+--378137--     new: 0x0496ac60 (memalign            ) R-> (1017.0) 0x0484e020 aligned_alloc
+--378137-- Reading syms from /usr/lib/x86_64-linux-gnu/libtinfo.so.6.3
+--378137--    object doesn't have a symbol table
+--378137-- REDIR: 0x496d720 (libc.so.6:strnlen) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x496d9e0 (libc.so.6:strpbrk) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x496d2e0 (libc.so.6:strcmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x498bcd0 (libc.so.6:wcsnlen) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x496e6d0 (libc.so.6:memset) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x498a540 (libc.so.6:wcslen) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x496ec10 (libc.so.6:memcpy@@GLIBC_2.14) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x498a370 (libc.so.6:wcschr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x496d260 (libc.so.6:index) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x496d960 (libc.so.6:rindex) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x496e5a0 (libc.so.6:memmove) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+==378137== Preferring higher priority redirection:
+--378137--     old: 0x04a657c0 (__memcpy_avx_unalign) R-> (2018.0) 0x04850f90 __memcpy_avx_unaligned_erms
+--378137--     new: 0x04a657c0 (__memcpy_avx_unalign) R-> (2018.1) 0x04852880 memmove
+--378137-- REDIR: 0x498a3f0 (libc.so.6:wcscmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x496e9e0 (libc.so.6:stpncpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x498a9b0 (libc.so.6:wmemchr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x496d830 (libc.so.6:strncmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x496ea70 (libc.so.6:strcasecmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x496d420 (libc.so.6:strcspn) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x498a470 (libc.so.6:wcscpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x496d1d0 (libc.so.6:strcat) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x496eb60 (libc.so.6:strncasecmp_l) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x496e480 (libc.so.6:bcmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x4976570 (libc.so.6:memrchr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x4970010 (libc.so.6:strchrnul) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x496d390 (libc.so.6:strcpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x496eb10 (libc.so.6:strcasecmp_l) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x496d6a0 (libc.so.6:strlen) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x496d8d0 (libc.so.6:strncpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x496e950 (libc.so.6:stpcpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x496e3f0 (libc.so.6:memchr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x496db00 (libc.so.6:strspn) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x496e7d0 (libc.so.6:mempcpy) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x496eac0 (libc.so.6:strncasecmp) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x496ff80 (libc.so.6:rawmemchr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x496d7a0 (libc.so.6:strncat) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x49f9280 (libc.so.6:__memcpy_chk) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x496e310 (libc.so.6:strstr) redirected to 0x483f220 (_vgnU_ifunc_wrapper)
+--378137-- REDIR: 0x4a62610 (libc.so.6:__strrchr_avx2) redirected to 0x484e810 (rindex)
+--378137-- REDIR: 0x496a0a0 (libc.so.6:malloc) redirected to 0x4848820 (malloc)
+--378137-- REDIR: 0x496a3e0 (libc.so.6:free) redirected to 0x484b210 (free)
+--378137-- REDIR: 0x4a62400 (libc.so.6:__strchrnul_avx2) redirected to 0x4853330 (strchrnul)
+--378137-- REDIR: 0x4a627e0 (libc.so.6:__strlen_avx2) redirected to 0x484ed10 (strlen)
+--378137-- REDIR: 0x4a657c0 (libc.so.6:__memcpy_avx_unaligned_erms) redirected to 0x4852880 (memmove)
+==378137== 
+==378137== HEAP SUMMARY:
+==378137==     in use at exit: 4,062 bytes in 4 blocks
+==378137==   total heap usage: 296 allocs, 292 frees, 22,051 bytes allocated
+==378137== 
+==378137== Searching for pointers to 4 not-freed blocks
+==378137== Checked 144,312 bytes
+==378137== 
+==378137== 10 bytes in 1 blocks are still reachable in loss record 1 of 4
+==378137==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==378137==    by 0x48AABAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==378137==    by 0x48A1B39: alloc_history_entry (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==378137==    by 0x48A3F65: add_history (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==378137==    by 0x403E6A: check_readline (main.c:22)
+==378137==    by 0x404108: main (main.c:97)
+==378137== 
+==378137== 12 bytes in 1 blocks are still reachable in loss record 2 of 4
+==378137==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==378137==    by 0x48AABAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==378137==    by 0x48A3F28: add_history (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==378137==    by 0x403E6A: check_readline (main.c:22)
+==378137==    by 0x404108: main (main.c:97)
+==378137== 
+==378137== 24 bytes in 1 blocks are still reachable in loss record 3 of 4
+==378137==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==378137==    by 0x48AABAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==378137==    by 0x48A1B1D: alloc_history_entry (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==378137==    by 0x48A3F65: add_history (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==378137==    by 0x403E6A: check_readline (main.c:22)
+==378137==    by 0x404108: main (main.c:97)
+==378137== 
+==378137== 4,016 bytes in 1 blocks are still reachable in loss record 4 of 4
+==378137==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==378137==    by 0x48AABAC: xmalloc (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==378137==    by 0x48A3FD6: add_history (in /usr/lib/x86_64-linux-gnu/libreadline.so.8.1)
+==378137==    by 0x403E6A: check_readline (main.c:22)
+==378137==    by 0x404108: main (main.c:97)
+==378137== 
+==378137== LEAK SUMMARY:
+==378137==    definitely lost: 0 bytes in 0 blocks
+==378137==    indirectly lost: 0 bytes in 0 blocks
+==378137==      possibly lost: 0 bytes in 0 blocks
+==378137==    still reachable: 4,062 bytes in 4 blocks
+==378137==         suppressed: 0 bytes in 0 blocks
+==378137== 
+==378137== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
