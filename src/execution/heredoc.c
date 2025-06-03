@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
+/*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 14:45:33 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/03 13:11:37 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/06/03 14:35:41 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ int	heredoc_execut(int fd[2], char *delimiter, char *line, t_shell *shell)
 			putstr_line(count_line, delimiter, line);
 			break ;
 		}
-		if (ft_strchr(line, '$'))
+		if (ft_strchr(line, '$') && !ft_strnstr(line, "$'", ft_strlen(line))
+			&& !ft_strnstr(line, "$\"", ft_strlen(line)))
 			line = ft_dollar(shell, line, NULL, QUOTE2);
 		ft_putendl_fd(line, fd[1]);
 		count_line++;
@@ -66,6 +67,22 @@ int	handle_heredoc(char *delimiter, t_shell *shell)
 	return (fd[0]);
 }
 
+int	ft_fd(char *str, t_shell *shell, t_cmd *tmp, int fd)
+{
+	char	*line;
+
+	if (check_all_quote(str) == 0)
+		line = cpy_quote(str, ft_strlen(str));
+	else
+		line = ft_strdup(str);
+	fd = handle_heredoc(line, shell);
+	if (tmp->last_heredoc_fd != -1)
+		close(tmp->last_heredoc_fd);
+	tmp->last_heredoc_fd = fd;
+	free(line);
+	return (fd);
+}
+
 int	apply_heredoc(t_shell *shell)
 {
 	t_redir	*r;
@@ -74,6 +91,7 @@ int	apply_heredoc(t_shell *shell)
 	int		fd;
 
 	tmp = shell->cmd;
+	fd = 0;
 	while (tmp)
 	{
 		redirs = tmp->redirection;
@@ -82,12 +100,7 @@ int	apply_heredoc(t_shell *shell)
 		{
 			r = (t_redir *)redirs->content;
 			if (r->type == HEREDOC)
-			{
-				fd = handle_heredoc(r->file, shell);
-				if (tmp->last_heredoc_fd != -1)
-					close(tmp->last_heredoc_fd);
-				tmp->last_heredoc_fd = fd;
-			}
+				fd = ft_fd(r->file, shell, tmp, fd);
 			redirs = redirs->next;
 		}
 		tmp = tmp->pipe;

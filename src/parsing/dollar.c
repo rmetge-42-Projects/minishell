@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/03 15:11:13 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/06/03 15:15:52 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,5 +134,7 @@ char	*ft_dollar(t_shell *shell, char *first, char *dest, enum e_token type)
 	dest = space_join(res, arg);
 	if (first [i])
 		return (ft_dollar(shell, (first + i), dest, type));
+	if (g_sig == 1 && dest == NULL)
+		dest = ft_strdup(" ");
 	return (dest);
 }
