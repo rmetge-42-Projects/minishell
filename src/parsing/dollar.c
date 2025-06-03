@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/02 16:38:49 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/03 12:53:55 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,5 +125,7 @@ char	*ft_dollar(t_shell *shell, char *first, char *dest)
 	dest = space_join(res, arg);
 	if (first [i])
 		return (ft_dollar(shell, (first + i), dest));
+	if (g_sig == 1 && dest == NULL)
+		dest = ft_strdup(" ");
 	return (dest);
 }
