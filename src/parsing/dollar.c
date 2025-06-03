@@ -6,7 +6,7 @@
 /*   By: bemma <bemma@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/03 14:36:06 by bemma            ###   ########.fr       */
+/*   Updated: 2025/06/03 14:52:45 by bemma            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ char	*dollar_arg(char *first, int i, int j, t_shell *shell)
 	if (first + j && first + j + i - 1)
 	{
 		arg = ft_strndup(first + j, i);
-		// printf("ijrf = %s\n", arg);
 		if (ft_strcmp(arg, "?") == 0)
 			path = ft_itoa(shell->exit_code);
 		else
@@ -44,12 +43,10 @@ char	*if_quote(char *first, int *i, t_shell *shell, enum e_token type)
 	char	*f2;
 	char	*arg;
 	char	*before;
-	int		len;
 
 	arg = NULL;
 	j = 1;
-	len = (*i) + j;
-	before = ft_strndup(first, len);
+	before = ft_strndup(first, (*i) + j);
 	while (first[(*i) + j] && first[j + (*i)] != (first[(*i)]))
 		j++;
 	f2 = ft_substr(first, (*i), j);
@@ -113,7 +110,7 @@ char	*ft_arg(char *first, t_shell *shell, int *i)
 		if (first[j + (*i)] && first[j + (*i)] == '?')
 			(*i)++;
 	}
-	if (first[j - 1] && first[j - 1] == '\\')
+	if (j > 0 && first[j - 1] == '\\')
 		arg = ft_strndup(first + j, (*i));
 	else if (!arg && x == 0)
 		arg = dollar_arg(first, (*i), j, shell);
