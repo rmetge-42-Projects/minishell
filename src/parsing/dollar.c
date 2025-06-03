@@ -6,7 +6,7 @@
 /*   By: rmetge <rmetge@student.42perpignan.fr>     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 15:05:13 by rmetge            #+#    #+#             */
-/*   Updated: 2025/06/03 13:02:16 by rmetge           ###   ########.fr       */
+/*   Updated: 2025/06/03 14:32:07 by rmetge           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char	*dollar_arg(char *first, int i, int j, t_shell *shell)
 	if (first + j && first + j + i - 1)
 	{
 		arg = ft_strndup(first + j, i);
+		// printf("ijrf = %s\n", arg);
 		if (ft_strcmp(arg, "?") == 0)
 			path = ft_itoa(shell->exit_code);
 		else
@@ -51,10 +52,11 @@ char	*if_quote(char *first, int *i, t_shell *shell, enum e_token type)
 	before = ft_strndup(first, len);
 	while (first[(*i) + j] && first[j + (*i)] != (first[(*i)]))
 		j++;
-
 	f2 = ft_substr(first, (*i), j);
 	if (ft_strchr(f2, '$'))
 		arg = ft_dollar(shell, f2 + 1, NULL, type);
+	else
+		arg = ft_strdup(f2);
 	free(f2);
 	(*i) += j;
 	if (arg)
@@ -63,7 +65,7 @@ char	*if_quote(char *first, int *i, t_shell *shell, enum e_token type)
 		(*i)++;
 		return (space_join(before, f2));
 	}
-	return (free(before), NULL);
+	return (before);
 }
 
 char	*ft_before(char *first, t_shell *shell, int *i, enum e_token type)
@@ -86,7 +88,7 @@ char	*ft_before(char *first, t_shell *shell, int *i, enum e_token type)
 		else
 			(*i)++;
 	}
-	if ((*i) != 0 && first[(*i) - 1] == '\\')
+	if ((*i) != 0 && first[(*i) - 1] && first[(*i) - 1] == '\\')
 		return (ft_strndup(first, (*i - 1)));
 	else if ((*i) != 0)
 		return (ft_strndup(first, (*i)));
@@ -111,7 +113,7 @@ char	*ft_arg(char *first, t_shell *shell, int *i)
 		if (first[j + (*i)] && first[j + (*i)] == '?')
 			(*i)++;
 	}
-	if (first[j - 1] == '\\')
+	if (first[j - 1] && first[j - 1] == '\\')
 		arg = ft_strndup(first + j, (*i));
 	else if (!arg && x == 0)
 		arg = dollar_arg(first, (*i), j, shell);
